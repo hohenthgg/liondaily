@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geniture — 17 de agosto de 1994</title>
+<meta name="description" content="Mapa natal, firdaria, profecções, revoluções solares e trânsitos em contexto.">
+<meta name="theme-color" content="#0A0D19">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%23C9A24B'%3E%E2%98%BD%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Spectral:wght@300;400;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ceu:#0A0D19; --carta:#121727; --carta2:#181F33; --fio:#26304E; --fio2:#33406b;
+  --latao:#C9A24B; --latao-claro:#E8CC8A; --latao-fosco:#8a7134;
+  --marfim:#E9E4D6; --nevoa:#8792B8; --nevoa2:#5b6689;
+  --brasa:#C0574A; --salvia:#6FA08A; --lua-cor:#B8C4E8;
+  --f-disp:"Fraunces",Georgia,serif; --f-body:"Spectral",Georgia,serif; --f-mono:"Spline Sans Mono",ui-monospace,monospace;
+  --nav-h:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--ceu);color:var(--marfim);font-family:var(--f-body);font-weight:300;line-height:1.6;min-height:100vh;
+  background-image:radial-gradient(ellipse 90% 55% at 50% -12%,#1c2447 0%,transparent 62%),
+                   radial-gradient(ellipse 60% 40% at 85% 110%,#141b38 0%,transparent 70%);}
+::selection{background:var(--latao);color:var(--ceu)}
+a{color:var(--latao-claro)}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit}
+#estrelas{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.8}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  padding:.75rem clamp(1rem,3vw,2rem);background:rgba(10,13,25,.82);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--fio)}
+.brand{font-family:var(--f-disp);font-weight:700;font-size:1.05rem;color:var(--latao);letter-spacing:.02em;white-space:nowrap}
+.brand small{display:block;font-family:var(--f-mono);font-weight:400;font-size:.6rem;color:var(--nevoa);letter-spacing:.14em}
+.tabs{display:flex;gap:.3rem}
+.tab{background:none;border:1px solid transparent;color:var(--nevoa);font-family:var(--f-mono);font-size:.76rem;
+  letter-spacing:.07em;padding:.5rem 1rem;border-radius:999px;transition:color .2s,border-color .2s,background .2s;
+  white-space:nowrap;display:flex;align-items:center;gap:.45rem}
+.tab .ico{font-size:1rem;line-height:1}
+.tab:hover{color:var(--marfim)}
+.tab.on{color:var(--latao-claro);border-color:var(--latao-fosco);background:rgba(201,162,75,.09)}
+.tab:focus-visible,button:focus-visible{outline:2px solid var(--latao);outline-offset:2px}
+
+main{max-width:1180px;margin:0 auto;padding:1.5rem clamp(1rem,3vw,1.5rem) 5rem}
+section.pane{display:none}
+section.pane.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1.12fr .88fr;gap:2.5rem;align-items:center;padding:2.8rem 0 1.6rem}
+.eyebrow{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.22em;color:var(--latao);text-transform:uppercase;margin-bottom:1rem}
+.hero h1{font-family:var(--f-disp);font-weight:600;font-size:clamp(1.55rem,3.2vw,2.5rem);line-height:1.2;margin-bottom:.35rem}
+.hero h1 b{color:var(--latao-claro);font-weight:700}
+.hero .lua-linha b{color:var(--lua-cor)}
+.fase-lua{display:inline-flex;align-items:center;gap:.55rem;margin-top:.7rem;font-family:var(--f-mono);
+  font-size:.78rem;color:var(--nevoa);background:var(--carta);border:1px solid var(--fio);
+  border-radius:999px;padding:.4rem .9rem}
+.fase-lua .emo{font-size:1.15rem;line-height:1}
+.sintese{color:var(--nevoa);font-size:1.02rem;max-width:54ch;margin-top:1.1rem}
+.ctx-strip{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem}
+.chip{font-family:var(--f-mono);font-size:.69rem;letter-spacing:.04em;padding:.4rem .75rem;border-radius:999px;
+  border:1px solid var(--fio2);color:var(--nevoa);background:rgba(18,23,39,.8)}
+.chip b{color:var(--latao-claro);font-weight:500}
+.wheel-wrap{position:relative;display:flex;justify-content:center}
+.wheel-wrap::before{content:"";position:absolute;inset:8%;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,162,75,.10) 0%,transparent 68%);filter:blur(18px)}
+.wheel-wrap svg{width:min(440px,92vw);height:auto;filter:drop-shadow(0 0 44px rgba(201,162,75,.12));position:relative}
+
+/* ---------- cards ---------- */
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-top:1.2rem}
+.card{background:linear-gradient(165deg,var(--carta2),var(--carta));border:1px solid var(--fio);border-radius:16px;
+  padding:1.05rem 1.15rem;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .18s,border-color .18s,box-shadow .18s;
+  position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent,var(--fio2)),transparent);opacity:.85}
+.card:hover{transform:translateY(-3px);border-color:var(--fio2);box-shadow:0 14px 36px rgba(0,0,0,.45)}
+.card.lord{border-color:var(--latao-fosco);box-shadow:0 0 0 1px var(--latao-fosco),0 0 26px rgba(201,162,75,.14),0 10px 30px rgba(0,0,0,.35)}
+.card h3{font-family:var(--f-disp);font-weight:600;font-size:1.05rem;display:flex;align-items:center;gap:.55rem;padding-right:4rem}
+.card h3 .glifo{font-size:1.3rem;color:var(--accent,var(--latao-claro));font-family:var(--f-body)}
+.card .pos{font-family:var(--f-mono);font-size:.76rem;color:var(--nevoa);margin:.3rem 0 .55rem}
+.card .pos .rx{color:var(--brasa);font-weight:500}
+.card p.desc{font-size:.9rem;color:var(--marfim);opacity:.85}
+.tagrow{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem}
+.tag{font-family:var(--f-mono);font-size:.62rem;padding:.2rem .5rem;border-radius:6px;border:1px solid var(--fio2);color:var(--nevoa)}
+.tag.dig{color:var(--salvia);border-color:rgba(111,160,138,.4)}
+.tag.deb{color:var(--brasa);border-color:rgba(192,87,74,.4)}
+.tag.gold{color:var(--latao-claro);border-color:var(--latao-fosco)}
+.sec-title{font-family:var(--f-disp);font-weight:600;font-size:1.45rem;margin:2.8rem 0 .3rem;display:flex;align-items:baseline;gap:.8rem}
+.sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--fio2),transparent)}
+.sec-sub{color:var(--nevoa);font-size:.92rem;max-width:72ch}
+
+/* editar */
+.edit-btn{position:absolute;top:.75rem;right:.75rem;background:none;border:1px solid var(--fio);border-radius:8px;
+  color:var(--nevoa);font-size:.7rem;padding:.28rem .55rem;font-family:var(--f-mono)}
+.edit-btn:hover{color:var(--latao-claro);border-color:var(--latao-fosco)}
+.edit-area{display:none;margin-top:.6rem}
+.edit-area.on{display:block}
+.edit-area textarea{width:100%;min-height:100px;background:var(--ceu);border:1px solid var(--fio2);border-radius:10px;
+  color:var(--marfim);padding:.7rem;font-size:.9rem;resize:vertical}
+.edit-actions{display:flex;gap:.4rem;margin-top:.45rem}
+.btn{background:var(--latao);color:var(--ceu);border:none;border-radius:8px;padding:.45rem .9rem;
+  font-family:var(--f-mono);font-size:.72rem;font-weight:500;letter-spacing:.05em}
+.btn:hover{background:var(--latao-claro)}
+.btn.ghost{background:none;border:1px solid var(--fio2);color:var(--nevoa)}
+.custom-mark{font-family:var(--f-mono);font-size:.6rem;color:var(--salvia);letter-spacing:.1em;display:inline-block;margin-top:.3rem}
+
+/* ---------- linha do tempo ---------- */
+.fird-band{display:flex;height:66px;border-radius:12px;overflow:hidden;border:1px solid var(--fio);margin:1rem 0 .35rem}
+.fird-seg{position:relative;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);
+  font-size:.65rem;color:var(--ceu);cursor:pointer;transition:filter .15s;min-width:0;overflow:hidden}
+.fird-seg:hover{filter:brightness(1.22)}
+.fird-seg.now::after{content:"";position:absolute;inset:0;border:2px solid var(--marfim);pointer-events:none}
+.hoje-legenda{font-family:var(--f-mono);font-size:.68rem;color:var(--nevoa)}
+.fird-detail{background:var(--carta);border:1px solid var(--fio);border-radius:14px;padding:1.15rem;margin-top:1rem}
+.sub-band{display:flex;height:40px;border-radius:9px;overflow:hidden;border:1px solid var(--fio);margin-top:.7rem}
+.years-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:.45rem;margin-top:1rem}
+.yr{background:var(--carta);border:1px solid var(--fio);border-radius:10px;padding:.5rem .5rem;text-align:center;
+  cursor:pointer;transition:border-color .15s,background .15s}
+.yr:hover{border-color:var(--latao-fosco)}
+.yr.sel{border-color:var(--latao);background:rgba(201,162,75,.1)}
+.yr .y{font-family:var(--f-mono);font-size:.78rem;color:var(--marfim)}
+.yr .a{font-family:var(--f-mono);font-size:.6rem;color:var(--nevoa)}
+.yr .h{font-size:.68rem;color:var(--latao-claro)}
+.year-detail{margin-top:1.2rem}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+table.mini{width:100%;border-collapse:collapse;font-family:var(--f-mono);font-size:.74rem}
+table.mini td{padding:.32rem .4rem;border-bottom:1px solid var(--fio);color:var(--nevoa)}
+table.mini td:first-child{color:var(--marfim)}
+table.mini td:last-child{text-align:right;color:var(--latao-claro)}
+
+/* ---------- trânsitos ---------- */
+.trans-toolbar{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin:1rem 0;background:var(--carta);
+  border:1px solid var(--fio);border-radius:14px;padding:.85rem 1rem}
+.trans-toolbar input[type=datetime-local]{background:var(--ceu);border:1px solid var(--fio2);color:var(--marfim);
+  border-radius:9px;padding:.5rem .65rem;font-family:var(--f-mono);font-size:.8rem;color-scheme:dark;min-height:40px}
+.ctx-banner{display:flex;flex-wrap:wrap;gap:.5rem;margin:.4rem 0 1rem}
+.asp-chip{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--f-mono);font-size:.65rem;
+  padding:.22rem .5rem;border-radius:7px;border:1px solid var(--fio2);color:var(--nevoa);margin:.15rem .2rem .15rem 0}
+.asp-chip .sym{color:var(--latao-claro)}
+.asp-chip.tenso .sym{color:var(--brasa)}
+.asp-chip.suave .sym{color:var(--salvia)}
+
+/* ---------- eletiva ---------- */
+.eletiva-wrap{display:grid;grid-template-columns:1.35fr .65fr;gap:1.2rem;margin-top:1rem}
+#grafo3d{width:100%;height:520px;background:radial-gradient(ellipse at 50% 40%,#141a30 0%,var(--ceu) 75%);
+  border:1px solid var(--fio);border-radius:16px;cursor:grab;touch-action:none;display:block}
+#grafo3d:active{cursor:grabbing}
+.eletiva-panel{background:var(--carta);border:1px solid var(--fio);border-radius:16px;padding:1.15rem;min-height:300px}
+.busca{width:100%;background:var(--ceu);border:1px solid var(--fio2);border-radius:10px;color:var(--marfim);
+  padding:.65rem .9rem;font-size:16px;margin-bottom:.8rem}
+.busca::placeholder{color:var(--nevoa2)}
+.hint{font-family:var(--f-mono);font-size:.64rem;color:var(--nevoa2);letter-spacing:.05em;margin-top:.5rem}
+
+footer{border-top:1px solid var(--fio);margin-top:4rem;padding:1.2rem 1.5rem;font-family:var(--f-mono);
+  font-size:.66rem;color:var(--nevoa2);letter-spacing:.05em;text-align:center}
+.mono{font-family:var(--f-mono)}
+.dourado{color:var(--latao-claro)}
+
+/* ================= RESPONSIVO ================= */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;gap:1.6rem;padding-top:1.6rem}
+  .wheel-wrap{order:-1}
+  .wheel-wrap svg{width:min(340px,86vw)}
+  .eletiva-wrap{grid-template-columns:1fr}
+  #grafo3d{height:420px}
+}
+@media(max-width:720px){
+  body{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom))}
+  nav{padding:.6rem 1rem}
+  .brand small{letter-spacing:.08em}
+  /* barra inferior estilo app */
+  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:60;justify-content:space-around;gap:0;
+    background:rgba(12,16,30,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-top:1px solid var(--fio);padding:.4rem .3rem calc(.4rem + env(safe-area-inset-bottom));height:auto}
+  .tab{flex-direction:column;gap:.15rem;font-size:.56rem;letter-spacing:.04em;padding:.35rem .5rem;
+    border:none;border-radius:10px;min-width:56px}
+  .tab .ico{font-size:1.25rem}
+  .tab.on{background:none;color:var(--latao-claro)}
+  .tab.on .ico{text-shadow:0 0 14px rgba(232,204,138,.7)}
+  main{padding-bottom:2rem}
+  .hero h1{font-size:1.45rem}
+  .hero h1+h1{font-size:1.05rem!important}
+  .sec-title{font-size:1.2rem;margin-top:2.2rem}
+  .grid-cards{grid-template-columns:1fr;gap:.8rem}
+  .fird-band{height:56px}
+  .fird-seg span{display:none}
+  .years-grid{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}
+  #grafo3d{height:360px}
+  .trans-toolbar{padding:.7rem .8rem}
+  .edit-btn{opacity:.85}
+  footer{margin-bottom:0}
+}
+@media(min-width:721px) and (max-width:1024px){
+  .grid-cards{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+}
+</style>
+</head>
+<body>
+<canvas id="estrelas" aria-hidden="true"></canvas>
+
+<nav>
+  <div class="brand">GENITURE<small>17.VIII.1994 · 06h00 · POUSO ALEGRE MG</small></div>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-pane="inicio"><span class="ico">☽</span><span>Início</span></button>
+    <button class="tab" data-pane="natal"><span class="ico">☉</span><span>Natal</span></button>
+    <button class="tab" data-pane="tempo"><span class="ico">⧗</span><span>Tempo</span></button>
+    <button class="tab" data-pane="transitos"><span class="ico">♃</span><span>Trânsitos</span></button>
+    <button class="tab" data-pane="eletiva"><span class="ico">✦</span><span>Eletiva</span></button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ==================== INÍCIO ==================== -->
+<section class="pane on" id="pane-inicio">
+  <div class="hero">
+    <div>
+      <div class="eyebrow" id="hoje-data">céu de agora</div>
+      <h1 id="lua-agora" class="lua-linha">…</h1>
+      <h1 id="sol-agora" style="font-size:clamp(1.2rem,2.4vw,1.7rem);color:var(--nevoa);margin-top:.3rem">…</h1>
+      <div class="fase-lua" id="fase-lua">…</div>
+      <p class="sintese" id="sintese-agora">…</p>
+      <div class="ctx-strip" id="ctx-strip"></div>
+    </div>
+    <div class="wheel-wrap"><svg id="roda" viewBox="0 0 460 460" role="img" aria-label="Roda natal com anel de trânsitos"></svg></div>
+  </div>
+  <h2 class="sec-title">O momento, em camadas</h2>
+  <p class="sec-sub">Firdaria, subfirdaria, profecção anual e revolução solar vigentes — a lente pela qual todo trânsito deve ser lido.</p>
+  <div class="grid-cards" id="inicio-camadas"></div>
+</section>
+
+<!-- ==================== MAPA NATAL ==================== -->
+<section class="pane" id="pane-natal">
+  <h2 class="sec-title" style="margin-top:1rem">Mapa natal</h2>
+  <p class="sec-sub" id="natal-resumo"></p>
+  <h2 class="sec-title" style="font-size:1.15rem">Planetas e pontos</h2>
+  <div class="grid-cards" id="natal-planetas"></div>
+  <h2 class="sec-title" style="font-size:1.15rem">Casas (signos inteiros)</h2>
+  <div class="grid-cards" id="natal-casas"></div>
+  <h2 class="sec-title" style="font-size:1.15rem">Aspectos natais</h2>
+  <div id="natal-aspectos" style="margin-top:.8rem"></div>
+</section>
+
+<!-- ==================== LINHA DO TEMPO ==================== -->
+<section class="pane" id="pane-tempo">
+  <h2 class="sec-title" style="margin-top:1rem">Firdaria da vida inteira</h2>
+  <p class="sec-sub">Mapa noturno: a sequência abre com a Lua. Clique num período para ver as subfirdarias.</p>
+  <div class="fird-band" id="fird-band"></div>
+  <div class="hoje-legenda" id="fird-legenda"></div>
+  <div class="fird-detail" id="fird-detail" style="display:none"></div>
+
+  <h2 class="sec-title">Profecções &amp; revoluções solares, ano a ano</h2>
+  <p class="sec-sub">Cada célula é um ano de vida (aniversário a aniversário). Clique para abrir a leitura combinada: firdaria + profecção + revolução solar daquele ano.</p>
+  <div class="years-grid" id="years-grid"></div>
+  <div class="year-detail" id="year-detail"></div>
+</section>
+
+<!-- ==================== TRÂNSITOS ==================== -->
+<section class="pane" id="pane-transitos">
+  <h2 class="sec-title" style="margin-top:1rem">Trânsitos em contexto</h2>
+  <p class="sec-sub">Todo trânsito é filtrado pelas camadas do tempo: cartas com moldura dourada pertencem aos senhores do firdar, da subfirdaria ou da profecção vigente — são os trânsitos que falam mais alto.</p>
+  <div class="trans-toolbar">
+    <label class="mono" style="font-size:.72rem;color:var(--nevoa)">data &amp; hora</label>
+    <input type="datetime-local" id="trans-data">
+    <button class="btn" id="btn-agora">agora</button>
+    <span class="hint" id="trans-aviso"></span>
+  </div>
+  <div class="ctx-banner" id="trans-ctx"></div>
+  <div class="grid-cards" id="trans-cards"></div>
+</section>
+
+<!-- ==================== ELETIVA ==================== -->
+<section class="pane" id="pane-eletiva">
+  <h2 class="sec-title" style="margin-top:1rem">Eletiva — grafo dos assuntos</h2>
+  <p class="sec-sub">Cada casa é uma constelação de assuntos entrelaçados. Pesquise um tema, gire o grafo, clique num nó para ver a casa correspondente no seu mapa e planejar eleições.</p>
+  <div class="eletiva-wrap">
+    <div>
+      <input class="busca" id="busca-tema" placeholder="Pesquisar assunto… (ex.: contratos, viagem, saúde)">
+      <canvas id="grafo3d"></canvas>
+      <div class="hint">arraste para girar · role para aproximar · clique num nó</div>
+    </div>
+    <div class="eletiva-panel" id="eletiva-panel">
+      <p style="color:var(--nevoa);font-size:.9rem">Selecione um assunto ou uma casa no grafo para abrir a leitura eletiva.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>geniture · hospedado no github pages · calculado com efemérides internas · precisão ≈ 0,1° · casas de signos inteiros a partir do ASC Leão · seita noturna</footer>
+
+<script>
+/* ============================================================
+   DADOS NATAIS, FIRDARIA, PROFECÇÕES E REVOLUÇÕES (pré-calculados)
+   ============================================================ */
+const DATA = {"natal": {"jd": 2449581.875, "planets": {"Sol": {"lon": 144.2372, "speed": 0.96129}, "Lua": {"lon": 275.0388, "speed": 13.87564}, "Mercúrio": {"lon": 148.7248, "speed": 1.95243}, "Vênus": {"lon": 190.0778, "speed": 1.00761}, "Marte": {"lon": 90.3749, "speed": 0.65396}, "Júpiter": {"lon": 217.7818, "speed": 0.12349}, "Saturno": {"lon": 340.1546, "speed": -0.07155}, "Urano": {"lon": 293.1912, "speed": -0.03234}, "Netuno": {"lon": 291.1139, "speed": -0.02146}, "Plutão": {"lon": 235.316, "speed": 0.00661}, "Nodo Norte": {"lon": 229.0239, "speed": -0.09361}, "Nodo Sul": {"lon": 49.0239, "speed": -0.09361}, "Fortuna": {"lon": 4.468, "speed": 0}}, "houses": {"cusps": [135.2696, 173.3029, 208.0623, 236.8713, 261.9297, 286.7056, 315.2696, 353.3029, 28.0623, 56.8713, 81.9297, 106.7056], "asc": 135.2696, "mc": 56.8713}, "sect": "noturno"}, "firdaria": [{"lord": "Lua", "years": 9, "start_age": 0.0, "end_age": 9.0, "start": "1994-08-17", "end": "2003-08-17", "subs": [{"lord": "Lua", "start_age": 0.0, "end_age": 1.286, "start": "1994-08-17", "end": "1995-11-29"}, {"lord": "Saturno", "start_age": 1.286, "end_age": 2.571, "start": "1995-11-29", "end": "1997-03-13"}, {"lord": "Júpiter", "start_age": 2.571, "end_age": 3.857, "start": "1997-03-13", "end": "1998-06-26"}, {"lord": "Marte", "start_age": 3.857, "end_age": 5.143, "start": "1998-06-26", "end": "1999-10-08"}, {"lord": "Sol", "start_age": 5.143, "end_age": 6.429, "start": "1999-10-08", "end": "2001-01-20"}, {"lord": "Vênus", "start_age": 6.429, "end_age": 7.714, "start": "2001-01-20", "end": "2002-05-04"}, {"lord": "Mercúrio", "start_age": 7.714, "end_age": 9.0, "start": "2002-05-04", "end": "2003-08-17"}]}, {"lord": "Saturno", "years": 11, "start_age": 9.0, "end_age": 20.0, "start": "2003-08-17", "end": "2014-08-17", "subs": [{"lord": "Saturno", "start_age": 9.0, "end_age": 10.571, "start": "2003-08-17", "end": "2005-03-13"}, {"lord": "Júpiter", "start_age": 10.571, "end_age": 12.143, "start": "2005-03-13", "end": "2006-10-08"}, {"lord": "Marte", "start_age": 12.143, "end_age": 13.714, "start": "2006-10-08", "end": "2008-05-04"}, {"lord": "Sol", "start_age": 13.714, "end_age": 15.286, "start": "2008-05-04", "end": "2009-11-29"}, {"lord": "Vênus", "start_age": 15.286, "end_age": 16.857, "start": "2009-11-29", "end": "2011-06-26"}, {"lord": "Mercúrio", "start_age": 16.857, "end_age": 18.429, "start": "2011-06-26", "end": "2013-01-20"}, {"lord": "Lua", "start_age": 18.429, "end_age": 20.0, "start": "2013-01-20", "end": "2014-08-17"}]}, {"lord": "Júpiter", "years": 12, "start_age": 20.0, "end_age": 32.0, "start": "2014-08-17", "end": "2026-08-17", "subs": [{"lord": "Júpiter", "start_age": 20.0, "end_age": 21.714, "start": "2014-08-17", "end": "2016-05-04"}, {"lord": "Marte", "start_age": 21.714, "end_age": 23.429, "start": "2016-05-04", "end": "2018-01-20"}, {"lord": "Sol", "start_age": 23.429, "end_age": 25.143, "start": "2018-01-20", "end": "2019-10-08"}, {"lord": "Vênus", "start_age": 25.143, "end_age": 26.857, "start": "2019-10-08", "end": "2021-06-25"}, {"lord": "Mercúrio", "start_age": 26.857, "end_age": 28.571, "start": "2021-06-25", "end": "2023-03-13"}, {"lord": "Lua", "start_age": 28.571, "end_age": 30.286, "start": "2023-03-13", "end": "2024-11-29"}, {"lord": "Saturno", "start_age": 30.286, "end_age": 32.0, "start": "2024-11-29", "end": "2026-08-17"}]}, {"lord": "Marte", "years": 7, "start_age": 32.0, "end_age": 39.0, "start": "2026-08-17", "end": "2033-08-16", "subs": [{"lord": "Marte", "start_age": 32.0, "end_age": 33.0, "start": "2026-08-17", "end": "2027-08-17"}, {"lord": "Sol", "start_age": 33.0, "end_age": 34.0, "start": "2027-08-17", "end": "2028-08-16"}, {"lord": "Vênus", "start_age": 34.0, "end_age": 35.0, "start": "2028-08-16", "end": "2029-08-16"}, {"lord": "Mercúrio", "start_age": 35.0, "end_age": 36.0, "start": "2029-08-16", "end": "2030-08-17"}, {"lord": "Lua", "start_age": 36.0, "end_age": 37.0, "start": "2030-08-17", "end": "2031-08-17"}, {"lord": "Saturno", "start_age": 37.0, "end_age": 38.0, "start": "2031-08-17", "end": "2032-08-16"}, {"lord": "Júpiter", "start_age": 38.0, "end_age": 39.0, "start": "2032-08-16", "end": "2033-08-16"}]}, {"lord": "Nodo Norte", "years": 3, "start_age": 39.0, "end_age": 42.0, "start": "2033-08-16", "end": "2036-08-16", "subs": []}, {"lord": "Nodo Sul", "years": 2, "start_age": 42.0, "end_age": 44.0, "start": "2036-08-16", "end": "2038-08-17", "subs": []}, {"lord": "Sol", "years": 10, "start_age": 44.0, "end_age": 54.0, "start": "2038-08-17", "end": "2048-08-16", "subs": [{"lord": "Sol", "start_age": 44.0, "end_age": 45.429, "start": "2038-08-17", "end": "2040-01-20"}, {"lord": "Vênus", "start_age": 45.429, "end_age": 46.857, "start": "2040-01-20", "end": "2041-06-25"}, {"lord": "Mercúrio", "start_age": 46.857, "end_age": 48.286, "start": "2041-06-25", "end": "2042-11-29"}, {"lord": "Lua", "start_age": 48.286, "end_age": 49.714, "start": "2042-11-29", "end": "2044-05-04"}, {"lord": "Saturno", "start_age": 49.714, "end_age": 51.143, "start": "2044-05-04", "end": "2045-10-07"}, {"lord": "Júpiter", "start_age": 51.143, "end_age": 52.571, "start": "2045-10-07", "end": "2047-03-13"}, {"lord": "Marte", "start_age": 52.571, "end_age": 54.0, "start": "2047-03-13", "end": "2048-08-16"}]}, {"lord": "Vênus", "years": 8, "start_age": 54.0, "end_age": 62.0, "start": "2048-08-16", "end": "2056-08-16", "subs": [{"lord": "Vênus", "start_age": 54.0, "end_age": 55.143, "start": "2048-08-16", "end": "2049-10-07"}, {"lord": "Mercúrio", "start_age": 55.143, "end_age": 56.286, "start": "2049-10-07", "end": "2050-11-29"}, {"lord": "Lua", "start_age": 56.286, "end_age": 57.429, "start": "2050-11-29", "end": "2052-01-20"}, {"lord": "Saturno", "start_age": 57.429, "end_age": 58.571, "start": "2052-01-20", "end": "2053-03-13"}, {"lord": "Júpiter", "start_age": 58.571, "end_age": 59.714, "start": "2053-03-13", "end": "2054-05-04"}, {"lord": "Marte", "start_age": 59.714, "end_age": 60.857, "start": "2054-05-04", "end": "2055-06-25"}, {"lord": "Sol", "start_age": 60.857, "end_age": 62.0, "start": "2055-06-25", "end": "2056-08-16"}]}, {"lord": "Mercúrio", "years": 13, "start_age": 62.0, "end_age": 75.0, "start": "2056-08-16", "end": "2069-08-16", "subs": [{"lord": "Mercúrio", "start_age": 62.0, "end_age": 63.857, "start": "2056-08-16", "end": "2058-06-25"}, {"lord": "Lua", "start_age": 63.857, "end_age": 65.714, "start": "2058-06-25", "end": "2060-05-04"}, {"lord": "Saturno", "start_age": 65.714, "end_age": 67.571, "start": "2060-05-04", "end": "2062-03-13"}, {"lord": "Júpiter", "start_age": 67.571, "end_age": 69.429, "start": "2062-03-13", "end": "2064-01-20"}, {"lord": "Marte", "start_age": 69.429, "end_age": 71.286, "start": "2064-01-20", "end": "2065-11-28"}, {"lord": "Sol", "start_age": 71.286, "end_age": 73.143, "start": "2065-11-28", "end": "2067-10-08"}, {"lord": "Vênus", "start_age": 73.143, "end_age": 75.0, "start": "2067-10-08", "end": "2069-08-16"}]}, {"lord": "Lua", "years": 9, "start_age": 75.0, "end_age": 84.0, "start": "2069-08-16", "end": "2078-08-16", "subs": [{"lord": "Lua", "start_age": 75.0, "end_age": 76.286, "start": "2069-08-16", "end": "2070-11-29"}, {"lord": "Saturno", "start_age": 76.286, "end_age": 77.571, "start": "2070-11-29", "end": "2072-03-12"}, {"lord": "Júpiter", "start_age": 77.571, "end_age": 78.857, "start": "2072-03-12", "end": "2073-06-25"}, {"lord": "Marte", "start_age": 78.857, "end_age": 80.143, "start": "2073-06-25", "end": "2074-10-07"}, {"lord": "Sol", "start_age": 80.143, "end_age": 81.429, "start": "2074-10-07", "end": "2076-01-20"}, {"lord": "Vênus", "start_age": 81.429, "end_age": 82.714, "start": "2076-01-20", "end": "2077-05-04"}, {"lord": "Mercúrio", "start_age": 82.714, "end_age": 84.0, "start": "2077-05-04", "end": "2078-08-16"}]}, {"lord": "Saturno", "years": 11, "start_age": 84.0, "end_age": 95.0, "start": "2078-08-16", "end": "2089-08-16", "subs": [{"lord": "Saturno", "start_age": 84.0, "end_age": 85.571, "start": "2078-08-16", "end": "2080-03-12"}, {"lord": "Júpiter", "start_age": 85.571, "end_age": 87.143, "start": "2080-03-12", "end": "2081-10-07"}, {"lord": "Marte", "start_age": 87.143, "end_age": 88.714, "start": "2081-10-07", "end": "2083-05-04"}, {"lord": "Sol", "start_age": 88.714, "end_age": 90.286, "start": "2083-05-04", "end": "2084-11-28"}, {"lord": "Vênus", "start_age": 90.286, "end_age": 91.857, "start": "2084-11-28", "end": "2086-06-25"}, {"lord": "Mercúrio", "start_age": 91.857, "end_age": 93.429, "start": "2086-06-25", "end": "2088-01-20"}, {"lord": "Lua", "start_age": 93.429, "end_age": 95.0, "start": "2088-01-20", "end": "2089-08-16"}]}, {"lord": "Júpiter", "years": 12, "start_age": 95.0, "end_age": 107.0, "start": "2089-08-16", "end": "2101-08-17", "subs": [{"lord": "Júpiter", "start_age": 95.0, "end_age": 96.714, "start": "2089-08-16", "end": "2091-05-04"}, {"lord": "Marte", "start_age": 96.714, "end_age": 98.429, "start": "2091-05-04", "end": "2093-01-19"}, {"lord": "Sol", "start_age": 98.429, "end_age": 100.143, "start": "2093-01-19", "end": "2094-10-07"}, {"lord": "Vênus", "start_age": 100.143, "end_age": 101.857, "start": "2094-10-07", "end": "2096-06-24"}, {"lord": "Mercúrio", "start_age": 101.857, "end_age": 103.571, "start": "2096-06-24", "end": "2098-03-13"}, {"lord": "Lua", "start_age": 103.571, "end_age": 105.286, "start": "2098-03-13", "end": "2099-11-29"}, {"lord": "Saturno", "start_age": 105.286, "end_age": 107.0, "start": "2099-11-29", "end": "2101-08-17"}]}, {"lord": "Marte", "years": 7, "start_age": 107.0, "end_age": 114.0, "start": "2101-08-17", "end": "2108-08-17", "subs": [{"lord": "Marte", "start_age": 107.0, "end_age": 108.0, "start": "2101-08-17", "end": "2102-08-17"}, {"lord": "Sol", "start_age": 108.0, "end_age": 109.0, "start": "2102-08-17", "end": "2103-08-17"}, {"lord": "Vênus", "start_age": 109.0, "end_age": 110.0, "start": "2103-08-17", "end": "2104-08-17"}, {"lord": "Mercúrio", "start_age": 110.0, "end_age": 111.0, "start": "2104-08-17", "end": "2105-08-17"}, {"lord": "Lua", "start_age": 111.0, "end_age": 112.0, "start": "2105-08-17", "end": "2106-08-17"}, {"lord": "Saturno", "start_age": 112.0, "end_age": 113.0, "start": "2106-08-17", "end": "2107-08-17"}, {"lord": "Júpiter", "start_age": 113.0, "end_age": 114.0, "start": "2107-08-17", "end": "2108-08-17"}]}, {"lord": "Nodo Norte", "years": 3, "start_age": 114.0, "end_age": 117.0, "start": "2108-08-17", "end": "2111-08-17", "subs": []}, {"lord": "Nodo Sul", "years": 2, "start_age": 117.0, "end_age": 119.0, "start": "2111-08-17", "end": "2113-08-17", "subs": []}, {"lord": "Sol", "years": 10, "start_age": 119.0, "end_age": 129.0, "start": "2113-08-17", "end": "2123-08-17", "subs": [{"lord": "Sol", "start_age": 119.0, "end_age": 120.429, "start": "2113-08-17", "end": "2115-01-21"}, {"lord": "Vênus", "start_age": 120.429, "end_age": 121.857, "start": "2115-01-21", "end": "2116-06-25"}, {"lord": "Mercúrio", "start_age": 121.857, "end_age": 123.286, "start": "2116-06-25", "end": "2117-11-29"}, {"lord": "Lua", "start_age": 123.286, "end_age": 124.714, "start": "2117-11-29", "end": "2119-05-05"}, {"lord": "Saturno", "start_age": 124.714, "end_age": 126.143, "start": "2119-05-05", "end": "2120-10-08"}, {"lord": "Júpiter", "start_age": 126.143, "end_age": 127.571, "start": "2120-10-08", "end": "2122-03-13"}, {"lord": "Marte", "start_age": 127.571, "end_age": 129.0, "start": "2122-03-13", "end": "2123-08-17"}]}, {"lord": "Vênus", "years": 8, "start_age": 129.0, "end_age": 137.0, "start": "2123-08-17", "end": "2131-08-17", "subs": [{"lord": "Vênus", "start_age": 129.0, "end_age": 130.143, "start": "2123-08-17", "end": "2124-10-08"}, {"lord": "Mercúrio", "start_age": 130.143, "end_age": 131.286, "start": "2124-10-08", "end": "2125-11-29"}, {"lord": "Lua", "start_age": 131.286, "end_age": 132.429, "start": "2125-11-29", "end": "2127-01-20"}, {"lord": "Saturno", "start_age": 132.429, "end_age": 133.571, "start": "2127-01-20", "end": "2128-03-13"}, {"lord": "Júpiter", "start_age": 133.571, "end_age": 134.714, "start": "2128-03-13", "end": "2129-05-04"}, {"lord": "Marte", "start_age": 134.714, "end_age": 135.857, "start": "2129-05-04", "end": "2130-06-26"}, {"lord": "Sol", "start_age": 135.857, "end_age": 137.0, "start": "2130-06-26", "end": "2131-08-17"}]}, {"lord": "Mercúrio", "years": 13, "start_age": 137.0, "end_age": 150.0, "start": "2131-08-17", "end": "2144-08-16", "subs": [{"lord": "Mercúrio", "start_age": 137.0, "end_age": 138.857, "start": "2131-08-17", "end": "2133-06-25"}, {"lord": "Lua", "start_age": 138.857, "end_age": 140.714, "start": "2133-06-25", "end": "2135-05-05"}, {"lord": "Saturno", "start_age": 140.714, "end_age": 142.571, "start": "2135-05-05", "end": "2137-03-13"}, {"lord": "Júpiter", "start_age": 142.571, "end_age": 144.429, "start": "2137-03-13", "end": "2139-01-20"}, {"lord": "Marte", "start_age": 144.429, "end_age": 146.286, "start": "2139-01-20", "end": "2140-11-29"}, {"lord": "Sol", "start_age": 146.286, "end_age": 148.143, "start": "2140-11-29", "end": "2142-10-08"}, {"lord": "Vênus", "start_age": 148.143, "end_age": 150.0, "start": "2142-10-08", "end": "2144-08-16"}]}], "profections": [{"age": 0, "house": 1, "sign": "Leão", "lord": "Sol", "start": "1994-08-17"}, {"age": 1, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "1995-08-17"}, {"age": 2, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "1996-08-17"}, {"age": 3, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "1997-08-17"}, {"age": 4, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "1998-08-17"}, {"age": 5, "house": 6, "sign": "Capricórnio", "lord": "Saturno", "start": "1999-08-17"}, {"age": 6, "house": 7, "sign": "Aquário", "lord": "Saturno", "start": "2000-08-17"}, {"age": 7, "house": 8, "sign": "Peixes", "lord": "Júpiter", "start": "2001-08-17"}, {"age": 8, "house": 9, "sign": "Áries", "lord": "Marte", "start": "2002-08-17"}, {"age": 9, "house": 10, "sign": "Touro", "lord": "Vênus", "start": "2003-08-17"}, {"age": 10, "house": 11, "sign": "Gêmeos", "lord": "Mercúrio", "start": "2004-08-17"}, {"age": 11, "house": 12, "sign": "Câncer", "lord": "Lua", "start": "2005-08-17"}, {"age": 12, "house": 1, "sign": "Leão", "lord": "Sol", "start": "2006-08-17"}, {"age": 13, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "2007-08-17"}, {"age": 14, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "2008-08-17"}, {"age": 15, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "2009-08-17"}, {"age": 16, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "2010-08-17"}, {"age": 17, "house": 6, "sign": "Capricórnio", "lord": "Saturno", "start": "2011-08-17"}, {"age": 18, "house": 7, "sign": "Aquário", "lord": "Saturno", "start": "2012-08-17"}, {"age": 19, "house": 8, "sign": "Peixes", "lord": "Júpiter", "start": "2013-08-17"}, {"age": 20, "house": 9, "sign": "Áries", "lord": "Marte", "start": "2014-08-17"}, {"age": 21, "house": 10, "sign": "Touro", "lord": "Vênus", "start": "2015-08-17"}, {"age": 22, "house": 11, "sign": "Gêmeos", "lord": "Mercúrio", "start": "2016-08-17"}, {"age": 23, "house": 12, "sign": "Câncer", "lord": "Lua", "start": "2017-08-17"}, {"age": 24, "house": 1, "sign": "Leão", "lord": "Sol", "start": "2018-08-17"}, {"age": 25, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "2019-08-17"}, {"age": 26, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "2020-08-17"}, {"age": 27, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "2021-08-17"}, {"age": 28, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "2022-08-17"}, {"age": 29, "house": 6, "sign": "Capricórnio", "lord": "Saturno", "start": "2023-08-17"}, {"age": 30, "house": 7, "sign": "Aquário", "lord": "Saturno", "start": "2024-08-17"}, {"age": 31, "house": 8, "sign": "Peixes", "lord": "Júpiter", "start": "2025-08-17"}, {"age": 32, "house": 9, "sign": "Áries", "lord": "Marte", "start": "2026-08-17"}, {"age": 33, "house": 10, "sign": "Touro", "lord": "Vênus", "start": "2027-08-17"}, {"age": 34, "house": 11, "sign": "Gêmeos", "lord": "Mercúrio", "start": "2028-08-17"}, {"age": 35, "house": 12, "sign": "Câncer", "lord": "Lua", "start": "2029-08-17"}, {"age": 36, "house": 1, "sign": "Leão", "lord": "Sol", "start": "2030-08-17"}, {"age": 37, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "2031-08-17"}, {"age": 38, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "2032-08-17"}, {"age": 39, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "2033-08-17"}, {"age": 40, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "2034-08-17"}, {"age": 41, "house": 6, "sign": "Capricórnio", "lord": "Saturno", "start": "2035-08-17"}, {"age": 42, "house": 7, "sign": "Aquário", "lord": "Saturno", "start": "2036-08-17"}, {"age": 43, "house": 8, "sign": "Peixes", "lord": "Júpiter", "start": "2037-08-17"}, {"age": 44, "house": 9, "sign": "Áries", "lord": "Marte", "start": "2038-08-17"}, {"age": 45, "house": 10, "sign": "Touro", "lord": "Vênus", "start": "2039-08-17"}, {"age": 46, "house": 11, "sign": "Gêmeos", "lord": "Mercúrio", "start": "2040-08-17"}, {"age": 47, "house": 12, "sign": "Câncer", "lord": "Lua", "start": "2041-08-17"}, {"age": 48, "house": 1, "sign": "Leão", "lord": "Sol", "start": "2042-08-17"}, {"age": 49, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "2043-08-17"}, {"age": 50, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "2044-08-17"}, {"age": 51, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "2045-08-17"}, {"age": 52, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "2046-08-17"}, {"age": 53, "house": 6, "sign": "Capricórnio", "lord": "Saturno", "start": "2047-08-17"}, {"age": 54, "house": 7, "sign": "Aquário", "lord": "Saturno", "start": "2048-08-17"}, {"age": 55, "house": 8, "sign": "Peixes", "lord": "Júpiter", "start": "2049-08-17"}, {"age": 56, "house": 9, "sign": "Áries", "lord": "Marte", "start": "2050-08-17"}, {"age": 57, "house": 10, "sign": "Touro", "lord": "Vênus", "start": "2051-08-17"}, {"age": 58, "house": 11, "sign": "Gêmeos", "lord": "Mercúrio", "start": "2052-08-17"}, {"age": 59, "house": 12, "sign": "Câncer", "lord": "Lua", "start": "2053-08-17"}, {"age": 60, "house": 1, "sign": "Leão", "lord": "Sol", "start": "2054-08-17"}, {"age": 61, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "2055-08-17"}, {"age": 62, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "2056-08-17"}, {"age": 63, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "2057-08-17"}, {"age": 64, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "2058-08-17"}, {"age": 65, "house": 6, "sign": "Capricórnio", "lord": "Saturno", "start": "2059-08-17"}, {"age": 66, "house": 7, "sign": "Aquário", "lord": "Saturno", "start": "2060-08-17"}, {"age": 67, "house": 8, "sign": "Peixes", "lord": "Júpiter", "start": "2061-08-17"}, {"age": 68, "house": 9, "sign": "Áries", "lord": "Marte", "start": "2062-08-17"}, {"age": 69, "house": 10, "sign": "Touro", "lord": "Vênus", "start": "2063-08-17"}, {"age": 70, "house": 11, "sign": "Gêmeos", "lord": "Mercúrio", "start": "2064-08-17"}, {"age": 71, "house": 12, "sign": "Câncer", "lord": "Lua", "start": "2065-08-17"}, {"age": 72, "house": 1, "sign": "Leão", "lord": "Sol", "start": "2066-08-17"}, {"age": 73, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "2067-08-17"}, {"age": 74, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "2068-08-17"}, {"age": 75, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "2069-08-17"}, {"age": 76, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "2070-08-17"}, {"age": 77, "house": 6, "sign": "Capricórnio", "lord": "Saturno", "start": "2071-08-17"}, {"age": 78, "house": 7, "sign": "Aquário", "lord": "Saturno", "start": "2072-08-17"}, {"age": 79, "house": 8, "sign": "Peixes", "lord": "Júpiter", "start": "2073-08-17"}, {"age": 80, "house": 9, "sign": "Áries", "lord": "Marte", "start": "2074-08-17"}, {"age": 81, "house": 10, "sign": "Touro", "lord": "Vênus", "start": "2075-08-17"}, {"age": 82, "house": 11, "sign": "Gêmeos", "lord": "Mercúrio", "start": "2076-08-17"}, {"age": 83, "house": 12, "sign": "Câncer", "lord": "Lua", "start": "2077-08-17"}, {"age": 84, "house": 1, "sign": "Leão", "lord": "Sol", "start": "2078-08-17"}, {"age": 85, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "2079-08-17"}, {"age": 86, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "2080-08-17"}, {"age": 87, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "2081-08-17"}, {"age": 88, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "2082-08-17"}, {"age": 89, "house": 6, "sign": "Capricórnio", "lord": "Saturno", "start": "2083-08-17"}, {"age": 90, "house": 7, "sign": "Aquário", "lord": "Saturno", "start": "2084-08-17"}, {"age": 91, "house": 8, "sign": "Peixes", "lord": "Júpiter", "start": "2085-08-17"}, {"age": 92, "house": 9, "sign": "Áries", "lord": "Marte", "start": "2086-08-17"}, {"age": 93, "house": 10, "sign": "Touro", "lord": "Vênus", "start": "2087-08-17"}, {"age": 94, "house": 11, "sign": "Gêmeos", "lord": "Mercúrio", "start": "2088-08-17"}, {"age": 95, "house": 12, "sign": "Câncer", "lord": "Lua", "start": "2089-08-17"}, {"age": 96, "house": 1, "sign": "Leão", "lord": "Sol", "start": "2090-08-17"}, {"age": 97, "house": 2, "sign": "Virgem", "lord": "Mercúrio", "start": "2091-08-17"}, {"age": 98, "house": 3, "sign": "Libra", "lord": "Vênus", "start": "2092-08-17"}, {"age": 99, "house": 4, "sign": "Escorpião", "lord": "Marte", "start": "2093-08-17"}, {"age": 100, "house": 5, "sign": "Sagitário", "lord": "Júpiter", "start": "2094-08-17"}], "returns": [{"year": 1994, "age": 0, "utc": "1994-08-17 09:00 UTC", "planets": {"Sol": 144.2372, "Lua": 275.0394, "Mercúrio": 148.7249, "Vênus": 190.0778, "Marte": 90.3749, "Júpiter": 217.7818, "Saturno": 340.1546, "Urano": 293.1912, "Netuno": 291.1139, "Plutão": 235.316, "Nodo Norte": 229.0239}, "asc": 135.2896, "mc": 56.888}, {"year": 1995, "age": 1, "utc": "1995-08-17 14:54 UTC", "planets": {"Sol": 144.2372, "Lua": 48.6383, "Mercúrio": 163.0421, "Vênus": 143.307, "Marte": 196.64, "Júpiter": 245.869, "Saturno": 353.3525, "Urano": 297.4699, "Netuno": 293.3636, "Plutão": 237.8389, "Nodo Norte": 208.783}, "asc": 244.3069, "mc": 140.9111}, {"year": 1996, "age": 2, "utc": "1996-08-16 20:42 UTC", "planets": {"Sol": 144.2372, "Lua": 172.3073, "Mercúrio": 171.1246, "Vênus": 98.5443, "Marte": 104.6573, "Júpiter": 278.3131, "Saturno": 6.7091, "Urano": 301.7337, "Netuno": 295.6173, "Plutão": 240.345, "Nodo Norte": 188.6344}, "asc": 323.6769, "mc": 232.716}, {"year": 1997, "age": 3, "utc": "1997-08-17 02:35 UTC", "planets": {"Sol": 144.2372, "Lua": 305.3135, "Mercúrio": 166.2081, "Vênus": 179.4093, "Marte": 211.6936, "Júpiter": 316.0228, "Saturno": 20.1575, "Urano": 305.9819, "Netuno": 297.874, "Plutão": 242.8318, "Nodo Norte": 169.8949}, "asc": 44.0733, "mc": 315.9116}, {"year": 1998, "age": 4, "utc": "1998-08-17 08:20 UTC", "planets": {"Sol": 144.2372, "Lua": 86.8411, "Mercúrio": 138.4417, "Vênus": 124.8383, "Marte": 117.768, "Júpiter": 356.6043, "Saturno": 33.6262, "Urano": 310.2131, "Netuno": 300.1325, "Plutão": 245.2965, "Nodo Norte": 151.4887}, "asc": 124.2274, "mc": 47.2016}, {"year": 1999, "age": 5, "utc": "1999-08-17 14:08 UTC", "planets": {"Sol": 144.2372, "Lua": 217.8524, "Mercúrio": 125.881, "Vênus": 148.8253, "Marte": 230.2778, "Júpiter": 34.8934, "Saturno": 47.0434, "Urano": 314.4268, "Netuno": 302.3918, "Plutão": 247.7382, "Nodo Norte": 132.8844}, "asc": 231.9057, "mc": 129.3116}, {"year": 2000, "age": 6, "utc": "2000-08-16 20:05 UTC", "planets": {"Sol": 144.2372, "Lua": 342.4763, "Mercúrio": 138.7416, "Vênus": 162.4222, "Marte": 130.1696, "Júpiter": 68.2551, "Saturno": 60.3488, "Urano": 318.6228, "Netuno": 304.6518, "Plutão": 250.1567, "Nodo Norte": 114.3954}, "asc": 315.257, "mc": 223.3284}, {"year": 2001, "age": 7, "utc": "2001-08-17 01:49 UTC", "planets": {"Sol": 144.2372, "Lua": 115.2871, "Mercúrio": 155.3241, "Vênus": 108.0706, "Marte": 260.2156, "Júpiter": 97.2915, "Saturno": 73.4985, "Urano": 322.8013, "Netuno": 306.9122, "Plutão": 252.5513, "Nodo Norte": 95.3791}, "asc": 33.8687, "mc": 304.6151}, {"year": 2002, "age": 8, "utc": "2002-08-17 07:33 UTC", "planets": {"Sol": 144.2372, "Lua": 258.0691, "Mercúrio": 167.3926, "Vênus": 190.1349, "Marte": 142.1739, "Júpiter": 123.4118, "Saturno": 86.4606, "Urano": 326.9639, "Netuno": 309.1739, "Plutão": 254.9227, "Nodo Norte": 75.4771}, "asc": 111.9169, "mc": 35.3087}, {"year": 2003, "age": 9, "utc": "2003-08-17 13:27 UTC", "planets": {"Sol": 144.2372, "Lua": 27.296, "Mercúrio": 171.4041, "Vênus": 143.9088, "Marte": 337.8427, "Júpiter": 147.8554, "Saturno": 99.2116, "Urano": 331.1126, "Netuno": 311.438, "Plutão": 257.2708, "Nodo Norte": 54.8464}, "asc": 220.0185, "mc": 119.2518}, {"year": 2004, "age": 10, "utc": "2004-08-16 19:14 UTC", "planets": {"Sol": 144.2372, "Lua": 152.8417, "Mercúrio": 156.6992, "Vênus": 98.5161, "Marte": 154.0421, "Júpiter": 171.6594, "Saturno": 111.7365, "Urano": 335.2494, "Netuno": 313.7054, "Plutão": 259.595, "Nodo Norte": 34.6728}, "asc": 304.0304, "mc": 210.2509}, {"year": 2005, "age": 11, "utc": "2005-08-17 01:01 UTC", "planets": {"Sol": 144.2372, "Lua": 285.8139, "Mercúrio": 128.7996, "Vênus": 179.8981, "Marte": 40.6596, "Júpiter": 195.824, "Saturno": 124.0317, "Urano": 339.3761, "Netuno": 315.9765, "Plutão": 261.8947, "Nodo Norte": 14.8991}, "asc": 22.8859, "mc": 293.011}, {"year": 2006, "age": 12, "utc": "2006-08-17 06:43 UTC", "planets": {"Sol": 144.2372, "Lua": 69.2309, "Mercúrio": 129.6026, "Vênus": 125.4191, "Marte": 165.9993, "Júpiter": 221.487, "Saturno": 136.1024, "Urano": 343.4945, "Netuno": 318.2515, "Plutão": 264.1687, "Nodo Norte": 355.8199}, "asc": 99.5376, "mc": 22.0808}, {"year": 2007, "age": 13, "utc": "2007-08-17 12:26 UTC", "planets": {"Sol": 144.2372, "Lua": 196.2334, "Mercúrio": 146.004, "Vênus": 145.2421, "Marte": 66.5582, "Júpiter": 250.0974, "Saturno": 147.9612, "Urano": 347.6061, "Netuno": 320.5306, "Plutão": 266.4161, "Nodo Norte": 337.0907}, "asc": 201.1226, "mc": 104.8536}, {"year": 2008, "age": 14, "utc": "2008-08-16 18:17 UTC", "planets": {"Sol": 144.2372, "Lua": 322.7633, "Mercúrio": 161.0837, "Vênus": 163.0018, "Marte": 178.3143, "Júpiter": 283.3241, "Saturno": 159.6274, "Urano": 351.7122, "Netuno": 322.8134, "Plutão": 268.6357, "Nodo Norte": 318.579}, "asc": 291.6187, "mc": 195.2046}, {"year": 2009, "age": 15, "utc": "2009-08-17 00:00 UTC", "planets": {"Sol": 144.2372, "Lua": 96.5622, "Mercúrio": 170.4143, "Vênus": 108.5509, "Marte": 84.3786, "Júpiter": 321.7739, "Saturno": 171.1248, "Urano": 355.8133, "Netuno": 325.0987, "Plutão": 270.8257, "Nodo Norte": 300.0866}, "asc": 8.9932, "mc": 278.932}, {"year": 2010, "age": 16, "utc": "2010-08-17 05:43 UTC", "planets": {"Sol": 144.2372, "Lua": 240.0905, "Mercúrio": 168.4846, "Vênus": 190.1581, "Marte": 191.3351, "Júpiter": 2.4147, "Saturno": 182.4832, "Urano": 359.9094, "Netuno": 327.3852, "Plutão": 272.9852, "Nodo Norte": 281.142}, "asc": 85.7243, "mc": 6.004}, {"year": 2011, "age": 17, "utc": "2011-08-17 11:37 UTC", "planets": {"Sol": 144.2372, "Lua": 5.7843, "Mercúrio": 143.448, "Vênus": 144.5071, "Marte": 99.3329, "Júpiter": 40.0787, "Saturno": 193.7365, "Urano": 4.0004, "Netuno": 329.6716, "Plutão": 275.1135, "Nodo Norte": 261.1836}, "asc": 185.2672, "mc": 93.6519}, {"year": 2012, "age": 18, "utc": "2012-08-16 17:27 UTC", "planets": {"Sol": 144.2372, "Lua": 132.6847, "Mercúrio": 125.5712, "Vênus": 98.5262, "Marte": 205.6262, "Júpiter": 72.7239, "Saturno": 204.9217, "Urano": 8.0857, "Netuno": 331.9567, "Plutão": 277.2109, "Nodo Norte": 241.3864}, "asc": 280.5715, "mc": 181.636}, {"year": 2013, "age": 19, "utc": "2013-08-16 23:17 UTC", "planets": {"Sol": 144.2372, "Lua": 267.488, "Mercúrio": 135.9569, "Vênus": 180.3787, "Marte": 112.8291, "Júpiter": 101.2291, "Saturno": 216.0786, "Urano": 12.1647, "Netuno": 334.2399, "Plutão": 279.2785, "Nodo Norte": 221.1467}, "asc": 358.9274, "mc": 268.9371}, {"year": 2014, "age": 20, "utc": "2014-08-17 05:05 UTC", "planets": {"Sol": 144.2372, "Lua": 50.5803, "Mercúrio": 152.8714, "Vênus": 125.9988, "Marte": 222.4297, "Júpiter": 127.0184, "Saturno": 227.2473, "Urano": 16.239, "Netuno": 336.5219, "Plutão": 281.3176, "Nodo Norte": 201.0161}, "asc": 77.2225, "mc": 355.6614}, {"year": 2015, "age": 21, "utc": "2015-08-17 10:56 UTC", "planets": {"Sol": 144.2372, "Lua": 175.3677, "Mercúrio": 165.8638, "Vênus": 141.6294, "Marte": 125.4738, "Júpiter": 151.2946, "Saturno": 238.4696, "Urano": 20.3099, "Netuno": 338.8035, "Plutão": 283.3297, "Nodo Norte": 181.3363}, "asc": 171.6753, "mc": 84.2197}, {"year": 2016, "age": 22, "utc": "2016-08-16 16:53 UTC", "planets": {"Sol": 144.2372, "Lua": 302.7924, "Mercúrio": 171.6082, "Vênus": 163.5838, "Marte": 245.9965, "Júpiter": 175.0797, "Saturno": 249.7879, "Urano": 24.3793, "Netuno": 341.0856, "Plutão": 285.3162, "Nodo Norte": 162.7757}, "asc": 272.8595, "mc": 172.3004}, {"year": 2017, "age": 23, "utc": "2017-08-16 22:41 UTC", "planets": {"Sol": 144.2372, "Lua": 79.4491, "Mercúrio": 160.9408, "Vênus": 109.0431, "Marte": 137.6082, "Júpiter": 199.3805, "Saturno": 261.2414, "Urano": 28.4497, "Netuno": 343.3693, "Plutão": 287.2774, "Nodo Norte": 144.2154}, "asc": 350.7227, "mc": 260.7841}, {"year": 2018, "age": 24, "utc": "2018-08-17 04:25 UTC", "planets": {"Sol": 144.2372, "Lua": 220.7333, "Mercúrio": 131.7691, "Vênus": 190.1451, "Marte": 299.3367, "Júpiter": 225.3729, "Saturno": 272.8692, "Urano": 32.5237, "Netuno": 345.6554, "Plutão": 289.2142, "Nodo Norte": 125.7617}, "asc": 68.3595, "mc": 344.7678}, {"year": 2019, "age": 25, "utc": "2019-08-17 10:17 UTC", "planets": {"Sol": 144.2372, "Lua": 345.0503, "Mercúrio": 127.7384, "Vênus": 145.1126, "Marte": 149.4967, "Júpiter": 254.5578, "Saturno": 284.706, "Urano": 36.6035, "Netuno": 347.9444, "Plutão": 291.1269, "Nodo Norte": 107.1346}, "asc": 158.8871, "mc": 75.1518}, {"year": 2020, "age": 26, "utc": "2020-08-16 16:05 UTC", "planets": {"Sol": 144.2372, "Lua": 112.2804, "Mercúrio": 143.2245, "Vênus": 98.5709, "Marte": 24.1809, "Júpiter": 288.5725, "Saturno": 296.78, "Urano": 40.6914, "Netuno": 350.2364, "Plutão": 293.0151, "Nodo Norte": 87.7004}, "asc": 261.8112, "mc": 159.437}, {"year": 2021, "age": 27, "utc": "2021-08-16 21:50 UTC", "planets": {"Sol": 144.2372, "Lua": 251.0005, "Mercúrio": 158.9824, "Vênus": 180.8569, "Marte": 161.3851, "Júpiter": 327.6353, "Saturno": 309.1138, "Urano": 44.7889, "Netuno": 352.5307, "Plutão": 294.8784, "Nodo Norte": 67.5947}, "asc": 338.9495, "mc": 248.8804}, {"year": 2022, "age": 28, "utc": "2022-08-17 03:34 UTC", "planets": {"Sol": 144.2372, "Lua": 30.643, "Mercúrio": 169.4414, "Vênus": 126.5805, "Marte": 58.1177, "Júpiter": 8.111, "Saturno": 321.7177, "Urano": 48.8978, "Netuno": 354.8267, "Plutão": 296.716, "Nodo Norte": 47.1837}, "asc": 57.0446, "mc": 331.032}, {"year": 2023, "age": 29, "utc": "2023-08-17 09:20 UTC", "planets": {"Sol": 144.2372, "Lua": 154.9842, "Mercúrio": 170.0641, "Vênus": 138.0707, "Marte": 173.5231, "Júpiter": 45.0405, "Saturno": 334.5831, "Urano": 53.0182, "Netuno": 357.1227, "Plutão": 298.5276, "Nodo Norte": 26.7459}, "asc": 141.2247, "mc": 61.7474}, {"year": 2024, "age": 30, "utc": "2024-08-16 15:09 UTC", "planets": {"Sol": 144.2372, "Lua": 282.0623, "Mercúrio": 148.6859, "Vênus": 164.1565, "Marte": 77.967, "Júpiter": 76.9774, "Saturno": 347.6801, "Urano": 57.1488, "Netuno": 359.4168, "Plutão": 300.3132, "Nodo Norte": 7.4829}, "asc": 247.9297, "mc": 144.5362}, {"year": 2025, "age": 31, "utc": "2025-08-16 20:54 UTC", "planets": {"Sol": 144.2372, "Lua": 62.8934, "Mercúrio": 126.0692, "Vênus": 109.5317, "Marte": 186.2113, "Júpiter": 104.9989, "Saturno": 0.962, "Urano": 61.2896, "Netuno": 1.7081, "Plutão": 302.0736, "Nodo Norte": 348.5677}, "asc": 326.2416, "mc": 235.504}, {"year": 2026, "age": 32, "utc": "2026-08-17 02:37 UTC", "planets": {"Sol": 144.2372, "Lua": 199.8568, "Mercúrio": 133.3017, "Vênus": 190.0955, "Marte": 93.7924, "Júpiter": 130.5078, "Saturno": 14.3684, "Urano": 65.4399, "Netuno": 3.9964, "Plutão": 303.8101, "Nodo Norte": 329.8192}, "asc": 44.479, "mc": 316.3717}, {"year": 2027, "age": 33, "utc": "2027-08-17 08:29 UTC", "planets": {"Sol": 144.2372, "Lua": 324.6953, "Mercúrio": 150.3026, "Vênus": 145.7104, "Marte": 199.9142, "Júpiter": 154.6693, "Saturno": 27.8305, "Urano": 69.5996, "Netuno": 6.2817, "Plutão": 305.5242, "Nodo Norte": 311.5351}, "asc": 126.5507, "mc": 49.3101}, {"year": 2028, "age": 34, "utc": "2028-08-16 14:22 UTC", "planets": {"Sol": 144.2372, "Lua": 91.9702, "Mercúrio": 164.1608, "Vênus": 98.6452, "Marte": 107.7763, "Júpiter": 178.4877, "Saturno": 41.2778, "Urano": 73.7692, "Netuno": 8.5644, "Plutão": 307.2167, "Nodo Norte": 292.9077}, "asc": 235.5804, "mc": 132.623}, {"year": 2029, "age": 35, "utc": "2029-08-16 20:07 UTC", "planets": {"Sol": 144.2372, "Lua": 234.8948, "Mercúrio": 171.4167, "Vênus": 181.3282, "Marte": 215.5166, "Júpiter": 202.9793, "Saturno": 54.6443, "Urano": 77.9492, "Netuno": 10.8451, "Plutão": 308.8888, "Nodo Norte": 273.4695}, "asc": 315.7834, "mc": 223.9258}, {"year": 2030, "age": 36, "utc": "2030-08-17 01:52 UTC", "planets": {"Sol": 144.2372, "Lua": 9.5426, "Mercúrio": 164.4478, "Vênus": 127.1655, "Marte": 120.6987, "Júpiter": 229.3526, "Saturno": 67.8757, "Urano": 82.1412, "Netuno": 13.1247, "Plutão": 310.5411, "Nodo Norte": 253.4817}, "asc": 34.5552, "mc": 305.3592}, {"year": 2031, "age": 37, "utc": "2031-08-17 07:42 UTC", "planets": {"Sol": 144.2372, "Lua": 134.5759, "Mercúrio": 135.6726, "Vênus": 134.5797, "Marte": 235.4885, "Júpiter": 259.1453, "Saturno": 80.9303, "Urano": 86.3468, "Netuno": 15.4038, "Plutão": 312.1741, "Nodo Norte": 233.5697}, "asc": 114.1216, "mc": 37.5264}, {"year": 2032, "age": 38, "utc": "2032-08-16 13:32 UTC", "planets": {"Sol": 144.2372, "Lua": 261.8741, "Mercúrio": 126.3728, "Vênus": 164.7339, "Marte": 132.9916, "Júpiter": 293.9212, "Saturno": 93.7784, "Urano": 90.5671, "Netuno": 17.6825, "Plutão": 313.7878, "Nodo Norte": 213.2154}, "asc": 221.3933, "mc": 120.3735}, {"year": 2033, "age": 39, "utc": "2033-08-16 19:20 UTC", "planets": {"Sol": 144.2372, "Lua": 46.4686, "Mercúrio": 140.3881, "Vênus": 110.0309, "Marte": 271.37, "Júpiter": 333.4561, "Saturno": 106.4056, "Urano": 94.8048, "Netuno": 19.9615, "Plutão": 315.3821, "Nodo Norte": 193.448}, "asc": 305.407, "mc": 211.8863}, {"year": 2034, "age": 40, "utc": "2034-08-17 01:05 UTC", "planets": {"Sol": 144.2372, "Lua": 178.909, "Mercúrio": 156.7293, "Vênus": 190.0009, "Marte": 144.946, "Júpiter": 13.6326, "Saturno": 118.8071, "Urano": 99.0617, "Netuno": 22.2402, "Plutão": 316.9567, "Nodo Norte": 174.1584}, "asc": 23.9418, "mc": 294.1063}, {"year": 2035, "age": 41, "utc": "2035-08-17 06:57 UTC", "planets": {"Sol": 144.2372, "Lua": 304.4326, "Mercúrio": 168.2344, "Vênus": 146.3106, "Marte": 358.4101, "Júpiter": 49.8327, "Saturno": 130.9861, "Urano": 103.3385, "Netuno": 24.5174, "Plutão": 318.5111, "Nodo Norte": 155.4661}, "asc": 102.8829, "mc": 25.7712}, {"year": 2036, "age": 42, "utc": "2036-08-16 12:52 UTC", "planets": {"Sol": 144.2372, "Lua": 72.7606, "Mercúrio": 171.055, "Vênus": 98.7508, "Marte": 156.8048, "Júpiter": 81.1326, "Saturno": 142.9528, "Urano": 107.6355, "Netuno": 26.792, "Plutão": 320.0456, "Nodo Norte": 137.1376}, "asc": 209.3818, "mc": 110.9586}, {"year": 2037, "age": 43, "utc": "2037-08-16 18:38 UTC", "planets": {"Sol": 144.2372, "Lua": 217.9101, "Mercúrio": 153.7843, "Vênus": 181.7919, "Marte": 47.9205, "Júpiter": 108.7335, "Saturno": 154.7225, "Urano": 111.9518, "Netuno": 29.0629, "Plutão": 321.561, "Nodo Norte": 118.6469}, "asc": 296.1713, "mc": 200.7748}, {"year": 2038, "age": 44, "utc": "2038-08-17 00:25 UTC", "planets": {"Sol": 144.2372, "Lua": 348.4316, "Mercúrio": 127.4687, "Vênus": 127.7495, "Marte": 168.8125, "Júpiter": 134.008, "Saturno": 166.3152, "Urano": 116.2863, "Netuno": 31.3298, "Plutão": 323.0587, "Nodo Norte": 99.5196}, "asc": 14.6771, "mc": 284.6332}, {"year": 2039, "age": 45, "utc": "2039-08-17 06:18 UTC", "planets": {"Sol": 144.2372, "Lua": 113.9174, "Mercúrio": 130.8776, "Vênus": 131.2054, "Marte": 71.0173, "Júpiter": 158.0856, "Saturno": 177.7552, "Urano": 120.6376, "Netuno": 33.5926, "Plutão": 324.5399, "Nodo Norte": 80.1269}, "asc": 93.6955, "mc": 15.4223}, {"year": 2040, "age": 46, "utc": "2040-08-16 12:07 UTC", "planets": {"Sol": 144.2372, "Lua": 243.504, "Mercúrio": 147.6388, "Vênus": 165.3106, "Marte": 181.2522, "Júpiter": 181.9585, "Saturno": 189.0727, "Urano": 125.0043, "Netuno": 35.8513, "Plutão": 326.0058, "Nodo Norte": 59.7189}, "asc": 195.2018, "mc": 100.6136}, {"year": 2041, "age": 47, "utc": "2041-08-16 17:53 UTC", "planets": {"Sol": 144.2372, "Lua": 29.038, "Mercúrio": 162.2962, "Vênus": 110.5364, "Marte": 87.9726, "Júpiter": 206.6515, "Saturno": 200.3049, "Urano": 129.3859, "Netuno": 38.107, "Plutão": 327.4577, "Nodo Norte": 39.2561}, "asc": 286.3626, "mc": 188.7435}, {"year": 2042, "age": 48, "utc": "2042-08-16 23:36 UTC", "planets": {"Sol": 144.2372, "Lua": 158.2967, "Mercúrio": 170.8889, "Vênus": 189.863, "Marte": 194.4885, "Júpiter": 233.4, "Saturno": 211.4933, "Urano": 133.7814, "Netuno": 40.3605, "Plutão": 328.8963, "Nodo Norte": 19.1711}, "asc": 3.439, "mc": 273.409}, {"year": 2043, "age": 49, "utc": "2043-08-17 05:22 UTC", "planets": {"Sol": 144.2372, "Lua": 283.453, "Mercúrio": 167.1666, "Vênus": 146.9139, "Marte": 102.5332, "Júpiter": 263.7713, "Saturno": 222.6794, "Urano": 138.1899, "Netuno": 42.6119, "Plutão": 330.3215, "Nodo Norte": 0.1395}, "asc": 80.9476, "mc": 0.2184}, {"year": 2044, "age": 50, "utc": "2044-08-16 11:13 UTC", "planets": {"Sol": 144.2372, "Lua": 54.8705, "Mercúrio": 140.3253, "Vênus": 98.8841, "Marte": 209.183, "Júpiter": 299.2237, "Saturno": 233.902, "Urano": 142.6115, "Netuno": 44.8621, "Plutão": 331.7337, "Nodo Norte": 341.1796}, "asc": 177.3428, "mc": 88.1589}, {"year": 2045, "age": 51, "utc": "2045-08-16 16:56 UTC", "planets": {"Sol": 144.2372, "Lua": 199.1981, "Mercúrio": 125.636, "Vênus": 182.2503, "Marte": 115.8162, "Júpiter": 339.0829, "Saturno": 245.2008, "Urano": 147.0466, "Netuno": 47.1118, "Plutão": 333.1324, "Nodo Norte": 322.7566}, "asc": 273.4514, "mc": 173.0083}, {"year": 2046, "age": 52, "utc": "2046-08-16 22:37 UTC", "planets": {"Sol": 144.2372, "Lua": 327.8486, "Mercúrio": 137.5642, "Vênus": 128.3341, "Marte": 226.9227, "Júpiter": 18.8757, "Saturno": 256.6157, "Urano": 151.4955, "Netuno": 49.3604, "Plutão": 334.5168, "Nodo Norte": 304.4914}, "asc": 349.8465, "mc": 259.9089}, {"year": 2047, "age": 53, "utc": "2047-08-17 04:29 UTC", "planets": {"Sol": 144.2372, "Lua": 92.7462, "Mercúrio": 154.351, "Vênus": 128.0055, "Marte": 128.3241, "Júpiter": 54.3979, "Saturno": 268.186, "Urano": 155.9589, "Netuno": 51.6072, "Plutão": 335.8859, "Nodo Norte": 285.4526}, "asc": 69.2583, "mc": 345.871}, {"year": 2048, "age": 54, "utc": "2048-08-16 10:17 UTC", "planets": {"Sol": 144.2372, "Lua": 226.5123, "Mercúrio": 166.8196, "Vênus": 165.8787, "Marte": 253.6713, "Júpiter": 85.1486, "Saturno": 279.9502, "Urano": 160.4368, "Netuno": 53.8506, "Plutão": 337.2393, "Nodo Norte": 265.784}, "asc": 158.7962, "mc": 75.0847}, {"year": 2049, "age": 55, "utc": "2049-08-16 16:03 UTC", "planets": {"Sol": 144.2372, "Lua": 9.6136, "Mercúrio": 171.5371, "Vênus": 111.04, "Marte": 140.3828, "Júpiter": 112.4018, "Saturno": 291.9413, "Urano": 164.9284, "Netuno": 56.0896, "Plutão": 338.5774, "Nodo Norte": 245.8045}, "asc": 261.2229, "mc": 158.7783}, {"year": 2050, "age": 56, "utc": "2050-08-16 21:51 UTC", "planets": {"Sol": 144.2372, "Lua": 137.852, "Mercúrio": 158.4324, "Vênus": 189.6771, "Marte": 321.0691, "Júpiter": 137.4879, "Saturno": 304.184, "Urano": 169.4318, "Netuno": 58.3235, "Plutão": 339.901, "Nodo Norte": 225.5354}, "asc": 339.2422, "mc": 249.1801}, {"year": 2051, "age": 57, "utc": "2051-08-17 03:42 UTC", "planets": {"Sol": 144.2372, "Lua": 261.983, "Mercúrio": 129.8448, "Vênus": 147.5127, "Marte": 152.2592, "Júpiter": 161.5026, "Saturno": 316.6919, "Urano": 173.945, "Netuno": 60.5513, "Plutão": 341.2109, "Nodo Norte": 205.6269}, "asc": 58.8455, "mc": 333.1912}, {"year": 2052, "age": 58, "utc": "2052-08-16 09:39 UTC", "planets": {"Sol": 144.2372, "Lua": 38.313, "Mercúrio": 128.7619, "Vênus": 99.0427, "Marte": 34.4882, "Júpiter": 185.4322, "Saturno": 329.4632, "Urano": 178.466, "Netuno": 62.7738, "Plutão": 342.5088, "Nodo Norte": 185.9407}, "asc": 147.0108, "mc": 66.2885}, {"year": 2053, "age": 59, "utc": "2053-08-16 15:27 UTC", "planets": {"Sol": 144.2372, "Lua": 179.4862, "Mercúrio": 144.8767, "Vênus": 182.7024, "Marte": 164.1837, "Júpiter": 210.3228, "Saturno": 342.4777, "Urano": 182.9925, "Netuno": 64.9917, "Plutão": 343.7957, "Nodo Norte": 166.8037}, "asc": 252.5901, "mc": 149.37}, {"year": 2054, "age": 60, "utc": "2054-08-16 21:11 UTC", "planets": {"Sol": 144.2372, "Lua": 307.8823, "Mercúrio": 160.2707, "Vênus": 128.9233, "Marte": 63.202, "Júpiter": 237.4618, "Saturno": 355.6968, "Urano": 187.5227, "Netuno": 67.2054, "Plutão": 345.0725, "Nodo Norte": 148.4321}, "asc": 329.9854, "mc": 239.5154}, {"year": 2055, "age": 61, "utc": "2055-08-17 03:07 UTC", "planets": {"Sol": 144.2372, "Lua": 71.8157, "Mercúrio": 170.0735, "Vênus": 124.9628, "Marte": 176.4111, "Júpiter": 268.4567, "Saturno": 9.0665, "Urano": 192.0542, "Netuno": 69.4162, "Plutão": 346.34, "Nodo Norte": 130.0739}, "asc": 51.0979, "mc": 323.9998}, {"year": 2056, "age": 62, "utc": "2056-08-16 08:54 UTC", "planets": {"Sol": 144.2372, "Lua": 210.245, "Mercúrio": 169.1603, "Vênus": 166.452, "Marte": 81.8093, "Júpiter": 304.6423, "Saturno": 22.5188, "Urano": 196.5856, "Netuno": 71.6252, "Plutão": 347.5986, "Nodo Norte": 111.1891}, "asc": 133.6121, "mc": 55.4693}, {"year": 2057, "age": 63, "utc": "2057-08-16 14:39 UTC", "planets": {"Sol": 144.2372, "Lua": 349.2624, "Mercúrio": 145.4621, "Vênus": 111.5533, "Marte": 189.2765, "Júpiter": 344.8331, "Saturno": 35.9814, "Urano": 201.1158, "Netuno": 73.8334, "Plutão": 348.8483, "Nodo Norte": 91.9965}, "asc": 240.242, "mc": 136.9778}, {"year": 2058, "age": 64, "utc": "2058-08-16 20:27 UTC", "planets": {"Sol": 144.2372, "Lua": 117.6216, "Mercúrio": 125.641, "Vênus": 189.4352, "Marte": 97.1196, "Júpiter": 24.2233, "Saturno": 49.3852, "Urano": 205.6434, "Netuno": 76.0414, "Plutão": 350.0881, "Nodo Norte": 72.4967}, "asc": 320.2176, "mc": 228.9027}, {"year": 2059, "age": 65, "utc": "2059-08-17 02:13 UTC", "planets": {"Sol": 144.2372, "Lua": 241.2773, "Mercúrio": 134.8343, "Vênus": 148.113, "Marte": 203.2901, "Júpiter": 59.057, "Saturno": 62.6676, "Urano": 210.1691, "Netuno": 78.2483, "Plutão": 351.3172, "Nodo Norte": 51.7455}, "asc": 39.2042, "mc": 310.4557}, {"year": 2060, "age": 66, "utc": "2060-08-16 08:06 UTC", "planets": {"Sol": 144.2372, "Lua": 22.0513, "Mercúrio": 151.8559, "Vênus": 99.2246, "Marte": 110.8205, "Júpiter": 89.2389, "Saturno": 75.785, "Urano": 214.6933, "Netuno": 80.4537, "Plutão": 352.5352, "Nodo Norte": 31.468}, "asc": 120.314, "mc": 43.5519}], "meta": {"date": "1994-08-17 06:00 -03", "place": "Pouso Alegre, MG, Brasil", "lat": -22.2270778, "lon": -45.9393716}};
+
+/* ============ EFEMÉRIDES AO VIVO ============ */
+// Efemérides compactas: precisão ~0.01° Sol, ~0.2° Lua, ~0.1-0.5° planetas (1900-2100)
+const EPH = (() => {
+  const D2R = Math.PI / 180, R2D = 180 / Math.PI;
+  const norm = a => ((a % 360) + 360) % 360;
+
+  function jdFromDate(d) { return d.getTime() / 86400000 + 2440587.5; }
+
+  // ---- SOL (Meeus, precisão ~0.01°) ----
+  function sunLon(jd) {
+    const T = (jd - 2451545.0) / 36525;
+    const L0 = norm(280.46646 + 36000.76983 * T + 0.0003032 * T * T);
+    const M = norm(357.52911 + 35999.05029 * T - 0.0001537 * T * T) * D2R;
+    const C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M)
+            + (0.019993 - 0.000101 * T) * Math.sin(2 * M)
+            + 0.000289 * Math.sin(3 * M);
+    const omega = (125.04 - 1934.136 * T) * D2R;
+    return norm(L0 + C - 0.00569 - 0.00478 * Math.sin(omega));
+  }
+
+  // ---- LUA (ELP truncada, Meeus cap.47 termos principais, ~0.05°) ----
+  function moonLon(jd) {
+    const T = (jd - 2451545.0) / 36525;
+    const Lp = norm(218.3164477 + 481267.88123421 * T - 0.0015786 * T * T + T*T*T/538841);
+    const D  = norm(297.8501921 + 445267.1114034 * T - 0.0018819 * T * T + T*T*T/545868) * D2R;
+    const M  = norm(357.5291092 + 35999.0502909 * T - 0.0001536 * T * T) * D2R;
+    const Mp = norm(134.9633964 + 477198.8675055 * T + 0.0087414 * T * T + T*T*T/69699) * D2R;
+    const F  = norm(93.2720950 + 483202.0175233 * T - 0.0036539 * T * T - T*T*T/3526000) * D2R;
+    const E = 1 - 0.002516 * T - 0.0000074 * T * T;
+    // [coef, d, m, mp, f]
+    const terms = [
+      [6288774,0,0,1,0],[1274027,2,0,-1,0],[658314,2,0,0,0],[213618,0,0,2,0],
+      [-185116,0,1,0,0],[-114332,0,0,0,2],[58793,2,0,-2,0],[57066,2,-1,-1,0],
+      [53322,2,0,1,0],[45758,2,-1,0,0],[-40923,0,1,-1,0],[-34720,1,0,0,0],
+      [-30383,0,1,1,0],[15327,2,0,0,-2],[-12528,0,0,1,2],[10980,0,0,1,-2],
+      [10675,4,0,-1,0],[10034,0,0,3,0],[8548,4,0,-2,0],[-7888,2,1,-1,0],
+      [-6766,2,1,0,0],[-5163,1,0,-1,0],[4987,1,1,0,0],[4036,2,-1,1,0],
+      [3994,2,0,2,0],[3861,4,0,0,0],[3665,2,0,-3,0],[-2689,0,1,-2,0],
+      [-2602,2,0,-1,2],[2390,2,-1,-2,0],[-2348,1,0,1,0],[2236,2,-2,0,0],
+      [-2120,0,1,2,0],[-2069,0,2,0,0],[2048,2,-2,-1,0],[-1773,2,0,1,-2],
+      [-1595,2,0,0,2],[1215,4,-1,-1,0],[-1110,0,0,2,2],[-892,3,0,-1,0],
+      [-810,2,1,1,0],[759,4,-1,-2,0],[-713,0,2,-1,0],[-700,2,2,-1,0],
+      [691,2,1,-2,0],[596,2,-1,0,-2],[549,4,0,1,0],[537,0,0,4,0],
+      [520,4,-1,0,0],[-487,1,0,-2,0],[-399,2,1,0,-2],[-381,0,0,2,-2],
+      [351,1,1,1,0],[-340,3,0,-2,0],[330,4,0,-3,0],[327,2,-1,2,0],
+      [-323,0,2,1,0],[299,1,1,-1,0],[294,2,0,3,0]
+    ];
+    let sum = 0;
+    for (const [c, d, m, mp, f] of terms) {
+      let coef = c;
+      if (m === 1 || m === -1) coef *= E;
+      if (m === 2 || m === -2) coef *= E * E;
+      sum += coef * Math.sin(d * D + m * M + mp * Mp + f * F);
+    }
+    sum += 3958 * Math.sin(norm(119.75 + 131.849 * T) * D2R)
+         + 1962 * Math.sin(Lp * D2R - F)
+         + 318 * Math.sin(norm(53.09 + 479264.290 * T) * D2R);
+    return norm(Lp + sum / 1e6);
+  }
+
+  // Nodo lunar verdadeiro (aprox: nodo médio + correção principal)
+  function nodeLon(jd) {
+    const T = (jd - 2451545.0) / 36525;
+    const omega = 125.0445479 - 1934.1362891 * T + 0.0020754 * T * T;
+    const D  = norm(297.8501921 + 445267.1114034 * T) * D2R;
+    const M  = norm(357.5291092 + 35999.0502909 * T) * D2R;
+    const Mp = norm(134.9633964 + 477198.8675055 * T) * D2R;
+    const F  = norm(93.2720950 + 483202.0175233 * T) * D2R;
+    const corr = -1.4979 * Math.sin(2 * (D - F)) - 0.1500 * Math.sin(M)
+               - 0.1226 * Math.sin(2 * D) + 0.1176 * Math.sin(2 * F)
+               - 0.0801 * Math.sin(2 * (Mp - F));
+    return norm(omega + corr);
+  }
+
+  // ---- PLANETAS: elementos keplerianos JPL (1800-2050) ----
+  // [a, e, I, L, longPeri, longNode] + taxas por século
+  const KEP = {
+    mercurio: [[0.38709927,0.20563593,7.00497902,252.25032350,77.45779628,48.33076593],
+               [0.00000037,0.00001906,-0.00594749,149472.67411175,0.16047689,-0.12534081]],
+    venus:    [[0.72333566,0.00677672,3.39467605,181.97909950,131.60246718,76.67984255],
+               [0.00000390,-0.00004107,-0.00078890,58517.81538729,0.00268329,-0.27769418]],
+    terra:    [[1.00000261,0.01671123,-0.00001531,100.46457166,102.93768193,0.0],
+               [0.00000562,-0.00004392,-0.01294668,35999.37244981,0.32327364,0.0]],
+    marte:    [[1.52371034,0.09339410,1.84969142,-4.55343205,-23.94362959,49.55953891],
+               [0.00001847,0.00007882,-0.00813131,19140.30268499,0.44441088,-0.29257343]],
+    jupiter:  [[5.20288700,0.04838624,1.30439695,34.39644051,14.72847983,100.47390909],
+               [-0.00011607,-0.00013253,-0.00183714,3034.74612775,0.21252668,0.20469106]],
+    saturno:  [[9.53667594,0.05386179,2.48599187,49.95424423,92.59887831,113.66242448],
+               [-0.00125060,-0.00050991,0.00193609,1222.49362201,-0.41897216,-0.28867794]],
+    urano:    [[19.18916464,0.04725744,0.77263783,313.23810451,170.95427630,74.01692503],
+               [-0.00196176,-0.00004397,-0.00242939,428.48202785,0.40805281,0.04240589]],
+    netuno:   [[30.06992276,0.00859048,1.77004347,-55.12002969,44.96476227,131.78422574],
+               [0.00026291,0.00005105,0.00035372,218.45945325,-0.32241464,-0.00508664]],
+    plutao:   [[39.48211675,0.24882730,17.14001206,238.92903833,224.06891629,110.30393684],
+               [-0.00031596,0.00005170,0.00004818,145.20780515,-0.04062942,-0.01183482]]
+  };
+
+  function helioXYZ(name, jd) {
+    const T = (jd - 2451545.0) / 36525;
+    const [e0, r] = KEP[name];
+    const a = e0[0] + r[0] * T, e = e0[1] + r[1] * T, I = (e0[2] + r[2] * T) * D2R;
+    const L = e0[3] + r[3] * T, wbar = e0[4] + r[4] * T, O = (e0[5] + r[5] * T) * D2R;
+    const w = (wbar - (e0[5] + r[5] * T)) * D2R;
+    let M = norm(L - wbar) * D2R;
+    let Ecc = M;
+    for (let i = 0; i < 12; i++) Ecc = M + e * Math.sin(Ecc);
+    const xv = a * (Math.cos(Ecc) - e), yv = a * Math.sqrt(1 - e * e) * Math.sin(Ecc);
+    const cw = Math.cos(w), sw = Math.sin(w), cO = Math.cos(O), sO = Math.sin(O), cI = Math.cos(I), sI = Math.sin(I);
+    return [
+      (cw * cO - sw * sO * cI) * xv + (-sw * cO - cw * sO * cI) * yv,
+      (cw * sO + sw * cO * cI) * xv + (-sw * sO + cw * cO * cI) * yv,
+      (sw * sI) * xv + (cw * sI) * yv
+    ];
+  }
+
+  function planetLon(name, jd) {
+    const p = helioXYZ(name, jd), e = helioXYZ('terra', jd);
+    const T = (jd - 2451545.0) / 36525;
+    const prec = (5028.796195 * T + 1.1054348 * T * T) / 3600; // J2000 -> equinócio da data
+    return norm(Math.atan2(p[1] - e[1], p[0] - e[0]) * R2D + prec - 0.0057);
+  }
+
+  function all(date) {
+    const jd = jdFromDate(date);
+    const nn = nodeLon(jd);
+    return {
+      "Sol": sunLon(jd), "Lua": moonLon(jd),
+      "Mercúrio": planetLon('mercurio', jd), "Vênus": planetLon('venus', jd),
+      "Marte": planetLon('marte', jd), "Júpiter": planetLon('jupiter', jd),
+      "Saturno": planetLon('saturno', jd), "Urano": planetLon('urano', jd),
+      "Netuno": planetLon('netuno', jd), "Plutão": planetLon('plutao', jd),
+      "Nodo Norte": nn, "Nodo Sul": norm(nn + 180)
+    };
+  }
+  return { all, jdFromDate, sunLon, moonLon };
+})();
+
+
+/* ============ CONSTANTES ============ */
+const SIGNS=["Áries","Touro","Gêmeos","Câncer","Leão","Virgem","Libra","Escorpião","Sagitário","Capricórnio","Aquário","Peixes"];
+const SIGN_GLYPH=["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓"];
+const GLYPH={"Sol":"☉","Lua":"☽","Mercúrio":"☿","Vênus":"♀","Marte":"♂","Júpiter":"♃","Saturno":"♄","Urano":"♅","Netuno":"♆","Plutão":"♇","Nodo Norte":"☊","Nodo Sul":"☋","Fortuna":"⊗"};
+const PLANET_COLOR={"Sol":"#E8CC8A","Lua":"#B8C4E8","Mercúrio":"#9FD8CB","Vênus":"#DFA8C8","Marte":"#C0574A","Júpiter":"#C9A24B","Saturno":"#7E8BB5","Urano":"#7FB8D8","Netuno":"#8AA0DF","Plutão":"#A08AB8","Nodo Norte":"#6FA08A","Nodo Sul":"#8a7134"};
+const RULERS={"Áries":"Marte","Touro":"Vênus","Gêmeos":"Mercúrio","Câncer":"Lua","Leão":"Sol","Virgem":"Mercúrio","Libra":"Vênus","Escorpião":"Marte","Sagitário":"Júpiter","Capricórnio":"Saturno","Aquário":"Saturno","Peixes":"Júpiter"};
+const EXALT={"Sol":"Áries","Lua":"Touro","Mercúrio":"Virgem","Vênus":"Peixes","Marte":"Capricórnio","Júpiter":"Câncer","Saturno":"Libra"};
+const DOMS={"Sol":["Leão"],"Lua":["Câncer"],"Mercúrio":["Gêmeos","Virgem"],"Vênus":["Touro","Libra"],"Marte":["Áries","Escorpião"],"Júpiter":["Sagitário","Peixes"],"Saturno":["Capricórnio","Aquário"]};
+const ASC_SIGN=4; // Leão
+const BIRTH=new Date(Date.UTC(1994,7,17,9,0));
+
+/* ============ INTERPRETAÇÕES GENÉRICAS (todas editáveis) ============ */
+const T_PLANETA={
+ "Sol":"Vitalidade, identidade, propósito. Onde o Sol está, você quer brilhar e ser reconhecido.",
+ "Lua":"Corpo, hábitos, emoção, memória. A Lua mostra do que você precisa para se sentir seguro.",
+ "Mercúrio":"Mente, linguagem, trocas, comércio. Como você pensa, escreve e negocia.",
+ "Vênus":"Prazer, vínculos, estética, harmonia. O que você ama e como atrai.",
+ "Marte":"Ação, corte, coragem, conflito. Onde você luta e gasta energia.",
+ "Júpiter":"Expansão, sorte, sabedoria, crescimento. Onde a vida abre portas.",
+ "Saturno":"Limite, estrutura, tempo, responsabilidade. Onde a vida cobra maturidade.",
+ "Urano":"Ruptura, invenção, o inesperado. Onde você não aceita o padrão.",
+ "Netuno":"Dissolução, imaginação, fé e névoa. Onde as fronteiras se desmancham.",
+ "Plutão":"Profundidade, poder, morte-e-renascimento. Onde tudo se transforma.",
+ "Nodo Norte":"Direção de aumento e fome de experiência nesta vida.",
+ "Nodo Sul":"Ponto de escoamento, desapego e talento já dominado.",
+ "Fortuna":"O corpo e a fortuna concreta; onde a maré da vida flui a favor."};
+const T_CASA={
+ 1:"Corpo, aparência, temperamento e o modo de iniciar tudo.",
+ 2:"Dinheiro, posses, recursos próprios e sustento.",
+ 3:"Irmãos, vizinhança, estudos curtos, comunicação e deslocamentos.",
+ 4:"Lar, família, raízes, pais, imóveis e o fim das coisas.",
+ 5:"Filhos, prazer, criatividade, romance e jogos.",
+ 6:"Saúde e doença, rotina, trabalho cotidiano e serviço.",
+ 7:"Casamento, parcerias, contratos e inimigos declarados.",
+ 8:"Morte, heranças, dinheiro dos outros, dívidas e crises.",
+ 9:"Viagens longas, estrangeiro, religião, filosofia e lei.",
+ 10:"Carreira, reputação, vocação, autoridade e status.",
+ 11:"Amigos, grupos, aliados, esperanças e projetos.",
+ 12:"Isolamento, inimigos ocultos, hospitais, retiro e espiritualidade."};
+const T_FIRD={
+ "Sol":"Anos de visibilidade, autoridade e definição de propósito.",
+ "Lua":"Anos de formação do corpo e dos hábitos; a vida flui pelo cotidiano e pela família.",
+ "Mercúrio":"Anos de estudo, escrita, comércio e movimento mental.",
+ "Vênus":"Anos de vínculos, prazer, arte e acordos.",
+ "Marte":"Anos de esforço, disputa, coragem e cortes decisivos.",
+ "Júpiter":"Anos de expansão, crescimento, fé e oportunidades.",
+ "Saturno":"Anos de estrutura, cobrança, lentidão fértil e maturação.",
+ "Nodo Norte":"Anos de aumento súbito, apetite e intensificação.",
+ "Nodo Sul":"Anos de esvaziamento, perdas úteis e simplificação."};
+const T_ASPECT={"Conjunção":"fusão de significados — os planetas agem juntos.","Sextil":"cooperação com esforço leve; oportunidade.","Quadratura":"fricção produtiva; tensão que exige ação.","Trígono":"fluxo fácil; talento que corre sozinho.","Oposição":"polaridade; negociação entre dois extremos."};
+
+/* ============ HELPERS ============ */
+const $=s=>document.querySelector(s);
+const norm=a=>((a%360)+360)%360;
+function fmtLon(lon){const s=Math.floor(norm(lon)/30);const d=norm(lon)%30;const g=Math.floor(d);const m=Math.floor((d-g)*60);return `${g}°${String(m).padStart(2,"0")}′ ${SIGNS[s]}`;}
+function signOf(lon){return Math.floor(norm(lon)/30);}
+function wholeHouse(lon){return ((signOf(lon)-ASC_SIGN+12)%12)+1;}
+function ageAt(date){return (date-BIRTH)/(365.2425*86400000);}
+function esc(t){return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function dignity(p,lon){const s=SIGNS[signOf(lon)];const tags=[];
+ if(DOMS[p]&&DOMS[p].includes(s))tags.push(["domicílio","dig"]);
+ if(EXALT[p]===s)tags.push(["exaltação","dig"]);
+ if(DOMS[p]){const dets=DOMS[p].map(x=>SIGNS[(SIGNS.indexOf(x)+6)%12]);if(dets.includes(s))tags.push(["detrimento","deb"]);}
+ if(EXALT[p]&&SIGNS[(SIGNS.indexOf(EXALT[p])+6)%12]===s)tags.push(["queda","deb"]);
+ return tags;}
+
+/* ============ ARMAZENAMENTO (notas editáveis) ============ */
+let NOTES={};
+const LS_KEY="geniture-notas";
+function hasLS(){try{localStorage.setItem("__t","1");localStorage.removeItem("__t");return true;}catch(e){return false;}}
+async function loadNotes(){
+ try{if(window.storage){const r=await window.storage.get(LS_KEY);if(r&&r.value){NOTES=JSON.parse(r.value);return;}}}catch(e){}
+ try{if(hasLS()){const v=localStorage.getItem(LS_KEY);if(v)NOTES=JSON.parse(v);}}catch(e){}
+}
+let saveT=null;
+function saveNotes(){clearTimeout(saveT);saveT=setTimeout(async()=>{
+ let ok=false;
+ try{if(window.storage){await window.storage.set(LS_KEY,JSON.stringify(NOTES));ok=true;}}catch(e){}
+ try{if(!ok&&hasLS())localStorage.setItem(LS_KEY,JSON.stringify(NOTES));}catch(e){console.error("Falha ao salvar",e);}
+},400);}
+function noteKey(k){return NOTES[k];}
+
+/* Card editável genérico */
+let editSeq=0;
+function editableBlock(key,defaultText){
+ const id="ed"+(editSeq++);
+ const custom=noteKey(key);
+ const text=custom!==undefined?custom:defaultText;
+ return `<p class="desc" id="${id}-txt">${esc(text)}</p>
+ ${custom!==undefined?'<span class="custom-mark">● texto seu</span>':''}
+ <button class="edit-btn" onclick="toggleEdit('${id}','${key}')" aria-label="Editar texto">✎ editar</button>
+ <div class="edit-area" id="${id}-area">
+   <textarea id="${id}-ta"></textarea>
+   <div class="edit-actions">
+     <button class="btn" onclick="saveEdit('${id}','${key}')">salvar</button>
+     <button class="btn ghost" onclick="resetEdit('${id}','${key}',${JSON.stringify(defaultText).replace(/"/g,"&quot;")})">restaurar padrão</button>
+   </div>
+ </div>`;
+}
+window.toggleEdit=(id,key)=>{const a=$("#"+id+"-area");a.classList.toggle("on");if(a.classList.contains("on"))$("#"+id+"-ta").value=$("#"+id+"-txt").textContent;};
+window.saveEdit=(id,key)=>{const v=$("#"+id+"-ta").value.trim();NOTES[key]=v;saveNotes();$("#"+id+"-txt").textContent=v;$("#"+id+"-area").classList.remove("on");};
+window.resetEdit=(id,key,def)=>{delete NOTES[key];saveNotes();$("#"+id+"-txt").textContent=def;$("#"+id+"-area").classList.remove("on");};
+
+/* ============ CAMADAS DO TEMPO ============ */
+function firdariaAt(date){const age=ageAt(date);
+ for(const f of DATA.firdaria){if(age>=f.start_age&&age<f.end_age){
+   let sub=null;for(const s of f.subs){if(age>=s.start_age&&age<s.end_age){sub=s;break;}}
+   return {major:f,sub};}}
+ return null;}
+function profectionAt(date){
+ const bd=new Date(Date.UTC(date.getUTCFullYear(),7,17,9,0));
+ let age=date.getUTCFullYear()-1994;if(date<bd)age--;
+ if(age<0)age=0;return DATA.profections[Math.min(age,DATA.profections.length-1)];}
+function solarReturnAt(date){const p=profectionAt(date);return DATA.returns.find(r=>r.age===p.age)||null;}
+
+/* ============ ASPECTOS ============ */
+const ASPECTS=[["Conjunção",0,"☌"],["Sextil",60,"⚹"],["Quadratura",90,"□"],["Trígono",120,"△"],["Oposição",180,"☍"]];
+function aspectsBetween(lonA,lonB,orb){const d=Math.abs(((lonA-lonB+180)%360+360)%360-180);
+ for(const [n,ang,sym] of ASPECTS){if(Math.abs(d-ang)<=orb)return {name:n,sym,orb:+(Math.abs(d-ang)).toFixed(2),ang};}return null;}
+
+/* ============ RODA (SVG) ============ */
+function drawWheel(transits){
+ const svg=$("#roda");const C=230,R1=210,R2=168,R3=130;
+ const asc=DATA.natal.houses.asc;
+ const ang=lon=>(180+ (asc-lon))*Math.PI/180; // ASC à esquerda
+ const pt=(r,lon)=>{const a=ang(lon);return [C+r*Math.cos(a),C-r*Math.sin(a)*-1];};
+ const P=(r,lon)=>{const a=ang(lon);return [C+r*Math.cos(a),C+r*Math.sin(a)];};
+ let s="";
+ s+=`<circle cx="${C}" cy="${C}" r="${R1}" fill="none" stroke="var(--latao-fosco)" stroke-width="1.4"/>`;
+ s+=`<circle cx="${C}" cy="${C}" r="${R2}" fill="none" stroke="var(--fio2)" stroke-width="1"/>`;
+ s+=`<circle cx="${C}" cy="${C}" r="${R3}" fill="none" stroke="var(--fio)" stroke-width="1"/>`;
+ for(let i=0;i<12;i++){const lon=i*30;const [x1,y1]=P(R3,lon),[x2,y2]=P(R1,lon);
+  s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--fio2)" stroke-width="${i%3?0.7:1.2}"/>`;
+  const [tx,ty]=P((R1+R2)/2,lon+15);
+  s+=`<text x="${tx}" y="${ty}" fill="var(--latao)" font-size="15" text-anchor="middle" dominant-baseline="middle" opacity=".9">${SIGN_GLYPH[i]}</text>`;}
+ // graus (ticks de 5)
+ for(let d=0;d<360;d+=5){const [x1,y1]=P(R2,d),[x2,y2]=P(R2-(d%30?4:8),d);
+  s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--nevoa2)" stroke-width=".5"/>`;}
+ // eixo ASC-DESC / MC-IC
+ const [ax,ay]=P(R1,asc),[dx,dy]=P(R1,asc+180);
+ s+=`<line x1="${ax}" y1="${ay}" x2="${dx}" y2="${dy}" stroke="var(--latao)" stroke-width="1" opacity=".55"/>`;
+ const mc=DATA.natal.houses.mc;const [mx,my]=P(R1,mc),[ix,iy]=P(R1,mc+180);
+ s+=`<line x1="${mx}" y1="${my}" x2="${ix}" y2="${iy}" stroke="var(--latao)" stroke-width="1" opacity=".35" stroke-dasharray="4 4"/>`;
+ const [alx,aly]=P(R1+11,asc);
+ s+=`<text x="${alx}" y="${aly}" fill="var(--latao-claro)" font-size="10" text-anchor="middle" dominant-baseline="middle" font-family="var(--f-mono)">ASC</text>`;
+ // planetas natais (anel interno)
+ const natalPl=Object.entries(DATA.natal.planets);
+ const placed=[];
+ for(const [name,o] of natalPl){let r=R3-16;
+  while(placed.some(q=>{const dd=Math.abs(((q.lon-o.lon+180)%360+360)%360-180);return dd<7&&Math.abs(q.r-r)<14;}))r-=15;
+  placed.push({lon:o.lon,r});
+  const [x,y]=P(r,o.lon);
+  s+=`<text x="${x}" y="${y}" fill="${PLANET_COLOR[name]||'var(--marfim)'}" font-size="14" text-anchor="middle" dominant-baseline="middle">${GLYPH[name]}</text>`;
+  const [x2,y2]=P(R3,o.lon);const [x3,y3]=P(R3-5,o.lon);
+  s+=`<line x1="${x2}" y1="${y2}" x2="${x3}" y2="${y3}" stroke="${PLANET_COLOR[name]||'#888'}" stroke-width="1.3"/>`;}
+ // trânsitos (anel externo)
+ if(transits){const tp=[];
+  for(const [name,lon] of Object.entries(transits)){if(name==="Nodo Sul")continue;let r=R1+14;
+   while(tp.some(q=>{const dd=Math.abs(((q.lon-lon+180)%360+360)%360-180);return dd<7&&Math.abs(q.r-r)<13;}))r+=13;
+   tp.push({lon,r});
+   const [x,y]=P(r,lon);
+   s+=`<text x="${x}" y="${y}" fill="${PLANET_COLOR[name]}" font-size="12" text-anchor="middle" dominant-baseline="middle" opacity=".95">${GLYPH[name]}</text>`;
+   const [x2,y2]=P(R1,lon);const [x3,y3]=P(R1+4,lon);
+   s+=`<line x1="${x2}" y1="${y2}" x2="${x3}" y2="${y3}" stroke="${PLANET_COLOR[name]}" stroke-width="1.2"/>`;}}
+ s+=`<circle cx="${C}" cy="${C}" r="3" fill="var(--latao)"/>`;
+ svg.innerHTML=s;
+}
+
+/* ============ INÍCIO ============ */
+function renderInicio(){
+ const now=new Date();
+ const t=EPH.all(now);
+ const moonSign=SIGNS[signOf(t["Lua"])],sunSign=SIGNS[signOf(t["Sol"])];
+ const moonHouse=wholeHouse(t["Lua"]),sunHouse=wholeHouse(t["Sol"]);
+ $("#hoje-data").textContent="céu de agora — "+now.toLocaleString("pt-BR",{dateStyle:"full",timeStyle:"short"});
+ $("#lua-agora").innerHTML=`☽ A Lua está a <b>${fmtLon(t["Lua"])}</b> — sua casa ${moonHouse}`;
+ $("#sol-agora").innerHTML=`☉ O Sol está a <b class="dourado">${fmtLon(t["Sol"])}</b> — sua casa ${sunHouse}`;
+ const elong=norm(t["Lua"]-t["Sol"]);
+ const FASES=[["Lua nova","🌑"],["Crescente","🌒"],["Quarto crescente","🌓"],["Gibosa crescente","🌔"],["Lua cheia","🌕"],["Gibosa minguante","🌖"],["Quarto minguante","🌗"],["Minguante","🌘"]];
+ const fi=Math.round(elong/45)%8;
+ const ilum=Math.round((1-Math.cos(elong*Math.PI/180))/2*100);
+ const faseEl=$("#fase-lua");
+ if(faseEl)faseEl.innerHTML=`<span class="emo">${FASES[fi][1]}</span> ${FASES[fi][0]} · ${ilum}% iluminada`;
+ const f=firdariaAt(now),p=profectionAt(now),sr=solarReturnAt(now);
+ const moonKey="sintese-lua-c"+moonHouse, sunKey="sintese-sol-c"+sunHouse;
+ const sintDefault=`Com a Lua em ${moonSign} transitando sua casa ${moonHouse} (${T_CASA[moonHouse].toLowerCase().split(",")[0]}…), o clima do dia toca esses assuntos no corpo e no humor. O Sol em ${sunSign} ilumina sua casa ${sunHouse} — ${T_CASA[sunHouse].toLowerCase()} Este mês, é aí que a vida pede presença.`;
+ $("#sintese-agora").textContent=noteKey("sintese-inicio")||sintDefault;
+ $("#ctx-strip").innerHTML=[
+  `<span class="chip">firdaria <b>${f.major.lord}</b>${f.sub?` / sub <b>${f.sub.lord}</b>`:""}</span>`,
+  `<span class="chip">profecção <b>casa ${p.house} · ${p.sign}</b> · senhor do ano <b>${p.lord}</b></span>`,
+  sr?`<span class="chip">revolução solar <b>${sr.year}/${sr.year+1}</b> · ASC RS <b>${fmtLon(sr.asc)}</b></span>`:""
+ ].join("");
+ // cards das camadas
+ const cards=[];
+ cards.push(cardHTML({key:"camada-fird-"+f.major.lord,title:"Firdaria de "+f.major.lord,glyph:GLYPH[f.major.lord],
+   pos:`${f.major.start} → ${f.major.end} · idades ${f.major.start_age}–${f.major.end_age}`,
+   def:T_FIRD[f.major.lord]||"",lord:true,
+   tags:[["período maior","gold"]]}));
+ if(f.sub)cards.push(cardHTML({key:"camada-sub-"+f.major.lord+"-"+f.sub.lord,title:"Subfirdaria de "+f.sub.lord,glyph:GLYPH[f.sub.lord],
+   pos:`${f.sub.start} → ${f.sub.end}`,def:(T_FIRD[f.sub.lord]||"")+" (Tom secundário que tempera o período maior.)",lord:true,tags:[["subperíodo","gold"]]}));
+ cards.push(cardHTML({key:"camada-prof-"+p.age,title:`Profecção: casa ${p.house}`,glyph:SIGN_GLYPH[SIGNS.indexOf(p.sign)],
+   pos:`${p.sign} · senhor do ano: ${p.lord} · idade ${p.age}`,
+   def:`O ano ativa a casa ${p.house}: ${T_CASA[p.house].toLowerCase()} Observe ${p.lord} — natal, na revolução e em trânsito.`,lord:true,tags:[["ano profectado","gold"]]}));
+ if(sr){const srSunH=wholeHouse(sr.planets["Sol"]);
+  cards.push(cardHTML({key:"camada-rs-"+sr.year,title:`Revolução solar ${sr.year}`,glyph:"☉",
+   pos:`${sr.utc} · ASC ${fmtLon(sr.asc)}`,
+   def:`ASC da revolução em ${SIGNS[signOf(sr.asc)]} cai na sua casa ${wholeHouse(sr.asc)} natal — o palco do ano. Detalhes na Linha do Tempo.`,tags:[["ano solar","gold"]]}));}
+ $("#inicio-camadas").innerHTML=cards.join("");
+ drawWheel(t);
+}
+
+function cardHTML({key,title,glyph,pos,def,tags=[],lord=false,accent}){
+ return `<div class="card${lord?" lord":""}"${accent?` style="--accent:${accent}"`:""}>
+   <h3><span class="glifo">${glyph||""}</span>${title}</h3>
+   <div class="pos">${pos||""}</div>
+   ${editableBlock(key,def)}
+   ${tags.length?`<div class="tagrow">${tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join("")}</div>`:""}
+ </div>`;
+}
+
+/* ============ MAPA NATAL ============ */
+function renderNatal(){
+ const N=DATA.natal;
+ $("#natal-resumo").innerHTML=`Nascimento noturno · Ascendente <b class="dourado">${fmtLon(N.houses.asc)}</b> · Meio-do-Céu ${fmtLon(N.houses.mc)} · Sol em ${SIGNS[signOf(N.planets["Sol"].lon)]}, Lua em ${SIGNS[signOf(N.planets["Lua"].lon)]}. Casas por signos inteiros; cúspides Placidus disponíveis nos cards das casas.`;
+ // planetas
+ const order=["Sol","Lua","Mercúrio","Vênus","Marte","Júpiter","Saturno","Urano","Netuno","Plutão","Nodo Norte","Nodo Sul","Fortuna"];
+ $("#natal-planetas").innerHTML=order.map(p=>{
+  const o=N.planets[p];const h=wholeHouse(o.lon);const digs=dignity(p,o.lon);
+  const rx=o.speed<0?' <span class="rx">℞</span>':"";
+  const def=`${T_PLANETA[p]} Na casa ${h}: ${T_CASA[h].toLowerCase()}`;
+  return cardHTML({key:"natal-pl-"+p,title:p,glyph:GLYPH[p],accent:PLANET_COLOR[p],
+   pos:`${fmtLon(o.lon)}${rx} · casa ${h}`,def,
+   tags:[...digs,[`casa ${h}`,""]]});
+ }).join("");
+ // casas
+ $("#natal-casas").innerHTML=Array.from({length:12},(_,i)=>{
+  const h=i+1;const s=(ASC_SIGN+i)%12;const ruler=RULERS[SIGNS[s]];
+  const inHouse=order.filter(p=>wholeHouse(N.planets[p].lon)===h);
+  const cusp=N.houses.cusps[i];
+  const def=`${T_CASA[h]} Regida por ${ruler} (em ${SIGNS[signOf(N.planets[ruler].lon)]}, casa ${wholeHouse(N.planets[ruler].lon)}).${inHouse.length?` Habitada por ${inHouse.join(", ")}.`:" Vazia — leia pelo regente."}`;
+  return cardHTML({key:"natal-casa-"+h,title:`Casa ${h} — ${SIGNS[s]}`,glyph:SIGN_GLYPH[s],
+   pos:`regente: ${ruler} · cúspide Placidus ${fmtLon(cusp)}`,def,
+   tags:inHouse.map(p=>[GLYPH[p]+" "+p,""])});
+ }).join("");
+ // aspectos
+ const majors=["Sol","Lua","Mercúrio","Vênus","Marte","Júpiter","Saturno","Urano","Netuno","Plutão"];
+ const rows=[];
+ for(let i=0;i<majors.length;i++)for(let j=i+1;j<majors.length;j++){
+  const a=majors[i],b=majors[j];
+  const orb=(a==="Sol"||a==="Lua"||b==="Sol"||b==="Lua")?8:6;
+  const asp=aspectsBetween(N.planets[a].lon,N.planets[b].lon,orb);
+  if(asp)rows.push({a,b,asp});}
+ $("#natal-aspectos").innerHTML=rows.map(r=>{
+  const cls=(r.asp.ang===90||r.asp.ang===180)?"tenso":(r.asp.ang===60||r.asp.ang===120)?"suave":"";
+  return `<span class="asp-chip ${cls}"><span>${GLYPH[r.a]}</span><span class="sym">${r.asp.sym}</span><span>${GLYPH[r.b]}</span> ${r.a} ${r.asp.name.toLowerCase()} ${r.b} · orbe ${r.asp.orb}°</span>`;
+ }).join("")+`<p class="sec-sub" style="margin-top:.8rem">Conjunção: ${T_ASPECT["Conjunção"]} Quadratura/oposição pedem trabalho; trígono/sextil fluem.</p>`;
+}
+
+/* ============ LINHA DO TEMPO ============ */
+let selFird=null,selYear=null;
+function renderTempo(){
+ const nowAge=ageAt(new Date());
+ const total=DATA.firdaria[DATA.firdaria.length-1].end_age;
+ const band=$("#fird-band");
+ const LIM=105;
+ band.innerHTML=DATA.firdaria.map((f,i)=>{
+  if(f.start_age>=LIM)return "";
+  const yrs=Math.min(f.end_age,LIM)-f.start_age;
+  const w=(yrs/LIM)*100;
+  const isNow=nowAge>=f.start_age&&nowAge<f.end_age;
+  return `<div class="fird-seg${isNow?" now":""}" data-i="${i}" style="flex:0 0 ${w}%;background:${PLANET_COLOR[f.lord]}" title="${f.lord} · ${f.start_age}–${f.end_age} anos">${GLYPH[f.lord]}<span style="margin-left:3px">${Math.round(f.start_age)}</span></div>`;
+ }).join("");
+ band.querySelectorAll(".fird-seg").forEach(el=>el.addEventListener("click",()=>{selFird=+el.dataset.i;renderFirdDetail();}));
+ const fNow=firdariaAt(new Date());
+ $("#fird-legenda").textContent=`hoje: ${nowAge.toFixed(1)} anos · firdaria de ${fNow.major.lord}${fNow.sub?` · subfirdaria de ${fNow.sub.lord}`:""} · números indicam a idade de início`;
+ if(selFird===null)selFird=DATA.firdaria.indexOf(fNow.major);
+ renderFirdDetail();
+ // grade de anos
+ $("#years-grid").innerHTML=DATA.returns.map(r=>{
+  const p=DATA.profections[r.age];
+  return `<div class="yr${selYear===r.age?" sel":""}" data-age="${r.age}">
+    <div class="y">${r.year}</div><div class="a">idade ${r.age}</div><div class="h">casa ${p.house} ${SIGN_GLYPH[SIGNS.indexOf(p.sign)]}</div></div>`;
+ }).join("");
+ document.querySelectorAll(".yr").forEach(el=>el.addEventListener("click",()=>{selYear=+el.dataset.age;renderTempo();renderYearDetail();}));
+ if(selYear===null){selYear=Math.floor(nowAge);renderTempo();renderYearDetail();}
+}
+function renderFirdDetail(){
+ const f=DATA.firdaria[selFird];if(!f)return;
+ const box=$("#fird-detail");box.style.display="block";
+ const nowAge=ageAt(new Date());
+ let subs="";
+ if(f.subs.length){subs=`<div class="sub-band">`+f.subs.map(s=>{
+   const isNow=nowAge>=s.start_age&&nowAge<s.end_age;
+   return `<div class="fird-seg${isNow?" now":""}" style="flex:1;background:${PLANET_COLOR[s.lord]}" title="${s.lord} · ${s.start} → ${s.end}">${GLYPH[s.lord]}</div>`;}).join("")+`</div>
+   <table class="mini" style="margin-top:.6rem">`+f.subs.map(s=>`<tr><td>${GLYPH[s.lord]} ${s.lord}</td><td>${s.start} → ${s.end}</td><td>${s.start_age.toFixed(1)}–${s.end_age.toFixed(1)} anos</td></tr>`).join("")+`</table>`;}
+ else subs=`<p class="sec-sub" style="margin-top:.5rem">Períodos dos nodos não se subdividem.</p>`;
+ box.innerHTML=`<div style="position:relative"><h3 style="font-family:var(--f-disp)">${GLYPH[f.lord]} Firdaria de ${f.lord} — ${f.start} → ${f.end} <span class="mono" style="font-size:.7rem;color:var(--nevoa)">(idades ${f.start_age}–${f.end_age})</span></h3>
+ ${editableBlock("fird-"+f.lord+"-"+f.start_age,T_FIRD[f.lord]||"")}</div>${subs}`;
+}
+function renderYearDetail(){
+ const r=DATA.returns.find(x=>x.age===selYear);if(!r)return;
+ const p=DATA.profections[r.age];
+ const mid=new Date(Date.UTC(r.year,7,18));const fd=firdariaAt(mid);
+ const fdEnd=firdariaAt(new Date(Date.UTC(r.year+1,7,10)));
+ const srAscH=wholeHouse(r.asc);
+ const plRows=Object.entries(r.planets).filter(([k])=>k!=="Fortuna").map(([k,v])=>
+   `<tr><td>${GLYPH[k]} ${k}</td><td>${fmtLon(v)}</td><td>casa ${wholeHouse(v)} natal</td></tr>`).join("");
+ const key=`ano-${r.year}`;
+ const def=`Ano ${r.year}/${r.year+1} (idade ${r.age}): profecção da casa ${p.house} em ${p.sign} — ${T_CASA[p.house].toLowerCase()} O senhor do ano é ${p.lord}. Firdaria vigente: ${fd.major.lord}${fd.sub?` / ${fd.sub.lord}`:""}${fdEnd.major.lord!==fd.major.lord?` (muda para ${fdEnd.major.lord} durante o ano)`:""}. O ASC da revolução em ${SIGNS[signOf(r.asc)]} joga o palco do ano na sua casa ${srAscH} natal.`;
+ $("#year-detail").innerHTML=`<div class="card" style="max-width:none">
+   <h3>☉ ${r.year} — idade ${r.age} · revolução solar de ${r.utc}</h3>
+   <div class="pos">profecção casa ${p.house} (${p.sign}, senhor ${p.lord}) · firdaria ${fd.major.lord}${fd.sub?"/"+fd.sub.lord:""} · ASC RS ${fmtLon(r.asc)} (casa ${srAscH} natal) · MC RS ${fmtLon(r.mc)}</div>
+   ${editableBlock(key,def)}
+   <div class="detail-grid" style="margin-top:.8rem">
+     <div><h4 class="mono" style="font-size:.72rem;color:var(--latao);letter-spacing:.1em;margin-bottom:.3rem">PLANETAS DA REVOLUÇÃO</h4><table class="mini">${plRows}</table></div>
+   </div></div>`;
+}
+
+/* ============ TRÂNSITOS ============ */
+function renderTransitos(dt){
+ const date=dt||new Date();
+ const t=EPH.all(date);
+ const y=date.getUTCFullYear();
+ $("#trans-aviso").textContent=(y<1900||y>2050)?"⚠ fora da faixa de precisão (1900–2050)":"";
+ const f=firdariaAt(date),p=profectionAt(date),sr=solarReturnAt(date);
+ const lords=new Set([f.major.lord,f.sub?f.sub.lord:null,p.lord].filter(Boolean));
+ $("#trans-ctx").innerHTML=[
+  `<span class="chip">lente: firdaria <b>${f.major.lord}</b>${f.sub?` / <b>${f.sub.lord}</b>`:""}</span>`,
+  `<span class="chip">profecção <b>casa ${p.house}</b> · senhor <b>${p.lord}</b></span>`,
+  sr?`<span class="chip">RS <b>${sr.year}</b> · ASC em ${SIGNS[signOf(sr.asc)]}</span>`:""].join("");
+ const N=DATA.natal.planets;
+ const natalList=["Sol","Lua","Mercúrio","Vênus","Marte","Júpiter","Saturno","Urano","Netuno","Plutão","Nodo Norte","Fortuna"];
+ const later=EPH.all(new Date(date.getTime()+3600e3));
+ $("#trans-cards").innerHTML=Object.entries(t).filter(([k])=>k!=="Nodo Sul").map(([name,lon])=>{
+  const h=wholeHouse(lon);
+  const retro=(norm(later[name]-lon+180)-180)<0&&name!=="Sol"&&name!=="Lua";
+  const asps=[];
+  for(const np of natalList){const a=aspectsBetween(lon,N[np].lon,3);
+   if(a&&!(name===np&&a.ang===0&&["Urano","Netuno","Plutão","Nodo Norte"].includes(name)===false))asps.push({np,a});}
+  const isLord=lords.has(name);
+  const inProfHouse=h===p.house;
+  const def=`${T_PLANETA[name]} Transitando sua casa ${h}: ${T_CASA[h].toLowerCase()}${isLord?" Sendo senhor do tempo vigente, leia este trânsito com prioridade.":""}${inProfHouse?" Está na casa profectada do ano: assunto em destaque.":""}`;
+  const tags=[];
+  if(name===f.major.lord)tags.push(["firdar maior","gold"]);
+  if(f.sub&&name===f.sub.lord)tags.push(["subfirdar","gold"]);
+  if(name===p.lord)tags.push(["senhor do ano","gold"]);
+  if(inProfHouse)tags.push(["na casa profectada","dig"]);
+  return `<div class="card${isLord?" lord":""}" style="--accent:${PLANET_COLOR[name]}">
+    <h3><span class="glifo">${GLYPH[name]}</span>${name}${retro?' <span class="rx" style="color:var(--brasa);font-size:.8rem">℞</span>':""}</h3>
+    <div class="pos">${fmtLon(lon)} · sua casa ${h}</div>
+    ${editableBlock("trans-"+name+"-c"+h,def)}
+    ${asps.length?`<div style="margin-top:.5rem">${asps.map(({np,a})=>`<span class="asp-chip ${a.ang===90||a.ang===180?"tenso":a.ang===60||a.ang===120?"suave":""}"><span class="sym">${a.sym}</span> ${GLYPH[np]} ${np} natal · ${a.orb}°</span>`).join("")}</div>`:""}
+    ${tags.length?`<div class="tagrow">${tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join("")}</div>`:""}
+  </div>`;
+ }).join("");
+}
+
+/* ============ ELETIVA: GRAFO 3D ============ */
+const TOPICS={
+ 1:["corpo","aparência","vitalidade","identidade","começos","temperamento"],
+ 2:["dinheiro","posses","ganhos","sustento","recursos"],
+ 3:["irmãos","vizinhança","estudos curtos","comunicação","deslocamentos","escrita"],
+ 4:["lar","família","imóveis","raízes","pais","fim das coisas"],
+ 5:["filhos","prazer","criatividade","romance","jogos","arte"],
+ 6:["saúde","doença","rotina","trabalho cotidiano","serviço","animais"],
+ 7:["casamento","parcerias","contratos","inimigos declarados","acordos"],
+ 8:["morte","heranças","dinheiro alheio","dívidas","crises","transformação"],
+ 9:["viagens longas","estrangeiro","religião","filosofia","lei","ensino superior"],
+ 10:["carreira","reputação","vocação","autoridade","status"],
+ 11:["amigos","grupos","aliados","esperanças","projetos"],
+ 12:["isolamento","inimigos ocultos","hospitais","retiro","espiritualidade","autossabotagem"]};
+const CROSS=[["dinheiro","dinheiro alheio"],["contratos","lei"],["casamento","romance"],["carreira","reputação"],["saúde","hospitais"],["família","imóveis"],["estudos curtos","ensino superior"],["deslocamentos","viagens longas"],["amigos","aliados"],["crises","transformação"]];
+
+let G={nodes:[],edges:[],rot:{x:-0.35,y:0.6},zoom:1,sel:null,filter:""};
+function buildGraph(){
+ const nodes=[],edges=[];
+ for(let h=1;h<=12;h++){
+  const a=(h-1)/12*Math.PI*2;
+  const hub={id:"casa"+h,label:"Casa "+h,house:h,hub:true,
+    x:Math.cos(a)*160,y:Math.sin(a)*160,z:0};
+  nodes.push(hub);
+  const tps=TOPICS[h];
+  tps.forEach((t,i)=>{
+   const b=a+((i/tps.length)-0.5)*1.0;
+   const r=160+70;
+   const zz=Math.sin(i*2.1+h)*70;
+   nodes.push({id:t,label:t,house:h,hub:false,
+     x:Math.cos(b)*r,y:Math.sin(b)*r,z:zz});
+   edges.push(["casa"+h,t]);});}
+ for(let h=1;h<=12;h++)edges.push(["casa"+h,"casa"+(h%12+1)]);
+ for(const [a,b] of CROSS)edges.push([a,b]);
+ G.nodes=nodes;G.edges=edges;
+}
+function drawGraph(){
+ const cv=$("#grafo3d");const ctx=cv.getContext&&cv.getContext("2d");if(!ctx)return;
+ const W=cv.width=cv.clientWidth*devicePixelRatio,H=cv.height=cv.clientHeight*devicePixelRatio;
+ ctx.clearRect(0,0,W,H);
+ const cx=W/2,cy=H/2,scale=Math.min(W,H)/430*G.zoom;
+ const cosY=Math.cos(G.rot.y),sinY=Math.sin(G.rot.y),cosX=Math.cos(G.rot.x),sinX=Math.sin(G.rot.x);
+ const proj=n=>{
+  let x=n.x*cosY-n.z*sinY, z=n.x*sinY+n.z*cosY, y=n.y*cosX-z*sinX; z=n.y*sinX+z*cosX;
+  const persp=520/(520-z*0.8);
+  return {sx:cx+x*scale*persp,sy:cy+y*scale*persp,z,persp};};
+ const P={};G.nodes.forEach(n=>P[n.id]=proj(n));
+ const match=n=>G.filter&&n.label.toLowerCase().includes(G.filter);
+ const anyMatch=!!G.filter&&G.nodes.some(match);
+ // arestas
+ for(const [a,b] of G.edges){const pa=P[a],pb=P[b];
+  const na=G.nodes.find(n=>n.id===a),nb=G.nodes.find(n=>n.id===b);
+  const hot=(G.sel&&(a===G.sel||b===G.sel))||(anyMatch&&(match(na)||match(nb)));
+  ctx.strokeStyle=hot?"rgba(201,162,75,.75)":"rgba(60,72,120,.35)";
+  ctx.lineWidth=hot?1.6*devicePixelRatio:0.7*devicePixelRatio;
+  ctx.beginPath();ctx.moveTo(pa.sx,pa.sy);ctx.lineTo(pb.sx,pb.sy);ctx.stroke();}
+ // nós (por profundidade)
+ const sorted=[...G.nodes].sort((a,b)=>P[a.id].z-P[b.id].z);
+ for(const n of sorted){const p=P[n.id];
+  const hot=n.id===G.sel||( anyMatch&&match(n));
+  const dim=anyMatch&&!match(n)&&n.id!==G.sel;
+  const r=(n.hub?7:3.6)*p.persp*devicePixelRatio;
+  ctx.beginPath();ctx.arc(p.sx,p.sy,r,0,7);
+  ctx.fillStyle=hot?"#E8CC8A":n.hub?"#C9A24B":dim?"rgba(135,146,184,.25)":"rgba(184,196,232,.8)";
+  ctx.fill();
+  if(n.hub||hot||G.zoom>1.25){
+   ctx.font=`${(n.hub?11:9.5)*devicePixelRatio*Math.min(p.persp,1.15)}px "Spline Sans Mono",monospace`;
+   ctx.fillStyle=hot?"#E8CC8A":dim?"rgba(135,146,184,.3)":n.hub?"#C9A24B":"rgba(233,228,214,.75)";
+   ctx.textAlign="center";
+   ctx.fillText(n.label,p.sx,p.sy-r-4*devicePixelRatio);}}
+ G._proj=P;
+}
+function graphLoop(){
+ if(!G.drag&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches)G.rot.y+=0.0022;
+ if($("#pane-eletiva").classList.contains("on"))drawGraph();
+ requestAnimationFrame(graphLoop);
+}
+function initGraphEvents(){
+ const cv=$("#grafo3d");let last=null;
+ const pos=e=>({x:(e.touches?e.touches[0].clientX:e.clientX),y:(e.touches?e.touches[0].clientY:e.clientY)});
+ const down=e=>{G.drag=true;last=pos(e);};
+ const move=e=>{if(!G.drag)return;const p=pos(e);G.rot.y+=(p.x-last.x)*0.006;G.rot.x+=(p.y-last.y)*0.006;G.rot.x=Math.max(-1.4,Math.min(1.4,G.rot.x));last=p;e.preventDefault();};
+ const up=e=>{G.drag=false;};
+ cv.addEventListener("mousedown",down);cv.addEventListener("mousemove",move);window.addEventListener("mouseup",up);
+ cv.addEventListener("touchstart",down,{passive:true});cv.addEventListener("touchmove",move,{passive:false});cv.addEventListener("touchend",up);
+ cv.addEventListener("wheel",e=>{e.preventDefault();G.zoom=Math.max(.5,Math.min(2.4,G.zoom*(e.deltaY<0?1.08:0.92)));},{passive:false});
+ cv.addEventListener("click",e=>{
+  const r=cv.getBoundingClientRect();
+  const mx=(e.clientX-r.left)*devicePixelRatio,my=(e.clientY-r.top)*devicePixelRatio;
+  let best=null,bd=18*devicePixelRatio;
+  for(const n of G.nodes){const p=G._proj[n.id];const d=Math.hypot(p.sx-mx,p.sy-my);if(d<bd){bd=d;best=n;}}
+  if(best){G.sel=best.id;renderEletivaPanel(best);}});
+ $("#busca-tema").addEventListener("input",e=>{G.filter=e.target.value.trim().toLowerCase();
+  if(G.filter){const m=G.nodes.find(n=>!n.hub&&n.label.toLowerCase().includes(G.filter))||G.nodes.find(n=>n.label.toLowerCase().includes(G.filter));
+   if(m){G.sel=m.id;renderEletivaPanel(m);}}});
+}
+function renderEletivaPanel(n){
+ const h=n.house;const s=(ASC_SIGN+h-1)%12;const sign=SIGNS[s];const ruler=RULERS[sign];
+ const N=DATA.natal.planets;
+ const inHouse=Object.keys(N).filter(p=>wholeHouse(N[p].lon)===h);
+ const t=EPH.all(new Date());
+ const transiting=Object.entries(t).filter(([k,v])=>k!=="Nodo Sul"&&wholeHouse(v)===h).map(([k])=>k);
+ const p=profectionAt(new Date());
+ const key="eletiva-"+(n.hub?("casa"+h):n.id);
+ const def=n.hub
+  ?`${T_CASA[h]} Para eleger algo desta casa: fortaleça ${ruler} (regente da sua casa ${h}), busque a Lua bem colocada e aplicativa a benéficos, e evite ${ruler} combusto, retrógrado ou afligido.`
+  :`“${n.label}” pertence à casa ${h} (${sign}) no seu mapa. Eleição: espere a Lua ou o Sol favorecendo ${ruler}, o senhor deste assunto, e observe trânsitos na casa ${h}.`;
+ $("#eletiva-panel").innerHTML=`
+  <div style="position:relative">
+  <h3 style="font-family:var(--f-disp)">${n.hub?SIGN_GLYPH[s]+" ":""}${n.hub?("Casa "+h+" — "+sign):n.label}</h3>
+  <div class="pos" style="font-family:var(--f-mono);font-size:.72rem;color:var(--nevoa);margin:.3rem 0 .6rem">
+   ${n.hub?"":"casa "+h+" · "+sign+" · "}regente ${ruler} → ${fmtLon(N[ruler].lon)} (casa ${wholeHouse(N[ruler].lon)})</div>
+  ${editableBlock(key,def)}
+  </div>
+  <table class="mini" style="margin-top:.8rem">
+   <tr><td>planetas natais aqui</td><td></td><td>${inHouse.length?inHouse.map(x=>GLYPH[x]).join(" "):"—"}</td></tr>
+   <tr><td>transitando agora</td><td></td><td>${transiting.length?transiting.map(x=>GLYPH[x]).join(" "):"—"}</td></tr>
+   <tr><td>é a casa profectada?</td><td></td><td>${p.house===h?"sim — ano ativo":"não"}</td></tr>
+  </table>
+  ${n.hub?`<div class="tagrow" style="margin-top:.7rem">${TOPICS[h].map(tp=>`<span class="tag">${tp}</span>`).join("")}</div>`:""}`;
+}
+
+/* ============ NAV & BOOT ============ */
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+ document.querySelectorAll(".pane").forEach(x=>x.classList.remove("on"));
+ b.classList.add("on");$("#pane-"+b.dataset.pane).classList.add("on");
+ if(b.dataset.pane==="eletiva")drawGraph();
+ window.scrollTo({top:0});
+}));
+addEventListener("resize",()=>{if($("#pane-eletiva").classList.contains("on"))drawGraph();});
+$("#btn-agora").addEventListener("click",()=>{setTransNow();renderTransitos();});
+$("#trans-data").addEventListener("change",e=>{const d=new Date(e.target.value);if(!isNaN(d))renderTransitos(d);});
+function setTransNow(){const n=new Date();const pad=x=>String(x).padStart(2,"0");
+ $("#trans-data").value=`${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}T${pad(n.getHours())}:${pad(n.getMinutes())}`;}
+
+/* ============ ESTRELAS ============ */
+function initStars(){
+ const cv=$("#estrelas");const ctx=cv.getContext&&cv.getContext("2d");if(!ctx)return;
+ let stars=[];const rmot=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ function size(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;
+  const n=Math.min(160,Math.floor(innerWidth*innerHeight/9000));
+  stars=Array.from({length:n},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,
+   r:(Math.random()*1.1+.3)*devicePixelRatio,p:Math.random()*Math.PI*2,v:.4+Math.random()*1.2}));}
+ size();addEventListener("resize",size);
+ function frame(ts){ctx.clearRect(0,0,cv.width,cv.height);
+  for(const s of stars){const a=rmot?.55:.28+.45*(0.5+0.5*Math.sin(s.p+ts*0.001*s.v));
+   ctx.globalAlpha=a;ctx.fillStyle="#C9D2F0";
+   ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fill();}
+  ctx.globalAlpha=1;
+  if(!rmot)requestAnimationFrame(frame);}
+ requestAnimationFrame(frame);
+}
+
+(async function boot(){
+ initStars();
+ await loadNotes();
+ renderInicio();renderNatal();renderTempo();setTransNow();renderTransitos();
+ buildGraph();initGraphEvents();graphLoop();
+ setInterval(()=>{if(!document.querySelector("#pane-inicio .edit-area.on"))renderInicio();},60000);
+})();
+</script>
+</body>
+</html>
