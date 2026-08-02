@@ -249,6 +249,72 @@ table.mini td:last-child{text-align:right;color:var(--neon-palha)}
 .asp-linha .ob{font-family:var(--f-mono);font-size:.6rem;color:var(--neutro)}
 .asp-linha.tenso .par{color:var(--vermelho)} .asp-linha.suave .par{color:var(--verde)}
 
+/* ---------- mapa de quadrantes (temperamento) ---------- */
+.qmap{position:relative;border-radius:var(--r-sm);background:var(--barro);box-shadow:var(--clay-in);aspect-ratio:1.45;margin-top:.3rem}
+.qmap .axh{position:absolute;left:6%;right:6%;top:50%;height:1px;background:rgba(176,138,114,.35)}
+.qmap .axv{position:absolute;top:8%;bottom:8%;left:50%;width:1px;background:rgba(176,138,114,.35)}
+.qmap .lb{position:absolute;font-family:var(--f-mono);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--neutro2)}
+.qmap .lb i{display:block;font-style:normal;font-size:.5rem;margin-top:.1rem}
+.qmap .q1{top:.55rem;right:.7rem;text-align:right}.qmap .q2{top:.55rem;left:.7rem}
+.qmap .q3{bottom:.55rem;right:.7rem;text-align:right}.qmap .q4{bottom:.55rem;left:.7rem}
+.qmap .marker{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--neon);
+  transform:translate(-50%,-50%);box-shadow:0 0 0 5px rgba(255,92,0,.18),0 0 18px rgba(255,92,0,.55)}
+
+/* ---------- famílias e eixos ---------- */
+.famgrid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.9rem 0 1rem}
+.famc{display:flex;gap:.7rem;align-items:flex-start;text-align:left;border:none;padding:.95rem .9rem;margin-bottom:0}
+.famc .famc-b{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.famc b{font-family:var(--f-disp);font-size:.98rem;color:var(--luz);font-weight:600}
+.famc em{font-style:normal;font-size:.72rem;color:var(--neutro);line-height:1.4}
+.axc .axc-h{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem}
+.axc .axc-n{font-size:.9rem;color:var(--luz);font-weight:600;font-family:var(--f-disp)}
+.axc .axc-v{font-size:.68rem;color:var(--neon-claro);white-space:nowrap}
+.axc .axc-v i{font-style:normal;font-size:.55rem;color:var(--neutro2)}
+.axc-bar{position:relative;height:8px;border-radius:6px;background:var(--barro);box-shadow:var(--clay-in);margin:.7rem 0 .35rem}
+.axc-mid{position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:rgba(176,138,114,.4)}
+.axc-dot{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:var(--neon-claro);
+  transform:translate(-50%,-50%);box-shadow:0 0 12px rgba(255,138,61,.7)}
+.axc-dot.weak{background:var(--neutro)}
+.axc-p{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:.52rem;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--neutro2)}
+.axc-m{font-family:var(--f-mono);font-size:.55rem;color:var(--neutro2);margin-top:.5rem}
+
+/* ---------- semana planetária ---------- */
+.sw-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -.3rem;padding:0 .3rem}
+.sw-t{border-collapse:separate;border-spacing:4px;min-width:640px;width:100%}
+.sw-t th{font-family:var(--f-mono);font-size:.6rem;color:var(--neutro);padding:.3rem .2rem;text-align:center}
+.sw-t th b{display:block;font-family:var(--f-disp);font-size:.95rem;color:var(--luz)}
+.sw-t th span{font-size:.52rem;text-transform:uppercase;letter-spacing:.08em}
+.sw-t th.sw-dom b{color:var(--neon-claro)}
+.sw-t td{background:var(--barro2);border-radius:11px;box-shadow:var(--clay-sm);padding:.45rem .3rem;
+  text-align:center;font-size:.62rem;color:var(--neutro);min-width:74px}
+.sw-t td b{display:block;font-size:.72rem;color:var(--luz);font-family:var(--f-disp)}
+.sw-t td span{display:block;font-family:var(--f-mono);font-size:.54rem}
+.sw-t td .tm{color:var(--neon-palha)}
+.sw-t td.sw-nova{box-shadow:var(--clay-neon)}
+.sw-t td.sw-pl,.sw-trilho .sw-pl{background:none;box-shadow:none;text-align:left;font-family:var(--f-mono);
+  font-size:.62rem;color:var(--luz2);white-space:nowrap;min-width:0}
+.sw-t .sw-pl .g,.sw-trilho .sw-pl .g{font-size:.95rem;margin-right:.3rem;font-family:var(--f-body)}
+.sw-t.v2 td{min-width:60px}
+.sw-t.v2 .sg{font-size:1.2rem;font-family:var(--f-body)}
+.sw-t.v2 .mini{font-family:var(--f-mono);font-size:.56rem;color:var(--luz2)}
+.sw-trilhos{display:flex;flex-direction:column;gap:.6rem}
+.sw-trilho .sw-pl{display:block;margin-bottom:.3rem}
+.sw-pills{display:flex;gap:.3rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.2rem}
+.sw-pills::-webkit-scrollbar{display:none}
+.sw-pill{flex:1 0 auto;font-family:var(--f-mono);font-size:.6rem;color:var(--luz2);background:var(--barro2);
+  border-radius:10px;box-shadow:var(--clay-sm);padding:.35rem .5rem;white-space:nowrap;text-align:center}
+.sw-pill i{font-style:normal;display:block;font-size:.5rem;color:var(--neutro2)}
+.sw-pill.nova{box-shadow:var(--clay-neon);color:var(--neon-claro)}
+.sw-dias{display:flex;flex-direction:column;gap:.7rem}
+.sw-dia{margin-bottom:0;padding:.85rem .95rem}
+.sw-dh{display:flex;align-items:baseline;gap:.55rem;margin-bottom:.5rem}
+.sw-dh b{font-family:var(--f-disp);font-size:1.15rem;color:var(--neon-claro)}
+.sw-dh span{font-family:var(--f-mono);font-size:.6rem;color:var(--neutro);text-transform:uppercase;letter-spacing:.08em}
+.sw-dl{display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem}
+.sw-dp{font-family:var(--f-mono);font-size:.66rem;color:var(--luz2)}
+.sw-dp .g{font-family:var(--f-body);font-size:.85rem}
+
 /* ---------- barras de temperamento ---------- */
 .tbar{display:flex;align-items:center;gap:.5rem;margin:.34rem 0}
 .tb-rot{font-family:var(--f-mono);font-size:.6rem;color:var(--neutro);width:5.4rem;flex:0 0 auto}
@@ -363,12 +429,16 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
     <button class="seg-btn" data-sub="aspectos">Aspectos</button>
     <button class="seg-btn" data-sub="estrelas">Estrelas fixas</button>
     <button class="seg-btn" data-sub="temperamento">Temperamento</button>
+    <button class="seg-btn" data-sub="saude">Saúde</button>
+    <button class="seg-btn" data-sub="eixos">48 eixos</button>
   </div>
   <div id="natal-planetas" class="sub on"></div>
   <div id="natal-casas" class="sub" style="display:none"></div>
   <div id="natal-aspectos" class="sub" style="display:none"></div>
   <div id="natal-estrelas" class="sub" style="display:none"></div>
   <div id="natal-temperamento" class="sub" style="display:none"></div>
+  <div id="natal-saude" class="sub" style="display:none"></div>
+  <div id="natal-eixos" class="sub" style="display:none"></div>
 </section>
 
 <!-- ==================== LINHA DO TEMPO ==================== -->
@@ -396,6 +466,23 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
 
 <!-- ==================== TRÂNSITOS ==================== -->
 <section class="pane" id="pane-transitos">
+  <h2 class="sec-title">Semana planetária</h2>
+  <p class="sec-sub">Os sete, dia a dia: signo, casa e termo. Escolha a versão do quadro.</p>
+  <div class="seg" id="sw-seg">
+    <button class="seg-btn on" data-ver="v1">Planilha</button>
+    <button class="seg-btn" data-ver="v2">Térmico</button>
+    <button class="seg-btn" data-ver="v3">Trilhos</button>
+    <button class="seg-btn" data-ver="v4">Diário</button>
+  </div>
+  <div class="fc-cal">
+    <div class="fc-nav">
+      <button class="fc-arrow" id="sw-prev" aria-label="semana anterior">‹</button>
+      <div class="fc-title" id="sw-titulo">…</div>
+      <button class="fc-arrow" id="sw-next" aria-label="próxima semana">›</button>
+    </div>
+    <div id="sw-corpo"></div>
+  </div>
+
   <h2 class="sec-title">Trânsitos em contexto</h2>
   <p class="sec-sub">Cartas realçadas pertencem aos senhores do firdar, da subfirdaria ou da profecção vigente — são os trânsitos que falam mais alto.</p>
   <div class="trans-toolbar">
@@ -1558,6 +1645,16 @@ function renderTemperamento(){
      <h3><span class="glifo">${gl(TEMP_GLIFO[T.principal])}</span><span>${cap(T.principal)}</span></h3>
      <div class="pos">${pr.q} · ${pr.el} · ${pr.humor} · ${pr.est} · ${pr.idade}</div>
      ${composto}
+     <div class="bloco"><span class="rot">Mapa das qualidades</span>
+      <div class="qmap">
+       <span class="axh"></span><span class="axv"></span>
+       <span class="lb q2">frio + seco<i>melancólico</i></span>
+       <span class="lb q1">quente + seco<i>colérico</i></span>
+       <span class="lb q4">frio + úmido<i>fleumático</i></span>
+       <span class="lb q3">quente + úmido<i>sanguíneo</i></span>
+       <span class="marker" style="left:${(T.pQ*100).toFixed(1)}%;top:${((1-T.pS)*100).toFixed(1)}%"></span>
+      </div>
+      <p style="margin-top:.55rem;font-size:.78rem;color:var(--neutro)">horizontal: frio → quente · vertical: úmido (baixo) → seco (alto). O ponto é a sua compleição.</p></div>
      ${vetor}${eixos}
    </div>
    ${cardHTML({key:"temp-virtudes",title:"Virtudes",glyph:"✦",accent:CORES[T.principal],
@@ -1571,6 +1668,371 @@ function renderTemperamento(){
        <span class="cit">${sec.irma}</span></div>`})}
    <div class="card">${regime}${temporal}${tabela}</div>`;
 }
+
+
+/* ============ 48 EIXOS DA VIDA (estrutura portada do projeto firdaria) ============ */
+/* matrizes: natureza planetária, elemento e modalidade por família de eixo (−1..+1 rumo ao polo A) */
+const AXK={sun:"Sol",moon:"Lua",mercury:"Mercúrio",venus:"Vênus",mars:"Marte",jupiter:"Júpiter",saturn:"Saturno"};
+const AX_NAT={
+ act:{mars:1,sun:.7,jupiter:.5,mercury:.3,venus:-.3,moon:-.4,saturn:-1},
+ speed:{mercury:1,moon:.8,mars:.6,venus:.1,sun:0,jupiter:-.2,saturn:-1},
+ persist:{saturn:1,sun:.6,jupiter:.3,venus:.1,mars:-.2,mercury:-.7,moon:-1},
+ bold:{mars:1,jupiter:.7,sun:.5,mercury:0,venus:-.3,moon:-.5,saturn:-1},
+ irrit:{mars:1,saturn:.5,sun:.3,mercury:.1,moon:-.2,jupiter:-.6,venus:-1},
+ intens:{mars:1,sun:.6,saturn:.5,moon:.2,mercury:-.2,jupiter:-.5,venus:-.8},
+ press:{saturn:1,sun:.7,mars:.4,jupiter:.3,mercury:-.3,venus:-.5,moon:-1},
+ emot:{moon:1,venus:.8,jupiter:.3,mars:.1,sun:-.1,mercury:-.6,saturn:-1},
+ extro:{jupiter:1,sun:.8,venus:.5,mars:.4,mercury:.2,moon:-.4,saturn:-1},
+ domin:{sun:1,mars:.9,saturn:.4,jupiter:.3,mercury:-.2,moon:-.6,venus:-1},
+ social:{venus:1,jupiter:.9,mercury:.4,moon:.2,sun:.1,mars:-.4,saturn:-1},
+ trust:{jupiter:1,venus:.7,sun:.5,moon:0,mercury:-.3,mars:-.6,saturn:-1},
+ bond:{venus:1,moon:.8,saturn:.5,sun:.2,jupiter:-.2,mercury:-.6,mars:-.8},
+ express:{mercury:1,venus:.7,jupiter:.6,moon:.4,sun:.2,mars:0,saturn:-1},
+ sensi:{moon:1,venus:.7,mercury:.2,jupiter:0,sun:-.3,mars:-.7,saturn:-.9},
+ abstr:{saturn:.8,jupiter:.7,mercury:.5,moon:.3,sun:-.2,venus:-.5,mars:-1},
+ analys:{mercury:1,saturn:.8,mars:.4,sun:-.1,venus:-.4,moon:-.7,jupiter:-1},
+ concen:{saturn:1,sun:.6,mars:.4,venus:0,jupiter:-.5,mercury:-.7,moon:-1},
+ order:{saturn:1,mercury:.6,sun:.4,venus:.2,jupiter:-.4,mars:-.7,moon:-.9},
+ optim:{jupiter:1,venus:.7,sun:.6,mercury:.1,moon:-.1,mars:-.3,saturn:-1},
+ ambit:{sun:1,mars:.8,saturn:.6,jupiter:.4,mercury:0,venus:-.5,moon:-.7},
+ ideal:{jupiter:1,moon:.6,venus:.5,sun:.2,mercury:-.3,mars:-.6,saturn:-1},
+ giving:{jupiter:1,venus:.8,sun:.4,moon:.3,mercury:-.2,mars:-.4,saturn:-1},
+ honor:{sun:1,jupiter:.8,saturn:.4,mars:.3,venus:0,moon:-.3,mercury:-1},
+ expand:{jupiter:1,sun:.6,mars:.5,mercury:.2,moon:-.2,venus:-.3,saturn:-1},
+ hedon:{venus:1,jupiter:.8,moon:.5,sun:.2,mercury:-.2,mars:-.4,saturn:-1},
+ tradi:{saturn:1,sun:.6,jupiter:.4,venus:.2,moon:0,mercury:-.6,mars:-.8},
+ auton:{mars:1,sun:.8,saturn:.5,mercury:.2,jupiter:-.2,venus:-.6,moon:-1},
+ assert:{mars:1,sun:.7,saturn:.3,mercury:0,jupiter:-.3,moon:-.6,venus:-1},
+ selfctl:{saturn:1,mercury:.5,sun:.3,venus:0,jupiter:-.4,moon:-.7,mars:-1},
+ compet:{mars:1,sun:.7,saturn:.3,mercury:.1,jupiter:-.3,moon:-.6,venus:-1},
+ resist:{saturn:1,sun:.7,mars:.6,jupiter:.3,venus:-.4,mercury:-.5,moon:-1},
+ cohes:{sun:1,saturn:.7,mars:.4,venus:.1,jupiter:-.2,moon:-.7,mercury:-1},
+ transp:{jupiter:1,sun:.8,mars:.5,venus:.2,moon:-.3,mercury:-.6,saturn:-1}};
+const AX_ELE={
+ act:{fogo:1,ar:.5,terra:-.5,agua:-.9},speed:{ar:1,fogo:.8,agua:-.4,terra:-1},
+ persist:{terra:1,agua:.5,fogo:-.5,ar:-.9},bold:{fogo:1,ar:.4,terra:-.5,agua:-.8},
+ irrit:{fogo:1,agua:.2,terra:-.4,ar:-.6},intens:{fogo:.8,agua:1,terra:-.3,ar:-.9},
+ press:{terra:1,fogo:.3,ar:-.4,agua:-.9},emot:{agua:1,fogo:.3,ar:-.5,terra:-.8},
+ extro:{fogo:1,ar:.8,terra:-.5,agua:-.9},domin:{fogo:1,terra:.3,ar:-.2,agua:-.8},
+ social:{ar:1,fogo:.6,agua:-.2,terra:-.6},trust:{fogo:.8,ar:.5,terra:-.4,agua:-.9},
+ bond:{agua:1,terra:.7,fogo:-.5,ar:-.9},express:{ar:1,fogo:.8,agua:-.2,terra:-.8},
+ sensi:{agua:1,ar:.2,fogo:-.5,terra:-.8},abstr:{ar:1,agua:.6,fogo:-.2,terra:-1},
+ analys:{terra:1,ar:.6,fogo:-.5,agua:-.9},concen:{terra:1,agua:.4,fogo:-.5,ar:-1},
+ order:{terra:1,ar:.2,agua:-.4,fogo:-.9},optim:{fogo:1,ar:.5,terra:-.5,agua:-.7},
+ ambit:{fogo:1,terra:.5,ar:-.2,agua:-.7},ideal:{agua:.8,fogo:.7,ar:.2,terra:-1},
+ giving:{fogo:.8,ar:.5,agua:.2,terra:-1},honor:{fogo:1,agua:.3,ar:-.3,terra:-.8},
+ expand:{fogo:1,ar:.6,agua:-.3,terra:-1},hedon:{agua:.7,ar:.5,fogo:.4,terra:-.9},
+ tradi:{terra:1,agua:.5,ar:-.7,fogo:-.5},auton:{fogo:1,ar:.3,terra:-.3,agua:-1},
+ assert:{fogo:1,terra:.2,ar:-.3,agua:-.9},selfctl:{terra:1,ar:.3,agua:-.4,fogo:-1},
+ compet:{fogo:1,terra:.3,ar:-.2,agua:-.9},resist:{terra:1,fogo:.5,ar:-.5,agua:-.9},
+ cohes:{fogo:.7,terra:.8,agua:-.6,ar:-1},transp:{fogo:1,ar:.4,terra:-.2,agua:-.9}};
+const AX_MOD={
+ act:{cardinal:1,mutavel:.3,fixo:-.8},speed:{mutavel:1,cardinal:.5,fixo:-1},
+ persist:{fixo:1,cardinal:-.2,mutavel:-1},bold:{cardinal:1,mutavel:-.2,fixo:-.4},
+ irrit:{cardinal:.7,fixo:.2,mutavel:-.6},intens:{fixo:.8,cardinal:.5,mutavel:-.9},
+ press:{fixo:1,cardinal:.2,mutavel:-.9},emot:{mutavel:.6,cardinal:.2,fixo:-.5},
+ extro:{cardinal:.8,mutavel:.5,fixo:-.8},domin:{cardinal:1,fixo:.3,mutavel:-.9},
+ social:{mutavel:.7,cardinal:.4,fixo:-.7},trust:{mutavel:.4,cardinal:.3,fixo:-.6},
+ bond:{fixo:1,cardinal:-.2,mutavel:-1},express:{mutavel:.8,cardinal:.4,fixo:-.7},
+ sensi:{mutavel:.6,cardinal:0,fixo:-.6},abstr:{mutavel:.8,fixo:.1,cardinal:-.7},
+ analys:{mutavel:.6,fixo:.3,cardinal:-.6},concen:{fixo:1,cardinal:.1,mutavel:-1},
+ order:{fixo:.9,cardinal:.2,mutavel:-1},optim:{cardinal:.5,mutavel:.4,fixo:-.6},
+ ambit:{cardinal:1,fixo:.4,mutavel:-.8},ideal:{mutavel:.7,cardinal:.2,fixo:-.7},
+ giving:{mutavel:.5,cardinal:.3,fixo:-.7},honor:{fixo:.7,cardinal:.5,mutavel:-.8},
+ expand:{cardinal:.7,mutavel:.6,fixo:-1},hedon:{mutavel:.5,fixo:.4,cardinal:-.6},
+ tradi:{fixo:1,cardinal:-.2,mutavel:-.9},auton:{cardinal:1,fixo:.2,mutavel:-.8},
+ assert:{cardinal:1,fixo:.3,mutavel:-.9},selfctl:{fixo:.8,cardinal:.1,mutavel:-1},
+ compet:{cardinal:1,fixo:.3,mutavel:-.8},resist:{fixo:1,cardinal:.2,mutavel:-1},
+ cohes:{fixo:1,cardinal:.3,mutavel:-1},transp:{cardinal:.6,mutavel:.3,fixo:-.7}};
+const SIGN_ELEM_K=["fogo","terra","ar","agua"];
+const SIGN_MODE_K=["cardinal","fixo","mutavel"];
+const elemK=s=>SIGN_ELEM_K[s%4], modeK=s=>SIGN_MODE_K[s%3];
+const AX_EN=Object.fromEntries(Object.entries(AXK).map(([en,pt])=>[pt,en]));
+/* condição do planeta: dignidade + movimento */
+function condMod(p){const o=DATA.natal.planets[p];if(!o)return 1;
+ const tags=dignity(p,o.lon);let m=1;
+ if(tags.some(t=>t[1]==="dig"))m*=1.15;
+ if(tags.some(t=>t[1]==="deb"))m*=0.78;
+ if(o.speed<0)m*=0.9;
+ return m;}
+/* senhor da genitura: mais dignificado em sua própria posição */
+function lordOfGeniture(){
+ let best=null,bs=-9;
+ for(const p of CLASSICOS){const o=DATA.natal.planets[p];let sc=0;
+  const tags=dignity(p,o.lon);
+  if(tags.some(t=>t[0]==="domicílio"))sc+=5;
+  if(tags.some(t=>t[0]==="exaltação"))sc+=4;
+  if(termOf(o.lon).lord===p)sc+=2;
+  if([1,10,7,4].includes(houseOf(o.lon)))sc+=2;
+  if(tags.some(t=>t[1]==="deb"))sc-=4;
+  if(sc>bs){bs=sc;best=p;}}
+ return best;}
+/* proporções de elementos e modos entre os sete */
+function elemModCounts(){
+ const EL={fogo:0,terra:0,ar:0,agua:0},MO={cardinal:0,fixo:0,mutavel:0};
+ for(const p of CLASSICOS){const s=signOf(DATA.natal.planets[p].lon);EL[elemK(s)]++;MO[modeK(s)]++;}
+ return {EL,MO};}
+function axisMarkers(prof,src){
+ const out=[],nat=AX_NAT[prof]||AX_NAT.act,ele=AX_ELE[prof]||AX_ELE.act,mod=AX_MOD[prof]||AX_MOD.act;
+ const P=DATA.natal.planets,ASC=DATA.natal.houses.asc,ru="Sol";
+ const {EL,MO}=elemModCounts();
+ const put=(dir,w,txt)=>{if(dir!=null&&isFinite(dir)&&w>0)out.push({dir:Math.max(-1,Math.min(1,dir)),w,txt});};
+ for(const sn of src){
+  if(sn==="asc"){const s=signOf(ASC);
+   put(ele[elemK(s)]*.6+mod[modeK(s)]*.4,3,`Ascendente em ${SIGNS[s]} (${elemK(s)==="agua"?"água":elemK(s)}, ${modeK(s)==="mutavel"?"mutável":modeK(s)})`);}
+  else if(sn==="ruler"){const o=P[ru],s=signOf(o.lon);
+   put((nat[AX_EN[ru]]*.45+ele[elemK(s)]*.35+mod[modeK(s)]*.2)*condMod(ru),3,
+    `Regente do Ascendente (${ru}) em ${SIGNS[s]}, casa ${houseOf(o.lon)}`);}
+  else if(sn==="rulerHouse"){const h=houseOf(P[ru].lon);
+   const ang=[1,4,7,10].includes(h)?1:[2,5,8,11].includes(h)?0:-1;
+   put(ang*.6,1.2,`Regente do Ascendente em casa ${h} (${ang>0?"angular":ang<0?"cadente":"sucedente"})`);}
+  else if(sn==="lord"){const k=lordOfGeniture(),o=P[k],s=signOf(o.lon);
+   put((nat[AX_EN[k]]*.6+ele[elemK(s)]*.4)*condMod(k),1.5,`Senhor da genitura (${k}) em ${SIGNS[s]}`);}
+  else if(sn==="h1"){const ks=CLASSICOS.filter(p=>houseOf(P[p].lon)===1);
+   if(ks.length){const m=ks.reduce((a,k)=>a+nat[AX_EN[k]]*condMod(k),0)/ks.length;
+    put(m,2,`Na casa 1: ${ks.join(", ")}`);}}
+  else if(sn==="modes"){const tot=MO.cardinal+MO.fixo+MO.mutavel||1;
+   put((MO.cardinal*mod.cardinal+MO.fixo*mod.fixo+MO.mutavel*mod.mutavel)/tot,2,
+    `Modos entre os sete: ${MO.cardinal} cardinal · ${MO.fixo} fixo · ${MO.mutavel} mutável`);}
+  else if(sn==="elems"){const tot=EL.fogo+EL.terra+EL.ar+EL.agua||1;
+   put((EL.fogo*ele.fogo+EL.terra*ele.terra+EL.ar*ele.ar+EL.agua*ele.agua)/tot,2,
+    `Elementos entre os sete: ${EL.fogo} fogo · ${EL.terra} terra · ${EL.ar} ar · ${EL.agua} água`);}
+  else if(sn==="cadent"){const n=CLASSICOS.filter(p=>[3,6,9,12].includes(houseOf(P[p].lon))).length;
+   if(n)put(Math.min(1,n/3)*.7,1,`${n} planeta(s) em casa cadente: puxa para dentro`);}
+  else if(sn==="h12"){const ks=CLASSICOS.filter(p=>houseOf(P[p].lon)===12);
+   if(ks.length)put(Math.min(1,ks.length/2)*.8,1.2,`Na casa 12: ${ks.join(", ")} — interioriza`);}
+  else if(sn==="algol"){const st=ESTRELAS.find(e=>e.nome==="Algol");
+   if(st)put(1,3,`Algol conjunta ao Meio-do-Céu — eleva fortemente a intensidade`);}
+  else if(/^h(\d+)ruler$/.test(sn)){const hn=+sn.match(/^h(\d+)ruler$/)[1];
+   const k=rulerOfHouse(hn),o=P[k],s=signOf(o.lon);
+   put((nat[AX_EN[k]]*.6+ele[elemK(s)]*.4)*condMod(k),1.2,
+    `Regente da casa ${hn} (${k}) em ${SIGNS[s]}, casa ${houseOf(o.lon)}`);}
+  else if(AXK[sn]){const k=AXK[sn],o=P[k],s=signOf(o.lon);
+   const debs=dignity(k,o.lon).filter(t=>t[1]==="deb").map(t=>t[0]);
+   put((nat[sn]*.5+ele[elemK(s)]*.3+mod[modeK(s)]*.2)*condMod(k),2,
+    `${k} em ${SIGNS[s]}, casa ${houseOf(o.lon)}${debs.length?" ("+debs.join(", ")+")":""}`);}
+ }
+ return out;}
+/* os 48 eixos: nome, família, perfil, fontes */
+const AXES48=[
+ ["Atividade–Passividade","físico","act",["asc","ruler","moon","mars","lord","modes"]],
+ ["Rapidez–Deliberação","físico","speed",["asc","ruler","moon","mercury","lord","modes"]],
+ ["Iniciativa–Reatividade","físico","act",["asc","ruler","h1","mars","moon","modes"]],
+ ["Persistência–Variabilidade","físico","persist",["asc","ruler","moon","mars","saturn","lord"]],
+ ["Audácia–Cautela","físico","bold",["asc","ruler","mars","moon"]],
+ ["Irritabilidade–Serenidade","físico","irrit",["asc","ruler","mars","venus"]],
+ ["Intensidade–Moderação","físico","intens",["asc","ruler","venus","jupiter","lord","h1","algol"]],
+ ["Tolerância à pressão–Saturação","físico","press",["asc","ruler","moon","saturn","sun"]],
+ ["Resistência–Suscetibilidade","físico","resist",["asc","ruler","saturn","mars","moon"]],
+ ["Resiliência–Vulnerabilidade","físico","resist",["asc","ruler","sun","moon","jupiter"]],
+ ["Execução–Procrastinação","físico","act",["asc","ruler","mars","saturn","lord"]],
+ ["Autocontrole–Impulsividade","físico","selfctl",["asc","ruler","saturn","mars","moon"]],
+ ["Emotividade–Reserva afetiva","emocional","emot",["asc","ruler","moon","venus"]],
+ ["Vinculação–Desapego","emocional","bond",["asc","ruler","h7ruler","moon","venus","modes"]],
+ ["Expressividade afetiva–Reticência","emocional","express",["asc","ruler","rulerHouse","moon","mercury","h1"]],
+ ["Sensibilidade–Blindagem","emocional","sensi",["asc","ruler","moon","venus","h1"]],
+ ["Confiança–Vigilância","emocional","trust",["asc","ruler","sun","moon","mars"]],
+ ["Hedonismo–Ascetismo","emocional","hedon",["asc","ruler","venus","jupiter","saturn"]],
+ ["Generosidade–Economia","emocional","giving",["asc","ruler","jupiter","venus","h2ruler"]],
+ ["Idealismo–Pragmatismo","emocional","ideal",["asc","ruler","jupiter","moon","saturn","elems"]],
+ ["Assertividade–Conciliação","emocional","assert",["asc","ruler","mars","venus","sun"]],
+ ["Competição–Cooperação","emocional","compet",["asc","ruler","mars","venus","h7ruler"]],
+ ["Autonomia–Dependência","emocional","auton",["asc","ruler","sun","mars","h7ruler","moon"]],
+ ["Otimismo–Pessimismo","emocional","optim",["asc","ruler","jupiter","saturn","moon"]],
+ ["Abstração–Concretude","mental","abstr",["asc","ruler","elems","mercury","h1","cadent","h12"]],
+ ["Análise–Síntese","mental","analys",["asc","ruler","mercury","jupiter","saturn","moon","h3ruler","h9ruler"]],
+ ["Concentração–Dispersão","mental","concen",["asc","ruler","mercury","saturn","jupiter","moon","sun"]],
+ ["Sequencialidade–Apreensão global","mental","analys",["asc","ruler","mercury","saturn","modes"]],
+ ["Exame crítico–Receptividade simbólica","mental","analys",["asc","mercury","saturn","moon","h9ruler"]],
+ ["Retenção–Improvisação","mental","persist",["asc","ruler","saturn","mercury","moon","modes"]],
+ ["Flexibilidade cognitiva–Dogmatismo","mental","speed",["asc","ruler","mercury","jupiter","saturn","modes"]],
+ ["Imaginação simbólica–Literalidade","mental","ideal",["asc","ruler","moon","mercury","h12","elems"]],
+ ["Transparência–Reserva estratégica","mental","transp",["asc","ruler","mercury","jupiter","saturn","h12"]],
+ ["Coesão identitária–Multiplicidade","mental","cohes",["asc","ruler","sun","mercury","modes"]],
+ ["Honra–Utilidade","mental","honor",["asc","ruler","sun","jupiter","mercury"]],
+ ["Tradição–Experimentação","mental","tradi",["asc","ruler","saturn","jupiter","modes"]],
+ ["Ordem–Espontaneidade","comportamental","order",["asc","ruler","saturn","mercury","modes"]],
+ ["Disciplina–Inconstância","comportamental","order",["asc","ruler","saturn","moon","lord","modes"]],
+ ["Rigidez–Maleabilidade","comportamental","persist",["asc","ruler","saturn","mars","modes"]],
+ ["Estabilidade–Mudança","comportamental","persist",["asc","ruler","saturn","moon","elems","modes"]],
+ ["Planejamento–Ação emergente","comportamental","order",["asc","ruler","saturn","mercury","mars"]],
+ ["Controle–Entrega","comportamental","selfctl",["asc","ruler","saturn","sun","moon"]],
+ ["Perfeccionismo–Suficiência","comportamental","order",["asc","ruler","mercury","saturn","h6ruler"]],
+ ["Ambição–Contentamento","comportamental","ambit",["asc","ruler","sun","mars","h10ruler","saturn"]],
+ ["Expansão–Conservação","comportamental","expand",["asc","ruler","jupiter","saturn","modes"]],
+ ["Extroversão–Introversão","comportamental","extro",["asc","ruler","rulerHouse","lord","h1","cadent"]],
+ ["Dominação–Acomodação","comportamental","domin",["asc","ruler","rulerHouse","sun","mars"]],
+ ["Sociabilidade–Seletividade","comportamental","social",["asc","ruler","jupiter","h1","lord"]]];
+const AX_FAM={"físico":["♂","corpo, vitalidade e reação"],"emocional":["☽","afeto, vínculo e confiança"],
+ "mental":["☿","pensamento, foco e símbolo"],"comportamental":["♄","vontade, ordem e mundo"]};
+function evalAxis(cfg){
+ const [name,fam,prof,src]=cfg;
+ const [poloA,poloB]=name.split("–");
+ const M=axisMarkers(prof,src).filter(m=>Math.abs(m.dir)>.03);
+ if(!M.length)return {name,fam,poloA,poloB,pos:50,marks:[],conf:0,confLabel:"insuficiente",
+  frase:"Sem testemunhos suficientes para inclinar o eixo."};
+ const wsum=M.reduce((a,m)=>a+m.w,0);
+ const raw=M.reduce((a,m)=>a+m.dir*m.w,0)/wsum;
+ const pos=Math.round(50+raw*50);
+ const sign=raw>=0?1:-1;
+ const acordo=M.filter(m=>Math.sign(m.dir)===sign).reduce((a,m)=>a+m.w,0)/wsum;
+ const conf=Math.round((acordo*.75+Math.min(1,wsum/9)*.25)*100);
+ const confLabel=conf>=75?"alta":conf>=60?"moderada":"baixa";
+ const top=M.slice().sort((a,b)=>Math.abs(b.dir*b.w)-Math.abs(a.dir*a.w)).slice(0,3);
+ const alvo=raw>=0?poloA:poloB,grau=Math.abs(pos-50);
+ const adv=grau>=25?"nitidamente":grau>=12?"de modo consistente":"levemente";
+ const frase=`Inclina-se ${adv} a ${alvo.toLowerCase()} (${raw>=0?pos:100-pos}%): `
+  +top.slice(0,2).map(t=>t.txt.replace(/\s*\(.*?\)\s*$/,"")).join(" e ")+".";
+ return {name,fam,poloA,poloB,pos,marks:M,top,conf,confLabel,frase,raw,wsum};}
+let AXCACHE=null,axFamSel=null;
+function allAxes(){if(!AXCACHE)AXCACHE=AXES48.map(evalAxis);return AXCACHE;}
+function renderEixos(){
+ const A=allAxes();
+ const fams=Object.keys(AX_FAM);
+ $("#natal-eixos").innerHTML=`
+  <p class="sec-sub">Quarenta e oito eixos bipolares inferidos por testemunhos graduais do mapa — Ascendente, regente, planetas, regentes de casa, proporções de elemento e modo. Nenhum eixo é rótulo absoluto: os marcadores <b>empurram</b> o ponteiro, e a confiança mede o acordo entre eles. Toque numa família; cada frase é editável.</p>
+  <div class="famgrid">${fams.map(f=>{const n=A.filter(a=>a.fam===f).length;
+   return `<button class="card famc${axFamSel===f?" destaque":""}" data-fam="${f}">
+    <span class="glifo" style="--accent:#FF8A3D">${gl(AX_FAM[f][0])}</span>
+    <span class="famc-b"><b>${cap(f)}</b><em>${AX_FAM[f][1]}</em><i class="mono" style="font-size:.58rem;color:var(--neutro2)">${n} eixos</i></span></button>`;}).join("")}</div>
+  <div id="axgrid"></div>`;
+ $$("#natal-eixos .famc").forEach(el=>el.addEventListener("click",()=>{
+  axFamSel=axFamSel===el.dataset.fam?null:el.dataset.fam;renderEixos();}));
+ const box=$("#axgrid");
+ if(!axFamSel){box.innerHTML=`<p class="hint" style="text-align:center;padding:1rem 0">selecione uma família para abrir os eixos</p>`;return;}
+ box.innerHTML=A.filter(a=>a.fam===axFamSel).map(a=>{
+  const key="eixo48-"+a.name;
+  return `<div class="card axc">
+   <div class="axc-h"><span class="axc-n">${a.name}</span>
+    <span class="axc-v mono">${a.pos}% <i>· conf. ${a.confLabel}</i></span></div>
+   <div class="axc-bar"><span class="axc-mid"></span><span class="axc-dot${a.conf<60?" weak":""}" style="left:${100-a.pos}%"></span></div>
+   <div class="axc-p"><span>${a.poloA}</span><span>${a.poloB}</span></div>
+   ${editableBlock(key,a.frase)}
+   <div class="axc-m mono">${a.marks.length} testemunho(s) · peso ${a.wsum?a.wsum.toFixed(1):0}</div>
+  </div>`;}).join("");}
+
+/* ============ SAÚDE & CONSTITUIÇÃO (tendências tradicionais) ============ */
+const SIGN_CORPO=["cabeça e face","pescoço e garganta","braços, mãos e pulmões","peito e estômago",
+ "coração e coluna","ventre e intestinos","rins e região lombar","órgãos internos e eliminação",
+ "quadris e coxas","joelhos, pele e ossos","pernas e circulação","pés e sistema linfático"];
+const PL_FUNCAO={"Sol":"vitalidade, coração e calor vital","Lua":"líquidos, estômago e ritmo do sono",
+ "Mercúrio":"sistema nervoso, fala e respiração","Vênus":"rins, garganta e equilíbrio hormonal",
+ "Marte":"sangue, inflamações e musculatura","Júpiter":"fígado, nutrição e metabolismo",
+ "Saturno":"ossos, pele, dentes e processos crônicos"};
+const HUMOR_EXCESSO={"colérico":"excesso de calor e secura: tende a consumir reservas depressa, com inflamação e irritação",
+ "sanguíneo":"excesso de calor e umidade: tende à plenitude, ao congestionamento e ao excesso",
+ "melancólico":"excesso de frio e secura: tende ao ressecamento, à retenção e à lentidão",
+ "fleumático":"excesso de frio e umidade: tende ao acúmulo de líquidos, à lentidão e ao torpor"};
+function aflicoes(p){
+ const N=DATA.natal.planets,out=[];
+ for(const m of ["Marte","Saturno"]){if(m===p)continue;
+  const a=aspectsBetween(N[p].lon,N[m].lon);
+  if(a&&(a.ang===0||a.ang===90||a.ang===180))out.push({m,a});}
+ return out;}
+function renderSaude(){
+ const T=calcTemperamento(),N=DATA.natal.planets;
+ const asg=signOf(DATA.natal.houses.asc);
+ const r1="Sol",r6=rulerOfHouse(6);
+ const score={};const add=(area,w,por)=>{if(!score[area])score[area]={w:0,por:[]};score[area].w+=w;score[area].por.push(por);};
+ add(SIGN_CORPO[asg],2,"Ascendente em "+SIGNS[asg]);
+ add(SIGN_CORPO[signOf(N[r1].lon)],1.2,`regente da 1 (${r1}) em ${SIGNS[signOf(N[r1].lon)]}`);
+ add(PL_FUNCAO[r1],1,"função do regente da 1");
+ const af1=aflicoes(r1);af1.forEach(x=>add(PL_FUNCAO[r1],0.8,`${r1} em ${x.a.name.toLowerCase()} com ${x.m}`));
+ add(PL_FUNCAO[r6],2,`regente da 6 (${r6})`);
+ add(SIGN_CORPO[signOf(N[r6].lon)],1.2,`${r6} em ${SIGNS[signOf(N[r6].lon)]}`);
+ if(N[r6].speed<0)add(PL_FUNCAO[r6],0.6,`${r6} retrógrado — processos que retornam`);
+ const afLua=aflicoes("Lua");
+ add(SIGN_CORPO[signOf(N["Lua"].lon)],1.4,`Lua em ${SIGNS[signOf(N["Lua"].lon)]}`);
+ add(PL_FUNCAO["Lua"],1,"a Lua rege o corpo");
+ afLua.forEach(x=>add(PL_FUNCAO["Lua"],1,`Lua em ${x.a.name.toLowerCase()} com ${x.m}`));
+ if(T.principal==="colérico")add("calor: inflamações e febres",1.6,"compleição colérica");
+ if(T.principal==="melancólico")add("secura: retenção e rigidez",1.6,"compleição melancólica");
+ if(T.principal==="sanguíneo")add("plenitude: excessos e congestão",1.6,"compleição sanguínea");
+ if(T.principal==="fleumático")add("umidade: acúmulo e torpor",1.6,"compleição fleumática");
+ const rank=Object.entries(score).sort((a,b)=>b[1].w-a[1].w).slice(0,6);
+ const max=rank[0][1].w;
+ const barras=rank.map(([area,o])=>`<div class="tbar"><span class="tb-rot" style="width:9.5rem">${area}</span>
+  <span class="tb-trilho"><span class="tb-fill" style="width:${(o.w/max*100).toFixed(0)}%;background:${o.w/max>.75?"#E24A2B":o.w/max>.5?"#FF8A3D":"#B08A72"}"></span></span>
+  <span class="tb-val">${(o.w/max*100).toFixed(0)}%</span></div>`).join("");
+ const fontes=[
+  [`Regente da 1 — ${r1}`,`${fmtLon(N[r1].lon)}, casa ${houseOf(N[r1].lon)} · ${PL_FUNCAO[r1]}${af1.length?" · aflito por "+af1.map(x=>x.m).join(" e "):" · sem aflição dura"}`],
+  [`Regente da 6 — ${r6}`,`${fmtLon(N[r6].lon)}, casa ${houseOf(N[r6].lon)}${N[r6].speed<0?" ℞":""} · ${PL_FUNCAO[r6]}`],
+  [`Lua — o corpo`,`${fmtLon(N["Lua"].lon)}, casa ${houseOf(N["Lua"].lon)} · ${afLua.length?"aflita por "+afLua.map(x=>x.m+" ("+x.a.name.toLowerCase()+")").join(" e "):"sem aflição dura"}`],
+  [`Compleição`,`${T.principal} (${TEMP_INFO[T.principal].q}) · ${HUMOR_EXCESSO[T.principal]}`]];
+ $("#natal-saude").innerHTML=`
+  <p class="sec-sub">Constituição e suscetibilidades pela doutrina tradicional: regente da casa 1 (vitalidade), regente da casa 6 (doença), a Lua (o corpo) e a compleição — condições, aspectos e partes regidas. <b>Não diagnostica, não prevê enfermidade e não substitui médico.</b></p>
+  <div class="card destaque" style="--accent:#E24A2B">
+   <span class="tone ruim">Tendências tradicionais</span>
+   <h3><span class="glifo">${gl("♄")}</span><span>Onde o corpo pede atenção</span></h3>
+   <div style="margin-top:.7rem">${barras}</div>
+   <p class="hint" style="margin-top:.6rem">pesos relativos entre os testemunhos do próprio mapa — não são probabilidades clínicas</p>
+  </div>
+  ${fontes.map(([t,d],i)=>`<div class="card"><span class="tone info">${t}</span>
+    ${editableBlock("saude-fonte-"+i,d)}</div>`).join("")}
+  ${cardHTML({key:"saude-sintese",title:"Síntese da constituição",glyph:"✦",accent:"#5FA88B",
+   pos:`${T.principal} · regente da 1 ${r1} · regente da 6 ${r6} · Lua em ${SIGNS[signOf(N["Lua"].lon)]}`,
+   def:`Compleição ${T.principal}: ${HUMOR_EXCESSO[T.principal]}. O regente da 1 (${r1}) dignificado em ${SIGNS[signOf(N[r1].lon)]} sustenta a vitalidade; o regente da 6 (${r6}) em ${SIGNS[signOf(N[r6].lon)]}${N[r6].speed<0?", retrógrado,":""} aponta ${PL_FUNCAO[r6]} como via preferencial da doença; a Lua em ${SIGNS[signOf(N["Lua"].lon)]}${afLua.length?", aflita por "+afLua.map(x=>x.m).join(" e ")+",":""} rege o ritmo do corpo — ${SIGN_CORPO[signOf(N["Lua"].lon)]}. Regime pela grade dos seis não-naturais, corrigindo o excesso com as qualidades contrárias.`})}`;}
+
+
+/* ============ SEMANA PLANETÁRIA (signo · casa · termo, dia a dia) ============ */
+let SW={start:null,ver:"v1"};
+function swWeekData(start){
+ const days=[],rows={};
+ for(let i=0;i<7;i++){const d=new Date(start);d.setUTCDate(start.getUTCDate()+i);days.push(d);}
+ for(const p of CLASSICOS){
+  rows[p]=days.map(d=>{const lon=EPH.all(atNoon(d))[p];
+   const tm=termOf(lon);
+   return {lon,sg:signOf(lon),h:houseOf(lon),tm:tm.lord};});}
+ return {days,rows};}
+function swMud(cells,i,k){return i>0&&cells[i-1][k]!==cells[i][k];}
+function swHead(days){
+ return `<tr><th class="sw-pl"></th>${days.map(d=>{const dom=d.getUTCDay()===0;
+  return `<th class="${dom?"sw-dom":""}"><b>${String(d.getUTCDate()).padStart(2,"0")}</b><span>${WD3[d.getUTCDay()]}</span></th>`;}).join("")}</tr>`;}
+/* v1 · planilha — a estrutura do excel/escala, em clay */
+function swV1(W){
+ return `<table class="sw-t v1">${swHead(W.days)}
+  ${CLASSICOS.map(p=>`<tr><td class="sw-pl"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span>${p}</td>
+   ${W.rows[p].map((c,i)=>`<td class="${swMud(W.rows[p],i,"sg")||swMud(W.rows[p],i,"tm")||swMud(W.rows[p],i,"h")?"sw-nova":""}">
+     <b>${SIGNS[c.sg].slice(0,3)}</b><span>casa ${c.h}</span><span class="tm">termo ${GLYPH[c.tm]}</span></td>`).join("")}</tr>`).join("")}</table>`;}
+/* v2 · térmico — células tingidas pelo elemento do signo */
+function swV2(W){
+ const tint=s=>({0:"rgba(242,96,63,.16)",1:"rgba(88,179,104,.14)",2:"rgba(242,179,61,.13)",3:"rgba(79,155,232,.14)"}[s%4]);
+ return `<table class="sw-t v2">${swHead(W.days)}
+  ${CLASSICOS.map(p=>`<tr><td class="sw-pl"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span>${p}</td>
+   ${W.rows[p].map(c=>`<td style="background:${tint(c.sg)}">
+     <span class="sg" style="color:${ELEM_COLOR[c.sg]}">${SIGN_GLYPH[c.sg]}</span>
+     <span class="mini">${c.h} · ${GLYPH[c.tm]}</span></td>`).join("")}</tr>`).join("")}</table>`;}
+/* v3 · trilhos — pills compactas; mudança ganha contorno neon */
+function swV3(W){
+ return `<div class="sw-trilhos">${CLASSICOS.map(p=>`
+  <div class="sw-trilho"><span class="sw-pl"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span>${p}</span>
+   <div class="sw-pills">${W.rows[p].map((c,i)=>{
+    const mud=swMud(W.rows[p],i,"sg")||swMud(W.rows[p],i,"tm")||swMud(W.rows[p],i,"h");
+    return `<span class="sw-pill${mud?" nova":""}" title="${SIGNS[c.sg]} · casa ${c.h} · termo de ${c.tm}">
+     <i>${String(W.days[i].getUTCDate()).padStart(2,"0")}</i>${SIGN_GLYPH[c.sg]}·${c.h}·${GLYPH[c.tm]}</span>`;}).join("")}</div></div>`).join("")}
+  <p class="hint">contorno aceso = o planeta mudou de signo, casa ou termo nesse dia</p></div>`;}
+/* v4 · diário — um cartão por dia com os sete em duas colunas */
+function swV4(W){
+ return `<div class="sw-dias">${W.days.map((d,i)=>{const dom=d.getUTCDay()===0;
+  return `<div class="card sw-dia${dom?" destaque":""}">
+   <div class="sw-dh"><b>${String(d.getUTCDate()).padStart(2,"0")}</b><span>${WD[d.getUTCDay()]}</span></div>
+   <div class="sw-dl">${CLASSICOS.map(p=>{const c=W.rows[p][i];
+    return `<span class="sw-dp"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span> ${SIGN_GLYPH[c.sg]} c${c.h} ${GLYPH[c.tm]}</span>`;}).join("")}</div>
+  </div>`;}).join("")}</div>`;}
+function renderSemana(){
+ if(!SW.start)SW.start=weekStart(new Date());
+ const W=swWeekData(SW.start);
+ const we=new Date(SW.start);we.setUTCDate(SW.start.getUTCDate()+6);
+ $("#sw-titulo").textContent=`${SW.start.getUTCDate()} de ${MO3[SW.start.getUTCMonth()]} a ${we.getUTCDate()} de ${MO3[we.getUTCMonth()]} de ${we.getUTCFullYear()}`;
+ $$("#sw-seg .seg-btn").forEach(b=>b.classList.toggle("on",b.dataset.ver===SW.ver));
+ const f={v1:swV1,v2:swV2,v3:swV3,v4:swV4}[SW.ver]||swV1;
+ $("#sw-corpo").innerHTML=`<div class="sw-scroll">${f(W)}</div>`;}
+function initSemana(){
+ if(!$("#sw-corpo"))return;
+ $$("#sw-seg .seg-btn").forEach(b=>b.addEventListener("click",()=>{SW.ver=b.dataset.ver;renderSemana();}));
+ $("#sw-prev").addEventListener("click",()=>{const d=new Date(SW.start);d.setUTCDate(d.getUTCDate()-7);SW.start=d;renderSemana();});
+ $("#sw-next").addEventListener("click",()=>{const d=new Date(SW.start);d.setUTCDate(d.getUTCDate()+7);SW.start=d;renderSemana();});
+ renderSemana();}
 
 
 /* ============ PREVISÕES: AS CAMADAS DO TEMPO NO CALENDÁRIO ============ */
@@ -1850,7 +2312,7 @@ $$(".tab").forEach(b=>b.addEventListener("click",()=>{
 $$("#natal-seg .seg-btn").forEach(b=>b.addEventListener("click",()=>{
  $$("#natal-seg .seg-btn").forEach(x=>x.classList.remove("on"));
  b.classList.add("on");
- const map={planetas:"#natal-planetas",casas:"#natal-casas",aspectos:"#natal-aspectos",estrelas:"#natal-estrelas",temperamento:"#natal-temperamento"};
+ const map={planetas:"#natal-planetas",casas:"#natal-casas",aspectos:"#natal-aspectos",estrelas:"#natal-estrelas",temperamento:"#natal-temperamento",saude:"#natal-saude",eixos:"#natal-eixos"};
  Object.values(map).forEach(sel=>$(sel).style.display="none");
  $(map[b.dataset.sub]).style.display="block";
 }));
@@ -1863,7 +2325,7 @@ function setTransNow(){const n=new Date();const pad=x=>String(x).padStart(2,"0")
 (async function boot(){
  $$(".tab .ico").forEach(el=>{el.textContent=gl(el.textContent);});
  await loadNotes();
- initSync();renderInicio();initForecast();renderNatal();renderTemperamento();renderTempo();setTransNow();renderTransitos();renderGuia();
+ initSync();renderInicio();initForecast();renderNatal();renderTemperamento();renderSaude();renderEixos();initSemana();renderTempo();setTransNow();renderTransitos();renderGuia();
  buildGraph();initAssoc();initGraphEvents();graphLoop();
  setInterval(()=>{if(!document.querySelector("#pane-inicio .edit-area.on"))renderInicio();},60000);
 })();
