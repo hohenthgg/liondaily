@@ -183,6 +183,8 @@ section.pane.on{display:block;animation:fade .3s ease}
 /* ---------- segmentado / sub-abas ---------- */
 .seg{display:flex;gap:.2rem;background:var(--barro2);border-radius:20px;padding:.3rem;box-shadow:var(--clay);margin:0 auto 1rem;
   overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+#natal-seg{flex-wrap:wrap;overflow:visible;justify-content:center}
+#natal-seg .seg-btn{flex:0 1 auto}
 .seg::-webkit-scrollbar{display:none}
 .seg-btn{background:none;border:none;color:var(--neutro);font-family:var(--f-mono);font-size:.66rem;letter-spacing:.04em;
   padding:.55rem .85rem;border-radius:16px;white-space:nowrap;flex:1 0 auto;transition:color .2s,box-shadow .2s,background .2s}
@@ -315,6 +317,21 @@ table.mini td:last-child{text-align:right;color:var(--neon-palha)}
 .sw-dp{font-family:var(--f-mono);font-size:.66rem;color:var(--luz2)}
 .sw-dp .g{font-family:var(--f-body);font-size:.85rem}
 
+/* ---------- chips de planetas (natal) ---------- */
+.pl-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.55rem;margin:.9rem 0 1rem}
+.pl-chip{display:flex;flex-direction:column;align-items:center;gap:.25rem;background:var(--barro2);border:none;
+  border-radius:16px;padding:.65rem .2rem;box-shadow:var(--clay-sm);transition:box-shadow .15s,color .15s}
+.pl-chip .g{font-size:1.35rem;font-family:var(--f-body);color:var(--accent,var(--luz2));line-height:1}
+.pl-chip span:last-child{font-family:var(--f-mono);font-size:.5rem;color:var(--neutro);letter-spacing:.03em}
+.pl-chip.on{box-shadow:var(--clay-neon)}
+.pl-chip.on span:last-child{color:var(--neon-claro)}
+details.bloco>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:.5rem}
+details.bloco>summary::-webkit-details-marker{display:none}
+details.bloco>summary .rot{margin-bottom:0}
+details.bloco>summary::after{content:"+";margin-left:auto;color:var(--neutro);font-family:var(--f-mono);font-size:.85rem}
+details.bloco[open]>summary::after{content:"−"}
+details.bloco>*:not(summary){margin-top:.55rem}
+
 /* ---------- barras de temperamento ---------- */
 .tbar{display:flex;align-items:center;gap:.5rem;margin:.34rem 0}
 .tb-rot{font-family:var(--f-mono);font-size:.6rem;color:var(--neutro);width:5.4rem;flex:0 0 auto}
@@ -378,27 +395,11 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
     <div class="hero-l" id="lua-agora">…</div>
     <div class="hero-l sol" id="sol-agora">…</div>
     <div class="fase" id="fase-lua">…</div>
+    <div id="lua-triade"></div>
     <p class="sintese" id="sintese-agora">…</p>
   </div>
 
   <div class="ctx-strip" id="ctx-strip"></div>
-
-  <h2 class="sec-title">Previsões &amp; recomendações</h2>
-  <p class="sec-sub">Navegue pelo calendário e veja as camadas do tempo vigentes em qualquer data: firdaria, subfirdaria, profecção e revolução solar — e o aviso quando alguma vira no período.</p>
-  <div class="seg" id="fc-seg">
-    <button class="seg-btn on" data-mode="dia">Diário</button>
-    <button class="seg-btn" data-mode="semana">Semanal</button>
-    <button class="seg-btn" data-mode="mes">Mensal</button>
-  </div>
-  <div class="fc-cal">
-    <div class="fc-nav">
-      <button class="fc-arrow" id="fc-prev" aria-label="anterior">‹</button>
-      <div class="fc-title" id="fc-cal-title">…</div>
-      <button class="fc-arrow" id="fc-next" aria-label="próximo">›</button>
-    </div>
-    <div id="fc-cal-body"></div>
-  </div>
-  <div id="fc-cards"></div>
 
   <h2 class="sec-title">O momento, em camadas</h2>
   <p class="sec-sub">Firdaria, subfirdaria, profecção anual e revolução solar vigentes — a lente pela qual todo trânsito deve ser lido.</p>
@@ -445,6 +446,11 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
 <section class="pane" id="pane-tempo">
   <div class="tl-top"><h2 class="tl-brand">Timeline</h2><span class="tl-hoje">HOJE</span></div>
   <p class="tl-sub">O que se move agora guia a próxima escolha</p>
+  <div class="fc-nav" style="margin:0 0 .7rem">
+    <button class="fc-arrow" id="tl-prev" aria-label="dia anterior">‹</button>
+    <div class="fc-title" id="tl-data">…</div>
+    <button class="fc-arrow" id="tl-next" aria-label="dia seguinte">›</button>
+  </div>
   <div class="card tl-info" id="tl-info"></div>
   <div class="card" style="padding:1rem .6rem .8rem" id="tl-orbital"></div>
   <div class="tl-grid" id="tl-cards"></div>
@@ -453,15 +459,9 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
   <div class="card" id="tl-conv"></div>
   <div class="card tl-disc">Convergência interna entre técnicas: ordena o que olhar primeiro — não é probabilidade de evento.</div>
 
-  <h2 class="sec-title">Linha da vida — firdaria inteira</h2>
-  <p class="sec-sub">Mapa noturno: a sequência abre com a Lua. Toque num período para ver as subfirdarias.</p>
-  <div class="fird-band" id="fird-band"></div>
-  <div class="hoje-legenda" id="fird-legenda"></div>
-  <div id="fird-detail"></div>
   <h2 class="sec-title">Profecções &amp; revoluções solares</h2>
-  <p class="sec-sub">Cada célula é um ano de vida, de aniversário a aniversário. Toque para a leitura combinada.</p>
+  <p class="sec-sub">Cada célula é um ano de vida. Toque num ano e a leitura combinada abre em uma carta.</p>
   <div class="years-grid" id="years-grid"></div>
-  <div id="year-detail"></div>
 </section>
 
 <!-- ==================== TRÂNSITOS ==================== -->
@@ -857,29 +857,33 @@ function interpLord(prefixo,lord){
 
 /* ---------- componente orbital (camadas concêntricas) ---------- */
 function orbitalSVG(nodes,centerLines){
- const size=340,C=size/2,RC=56,rings=[88,114,140,163];
- let s=`<svg viewBox="0 0 ${size} ${size}" style="width:100%;height:auto;display:block" role="img" aria-label="Camadas do tempo em órbitas concêntricas">`;
- rings.forEach((r,i)=>{s+=`<circle cx="${C}" cy="${C}" r="${r}" fill="none" stroke="rgba(255,138,61,${.12+i*.02})" stroke-width="1"/>`;
+ const W=400,C=200,RC=58,rings=[82,106,130,152];
+ let s=`<svg viewBox="0 0 ${W} ${W}" style="width:100%;height:auto;display:block" role="img" aria-label="Camadas do tempo em órbitas concêntricas">`;
+ rings.forEach((r,i)=>{s+=`<circle cx="${C}" cy="${C}" r="${r}" fill="none" stroke="rgba(255,138,61,${.13+i*.02})" stroke-width="1"/>`;
   for(let k=0;k<24;k++){const a=(k/24)*Math.PI*2;
-   s+=`<circle cx="${C+r*Math.cos(a)}" cy="${C+r*Math.sin(a)}" r=".7" fill="rgba(255,178,122,.22)"/>`;}});
+   s+=`<circle cx="${C+r*Math.cos(a)}" cy="${C+r*Math.sin(a)}" r=".7" fill="rgba(255,178,122,.2)"/>`;}});
  s+=`<circle cx="${C}" cy="${C}" r="${RC+7}" fill="none" stroke="rgba(255,92,0,.3)" stroke-width="7" opacity=".45"/>`;
  s+=`<circle cx="${C}" cy="${C}" r="${RC}" fill="#241812" stroke="rgba(255,138,61,.7)" stroke-width="1.4"/>`;
  centerLines.forEach((ln,i)=>{
-  s+=`<text x="${C}" y="${C+(i-(centerLines.length-1)/2)*16}" text-anchor="middle" dominant-baseline="central" fill="${i===0?"#FF8A3D":"#FFEDE0"}" font-size="${i===0?9.5:12.5}" font-family="Spline Sans Mono,monospace"${i===0?' letter-spacing="3"':''}>${ln}</text>`;});
+  s+=`<text x="${C}" y="${C+(i-(centerLines.length-1)/2)*16}" text-anchor="middle" dominant-baseline="central" fill="${i===0?"#FF8A3D":"#FFEDE0"}" font-size="${i===0?9.5:12}" font-family="Spline Sans Mono,monospace"${i===0?' letter-spacing="3"':''}>${ln}</text>`;});
  for(const n of nodes){
   const r=rings[n.ring],a=(n.angle-90)*Math.PI/180;
   const x=C+r*Math.cos(a),y=C+r*Math.sin(a);
-  s+=`<circle cx="${x}" cy="${y}" r="17" fill="#241812" stroke="${n.color}" stroke-width="1.5"/>`;
-  s+=`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" fill="${n.color}" font-size="15">${n.glyph}</text>`;}
+  s+=`<circle cx="${x}" cy="${y}" r="16" fill="#241812" stroke="${n.color}" stroke-width="1.5"/>`;
+  s+=`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" fill="${n.color}" font-size="14">${n.glyph}</text>`;
+  /* legenda do nó: rótulo em cima do valor, sempre para dentro do quadro */
+  const acima=n.angle>240||n.angle<120;
+  const ly=acima?y+30:y-40;
+  s+=`<text x="${x}" y="${ly}" text-anchor="middle" fill="rgba(176,138,114,.95)" font-size="7.5" letter-spacing="2" font-family="Spline Sans Mono,monospace">${n.label.toUpperCase()}</text>`;
+  s+=`<text x="${x}" y="${ly+12}" text-anchor="middle" fill="${n.color}" font-size="10.5" font-family="Spline Sans Mono,monospace">${n.value}</text>`;}
  s+=`</svg>`;return s;}
 function camadaNodes(fd,p,sr){
  return [
-  {glyph:GLYPH[fd.major.lord],color:PLANET_COLOR[fd.major.lord],ring:3,angle:0},
-  fd.sub?{glyph:GLYPH[fd.sub.lord],color:PLANET_COLOR[fd.sub.lord],ring:2,angle:270}:null,
-  {glyph:String(p.house),color:"#FF8A3D",ring:1,angle:90},
-  sr?{glyph:SIGN_GLYPH[signOf(sr.asc)],color:ELEM_COLOR[signOf(sr.asc)],ring:0,angle:180}:null
+  {glyph:GLYPH[fd.major.lord],color:PLANET_COLOR[fd.major.lord],ring:3,angle:0,label:"firdária",value:fd.major.lord},
+  fd.sub?{glyph:GLYPH[fd.sub.lord],color:PLANET_COLOR[fd.sub.lord],ring:2,angle:270,label:"subfirdária",value:fd.sub.lord}:null,
+  {glyph:String(p.house),color:"#FF8A3D",ring:2,angle:90,label:"profecção",value:"casa "+p.house},
+  sr?{glyph:SIGN_GLYPH[signOf(sr.asc)],color:ELEM_COLOR[signOf(sr.asc)],ring:3,angle:180,label:"revolução",value:SIGNS[signOf(sr.asc)]}:null
  ].filter(Boolean);}
-
 function dignity(p,lon){const s=SIGNS[signOf(lon)];const tags=[];
  if(DOMS[p]&&DOMS[p].includes(s))tags.push(["domicílio","dig"]);
  if(EXALT[p]===s)tags.push(["exaltação","dig"]);
@@ -1167,7 +1171,17 @@ function renderInicio(){
   </div>`;
  }
  const fd=firdariaAt(now),p=profectionAt(now),sr=solarReturnAt(now);
- const sintDefault=`Com a Lua em ${moonSign} na sua casa ${moonHouse} — ${CASA_ASSUNTO[moonHouse]} —, o clima do dia toca esses assuntos no corpo e no humor. O Sol em ${sunSign} ilumina a casa ${sunHouse}: ${CASA_ASSUNTO[sunHouse]}. É aí que a vida pede presença.`;
+ /* tríade da Lua: luz → receptáculo → dispositor */
+ const disp=RULERS[moonSign],dO=DATA.natal.planets[disp];
+ const dCasas=REGE[disp]||[];
+ const tri=$("#lua-triade");
+ if(tri)tri.innerHTML=`<div class="bloco" style="text-align:left"><span class="rot">Tríade da Lua · luz → receptáculo → dispositor</span>
+   <div class="rege-lista">
+    <div class="rege-item"><span class="hn">${gl("☉")} luz</span><span>o Sol em ${sunSign} (casa ${sunHouse}) é a fonte que emite</span></div>
+    <div class="rege-item"><span class="hn">${gl("☽")} receptáculo</span><span>a Lua em ${moonSign} (casa ${moonHouse}), ${f.nome.toLowerCase()}, recebe e verte a luz</span></div>
+    <div class="rege-item"><span class="hn">${gl(GLYPH[disp].replace(VS,""))} dispositor</span><span><b>${disp}</b>, senhor de ${moonSign}, administra: natal a ${fmtLon(dO.lon)} (casa ${houseOf(dO.lon)})${dCasas.length?", regendo "+dCasas.map(h=>"a "+h).join(" e "):""}</span></div>
+   </div></div>`;
+ const sintDefault=`A Lua é o receptáculo da luz solar: recebe a luz do Sol em ${sunSign} e a veste com ${moonSign}, tingindo o dia com ${CASA_ASSUNTO[moonHouse]}. Mas quem administra essa luz é ${disp}, o dispositor — natal na casa ${houseOf(dO.lon)}${dCasas.length?", senhor de "+dCasas.map(h=>CASA_CURTO[h]).join(" e de "):""}. Síntese: o clima entra pela casa ${moonHouse}, e escoa para os assuntos de ${disp}.`;
  $("#sintese-agora").textContent=noteKey("sintese-inicio")||sintDefault;
  $("#ctx-strip").innerHTML=[
   `<span class="chip">firdaria <b>${fd.major.lord}</b>${fd.sub?` · subfirdaria <b>${fd.sub.lord}</b>`:""}</span>`,
@@ -1178,8 +1192,7 @@ function renderInicio(){
  const orbEl=$("#camadas-orbital");
  if(orbEl){
   const dataStr=now.toLocaleDateString("pt-BR"),idadeStr=Math.floor(ageAt(now))+" anos";
-  orbEl.innerHTML=`<div class="card" style="padding:1rem .6rem .9rem">${orbitalSVG(camadaNodes(fd,p,sr),["AGORA",dataStr,idadeStr])}
-   <div class="orb-leg"><b style="color:${PLANET_COLOR[fd.major.lord]}">● firdaria</b>${fd.sub?`<b style="color:${PLANET_COLOR[fd.sub.lord]}">● subfirdaria</b>`:""}<b style="color:#FF8A3D">● profecção</b>${sr?`<b style="color:${ELEM_COLOR[signOf(sr.asc)]}">● revolução</b>`:""}</div></div>`;
+  orbEl.innerHTML=`<div class="card" style="padding:.8rem .45rem .55rem">${orbitalSVG(camadaNodes(fd,p,sr),["AGORA",dataStr,idadeStr])}</div>`;
  }
  const cards=[];
  cards.push(cardHTML({key:"camada-fird-"+fd.major.lord,title:"Firdaria de "+fd.major.lord,glyph:GLYPH[fd.major.lord],
@@ -1219,35 +1232,41 @@ function blocoRegencia(p){
  const casas=REGE[p];if(!casas||!casas.length)return "";
  const itens=casas.map(h=>`<div class="rege-item"><span class="hn">casa ${h}</span><span>${CASA_ASSUNTO[h]}</span></div>`).join("");
  const assuntos=casas.map(h=>CASA_CURTO[h]).join(", e ainda ");
- return `<div class="bloco"><span class="rot">Rege · significador de</span>
+ return `<details class="bloco" open><summary><span class="rot">Rege · significador de</span></summary>
    <div class="rege-lista">${itens}</div>
-   <p style="margin-top:.6rem;font-size:.84rem;color:var(--neutro)">Sempre que ${p} for tocado — por trânsito, direção ou revolução — os assuntos de ${assuntos} entram em cena.</p></div>`;}
+   <p style="margin-top:.6rem;font-size:.84rem;color:var(--neutro)">Sempre que ${p} for tocado — por trânsito, direção ou revolução — os assuntos de ${assuntos} entram em cena.</p></details>`;}
 function blocoOlavo(p,h){
  const o=OLAVO[p+"-"+h];
- if(!o)return `<div class="bloco"><span class="rot">Planetas nas casas · Olavo de Carvalho</span>
-   <p style="font-size:.84rem;color:var(--neutro)">O livro trata de Sol, Lua, Vênus, Marte, Júpiter e Saturno; não há capítulo para ${p}. A função mercurial aparece ali sob a Casa III — pensamento, signo e linguagem.</p></div>`;
- return `<div class="bloco"><span class="rot">Planetas nas casas · Olavo de Carvalho</span>${editableBlock("olavo-"+p+"-"+h,o)}</div>`;}
+ if(!o)return `<details class="bloco"><summary><span class="rot">Planetas nas casas · Olavo de Carvalho</span></summary>
+   <p style="font-size:.84rem;color:var(--neutro)">O livro trata de Sol, Lua, Vênus, Marte, Júpiter e Saturno; não há capítulo para ${p}. A função mercurial aparece ali sob a Casa III — pensamento, signo e linguagem.</p></details>`;
+ return `<details class="bloco"><summary><span class="rot">Planetas nas casas · Olavo de Carvalho</span></summary>${editableBlock("olavo-"+p+"-"+h,o)}</details>`;}
 function blocoBarbault(p){
  const sg=BARBAULT_SIGNO[p],cs=BARBAULT_CASA[p];let out="";
- if(sg)out+=`<div class="bloco"><span class="rot">Barbault · ${p} em ${sg[0]}</span>${editableBlock("barb-sg-"+p,sg[1])}</div>`;
- if(cs)out+=`<div class="bloco"><span class="rot">Barbault · ${p} na casa ${cs[0]}</span>${editableBlock("barb-cs-"+p,cs[1])}</div>`;
+ if(sg)out+=`<details class="bloco"><summary><span class="rot">Barbault · ${p} em ${sg[0]}</span></summary>${editableBlock("barb-sg-"+p,sg[1])}</details>`;
+ if(cs)out+=`<details class="bloco"><summary><span class="rot">Barbault · ${p} na casa ${cs[0]}</span></summary>${editableBlock("barb-cs-"+p,cs[1])}</details>`;
  return out;}
 
+let selPlaneta="Sol";
 function renderNatal(){
  const N=DATA.natal.planets,H=DATA.natal.houses;
  const ca=acContatos(2.5);
  const caTxt=ca.length?ca.map(x=>`${x.a} ${x.tipo} ${x.b} (${grausMin(x.orb)})`).join("; "):"nenhum contato dentro de 2°30′";
  $("#natal-resumo").innerHTML=`Nascimento noturno · Ascendente <b style="color:var(--neon-claro)">${fmtLon(H.asc)}</b> · Meio-do-Céu ${fmtLon(H.mc)} · Sol em ${SIGNS[signOf(N["Sol"].lon)]}, Lua em ${SIGNS[signOf(N["Lua"].lon)]}. Casas Placidus.`;
- /* --- planetas --- */
- $("#natal-planetas").innerHTML=ORDEM_NATAL.map(p=>{
-  const o=N[p];const h=houseOf(o.lon);const digs=dignity(p,o.lon);
+ /* --- planetas: chips lado a lado; card abre ao toque --- */
+ const N2=N;
+ const abrev=p=>p==="Nodo Norte"?"Nodo N":p==="Nodo Sul"?"Nodo S":p==="Fortuna"?"Fortuna":p;
+ $("#natal-planetas").innerHTML=`<div class="pl-grid">${ORDEM_NATAL.map(pp=>
+   `<button class="pl-chip${pp===selPlaneta?" on":""}" data-pl="${pp}" style="--accent:${PLANET_COLOR[pp]}">
+     <span class="g">${GLYPH[pp]}</span><span>${abrev(pp)}</span></button>`).join("")}</div>
+  <div id="pl-card"></div>`;
+ $$("#natal-planetas .pl-chip").forEach(el=>el.addEventListener("click",()=>{selPlaneta=el.dataset.pl;renderNatal();}));
+ (function(){const pp=selPlaneta,o=N2[pp];const h=houseOf(o.lon);const digs=dignity(pp,o.lon);
   const rx=o.speed<0?' <span class="rx">℞</span>':"";
-  const base=`${T_PLANETA[p]} Na casa ${h}: ${CASA_ASSUNTO[h]}.`;
-  const extra=(CLASSICOS.includes(p)?blocoRegencia(p)+blocoOlavo(p,h)+blocoBarbault(p):blocoRegencia(p));
-  return cardHTML({key:"natal-pl-"+p,title:p,glyph:GLYPH[p],accent:PLANET_COLOR[p],
+  const base=`${T_PLANETA[pp]} Na casa ${h}: ${CASA_ASSUNTO[h]}.`;
+  const extra=(CLASSICOS.includes(pp)?blocoRegencia(pp)+blocoOlavo(pp,h)+blocoBarbault(pp):blocoRegencia(pp));
+  $("#pl-card").innerHTML=cardHTML({key:"natal-pl-"+pp,title:pp,glyph:GLYPH[pp],accent:PLANET_COLOR[pp],
    pos:`${fmtLon(o.lon)}${rx} · casa ${h}`,def:base,extra,
-   tags:[...digs,[`casa ${h}`,""],...(REGE[p]?[[`rege ${REGE[p].map(x=>"casa "+x).join(" e ")}`,"gold"]]:[])]});
- }).join("");
+   tags:[...digs,[`casa ${h}`,""],...(REGE[pp]?[[`rege ${REGE[pp].map(x=>"casa "+x).join(" e ")}`,"gold"]]:[])]});})();
  /* --- casas --- */
  $("#natal-casas").innerHTML=Array.from({length:12},(_,i)=>{
   const h=i+1;const sg=signOfHouse(h);const ruler=rulerOfHouse(h);
@@ -1295,9 +1314,12 @@ function renderNatal(){
 }
 
 /* ============ TIMELINE ============ */
+let TL={cursor:new Date()};
 function renderTimeline(){
- const now=new Date(),fd=firdariaAt(now),p=profectionAt(now),sr=solarReturnAt(now);
- const idade=Math.floor(ageAt(now));
+ const now=TL.cursor,fd=firdariaAt(now),p=profectionAt(now),sr=solarReturnAt(now);
+ const tld=$("#tl-data");
+ if(tld)tld.textContent=now.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+const idade=Math.floor(ageAt(now));
  $("#tl-info").innerHTML=`<div><span>Data</span><b>${now.toLocaleDateString("pt-BR")}</b></div>
   <div><span>Idade</span><b>${idade} anos</b></div>
   <div><span>Retorno</span><b>Solar ${sr?sr.year:"—"}</b></div>`;
@@ -1350,62 +1372,31 @@ function renderTimeline(){
 }
 
 /* ============ LINHA DO TEMPO ============ */
-let selFird=null,selYear=null;
+let selFirdX=null;
 function renderTempo(){
  renderTimeline();
- const nowAge=ageAt(new Date());
- const band=$("#fird-band");const LIM=105;
- band.innerHTML=DATA.firdaria.map((f,i)=>{
-  if(f.start_age>=LIM)return "";
-  const yrs=Math.min(f.end_age,LIM)-f.start_age;
-  const w=(yrs/LIM)*100;
-  const isNow=nowAge>=f.start_age&&nowAge<f.end_age;
-  return `<button class="fird-seg${isNow?" now":""}" data-i="${i}" style="flex:0 0 ${w}%;background:${PLANET_COLOR[f.lord]}" title="${f.lord} · ${f.start_age}–${f.end_age} anos">${GLYPH[f.lord]}</button>`;
- }).join("");
- band.querySelectorAll(".fird-seg").forEach(el=>el.addEventListener("click",()=>{selFird=+el.dataset.i;renderFirdDetail();}));
- const fNow=firdariaAt(new Date());
- $("#fird-legenda").textContent=`hoje: ${nowAge.toFixed(1)} anos · firdaria de ${fNow.major.lord}${fNow.sub?` · subfirdaria de ${fNow.sub.lord}`:""}`;
- if(selFird===null)selFird=DATA.firdaria.indexOf(fNow.major);
- renderFirdDetail();
  $("#years-grid").innerHTML=DATA.returns.map(r=>{
   const p=DATA.profections[r.age];
-  return `<button class="yr${selYear===r.age?" sel":""}" data-age="${r.age}">
+  return `<button class="yr" data-age="${r.age}">
     <div class="y">${r.year}</div><div class="a">idade ${r.age}</div><div class="h">c.${p.house} ${SIGN_GLYPH[SIGNS.indexOf(p.sign)]}</div></button>`;
  }).join("");
- $$(".yr").forEach(el=>el.addEventListener("click",()=>{selYear=+el.dataset.age;renderTempo();renderYearDetail();}));
- if(selYear===null){selYear=Math.floor(nowAge);renderTempo();renderYearDetail();}
+ $$(".yr").forEach(el=>el.addEventListener("click",()=>abrirAno(+el.dataset.age)));
 }
-function renderFirdDetail(){
- const f=DATA.firdaria[selFird];if(!f)return;
- const nowAge=ageAt(new Date());
- let subs="";
- if(f.subs.length){
-  subs=`<div class="sub-band">`+f.subs.map(s=>{
-   const isNow=nowAge>=s.start_age&&nowAge<s.end_age;
-   return `<div class="fird-seg${isNow?" now":""}" style="flex:1;background:${PLANET_COLOR[s.lord]}" title="${s.lord}">${GLYPH[s.lord]}</div>`;}).join("")+`</div>
-   <table class="mini">`+f.subs.map(s=>`<tr><td>${GLYPH[s.lord]} ${s.lord}</td><td>${s.start} → ${s.end}</td><td>${s.start_age.toFixed(1)}–${s.end_age.toFixed(1)}a</td></tr>`).join("")+`</table>`;}
- else subs=`<p class="sec-sub" style="margin-top:.5rem">Os períodos dos nodos não se subdividem.</p>`;
- $("#fird-detail").innerHTML=`<div class="card">
-   <h3><span class="glifo" style="--accent:${PLANET_COLOR[f.lord]}">${gl(GLYPH[f.lord])}</span><span>Firdaria de ${f.lord}</span></h3>
-   <div class="pos">${f.start} → ${f.end} · idades ${f.start_age}–${f.end_age}</div>
-   ${editableBlock("fird-"+f.lord+"-"+f.start_age,T_FIRD[f.lord]||"")}
-   ${subs}</div>`;
-}
-function renderYearDetail(){
- const r=DATA.returns.find(x=>x.age===selYear);if(!r)return;
- const p=DATA.profections[r.age];
+function abrirAno(age){
+ const r=DATA.returns.find(x=>x.age===age);if(!r)return;
+ const p=DATA.profections[age];
  const mid=new Date(Date.UTC(r.year,7,18));const fd=firdariaAt(mid);
  const fdEnd=firdariaAt(new Date(Date.UTC(r.year+1,7,10)));
  const plRows=Object.entries(r.planets).filter(([k])=>CLASSICOS.includes(k)||k==="Nodo Norte")
    .map(([k,v])=>`<tr><td>${GLYPH[k]} ${k}</td><td>${fmtLon(v)}</td><td>casa ${houseOf(v)}</td></tr>`).join("");
- const def=`Ano ${r.year}/${r.year+1} (idade ${r.age}): profecção da casa ${p.house} em ${p.sign} — ${CASA_ASSUNTO[p.house]}. O senhor do ano é ${p.lord}. Firdaria vigente: ${fd.major.lord}${fd.sub?` / ${fd.sub.lord}`:""}${fdEnd.major.lord!==fd.major.lord?` (muda para ${fdEnd.major.lord} durante o ano)`:""}. O Ascendente da revolução em ${SIGNS[signOf(r.asc)]} joga o palco do ano na sua casa ${houseOf(r.asc)} natal.`;
- $("#year-detail").innerHTML=`<div class="card">
-   <h3><span class="glifo">${gl("☉")}</span><span>${r.year} — idade ${r.age}</span></h3>
-   <div class="pos">revolução de ${r.utc} · profecção casa ${p.house} (${p.sign}, senhor ${p.lord}) · ASC RS ${fmtLon(r.asc)} · MC RS ${fmtLon(r.mc)}</div>
-   ${editableBlock(`ano-${r.year}`,def)}
-   <table class="mini">${plRows}</table></div>`;
+ const def=`Ano ${r.year}/${r.year+1} (idade ${age}): profecção da casa ${p.house} em ${p.sign} — ${CASA_EVOCA[p.house]}. O senhor do ano é ${p.lord}, ${NATURE[p.lord]}. Firdaria vigente: ${fd.major.lord}${fd.sub?` / ${fd.sub.lord}`:""}${fdEnd.major.lord!==fd.major.lord?` (muda para ${fdEnd.major.lord} durante o ano)`:""}. O Ascendente da revolução em ${SIGNS[signOf(r.asc)]} joga o palco do ano na sua casa ${houseOf(r.asc)} natal.`;
+ abrirCartaHTML(`<span class="sub">idade ${age} · revolução de ${r.utc}</span><h3>${r.year} — ${p.sign}, casa ${p.house}</h3>
+  <div class="pos" style="font-family:var(--f-mono);font-size:.68rem;color:var(--neutro);margin-bottom:.6rem">
+   profecção casa ${p.house} (senhor ${p.lord}) · firdaria ${fd.major.lord}${fd.sub?"/"+fd.sub.lord:""} · ASC RS ${fmtLon(r.asc)} · MC RS ${fmtLon(r.mc)}</div>
+  <div style="position:relative">${editableBlock("ano-"+r.year,def)}</div>
+  <table class="mini">${plRows}</table>
+  <button class="fechar" onclick="fecharCarta()">fechar carta</button>`);
 }
-
 /* ============ TRÂNSITOS ============ */
 function renderTransitos(dt){
  const date=dt||new Date();
@@ -1511,13 +1502,16 @@ function renderGuia(){
  $$(".guia-item").forEach(el=>el.addEventListener("click",()=>abrirCarta(el.dataset.carta)));
  $("#carta-veu").addEventListener("click",e=>{if(e.target.id==="carta-veu")fecharCarta();});
 }
+function abrirCartaHTML(html){
+ $("#carta-corpo").innerHTML=html;
+ $("#carta-veu").classList.add("on");document.body.style.overflow="hidden";
+}
 function abrirCarta(k){
  const c=CARTAS[k];if(!c)return;
- $("#carta-corpo").innerHTML=`<span class="sub">${c.sub}</span><h3>${c.t}</h3>
+ abrirCartaHTML(`<span class="sub">${c.sub}</span><h3>${c.t}</h3>
   <p>${c.intro}</p>
   ${c.itens.map(([g,tt,tx])=>`<div class="item"><span class="g">${gl(g)}</span><span class="t"><b>${tt}</b><span>${tx}</span></span></div>`).join("")}
-  <button class="fechar" onclick="fecharCarta()">fechar carta</button>`;
- $("#carta-veu").classList.add("on");document.body.style.overflow="hidden";
+  <button class="fechar" onclick="fecharCarta()">fechar carta</button>`);
 }
 window.fecharCarta=()=>{$("#carta-veu").classList.remove("on");document.body.style.overflow="";};
 
@@ -1987,7 +1981,7 @@ function swWeekData(start){
 function swMud(cells,i,k){return i>0&&cells[i-1][k]!==cells[i][k];}
 function swHead(days){
  return `<tr><th class="sw-pl"></th>${days.map(d=>{const dom=d.getUTCDay()===0;
-  return `<th class="${dom?"sw-dom":""}"><b>${String(d.getUTCDate()).padStart(2,"0")}</b><span>${WD3[d.getUTCDay()]}</span></th>`;}).join("")}</tr>`;}
+  return `<th class="${dom?"sw-dom":""} sw-click" data-ts="${d.getTime()}"><b>${String(d.getUTCDate()).padStart(2,"0")}</b><span>${WD3[d.getUTCDay()]}</span></th>`;}).join("")}</tr>`;}
 /* v1 · planilha — a estrutura do excel/escala, em clay */
 function swV1(W){
  return `<table class="sw-t v1">${swHead(W.days)}
@@ -2014,7 +2008,7 @@ function swV3(W){
 /* v4 · diário — um cartão por dia com os sete em duas colunas */
 function swV4(W){
  return `<div class="sw-dias">${W.days.map((d,i)=>{const dom=d.getUTCDay()===0;
-  return `<div class="card sw-dia${dom?" destaque":""}">
+  return `<div class="card sw-dia sw-click${dom?" destaque":""}" data-ts="${d.getTime()}">
    <div class="sw-dh"><b>${String(d.getUTCDate()).padStart(2,"0")}</b><span>${WD[d.getUTCDay()]}</span></div>
    <div class="sw-dl">${CLASSICOS.map(p=>{const c=W.rows[p][i];
     return `<span class="sw-dp"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span> ${SIGN_GLYPH[c.sg]} c${c.h} ${GLYPH[c.tm]}</span>`;}).join("")}</div>
@@ -2026,7 +2020,31 @@ function renderSemana(){
  $("#sw-titulo").textContent=`${SW.start.getUTCDate()} de ${MO3[SW.start.getUTCMonth()]} a ${we.getUTCDate()} de ${MO3[we.getUTCMonth()]} de ${we.getUTCFullYear()}`;
  $$("#sw-seg .seg-btn").forEach(b=>b.classList.toggle("on",b.dataset.ver===SW.ver));
  const f={v1:swV1,v2:swV2,v3:swV3,v4:swV4}[SW.ver]||swV1;
- $("#sw-corpo").innerHTML=`<div class="sw-scroll">${f(W)}</div>`;}
+ $("#sw-corpo").innerHTML=`<div class="sw-scroll">${f(W)}</div><p class="hint" style="margin-top:.4rem">toque num dia para o panorama completo</p>`;
+ $$("#sw-corpo .sw-click").forEach(el=>el.addEventListener("click",()=>abrirDiaSemana(+el.dataset.ts)));}
+/* panorama do dia: céu completo, mudanças e camadas */
+function abrirDiaSemana(ts){
+ const d=new Date(ts),noon=atNoon(d),t=EPH.all(noon);
+ const ontem=EPH.all(new Date(noon.getTime()-864e5));
+ const ph=faseDe(noon),fd=firdariaAt(noon),p=profectionAt(noon);
+ const linhas=CLASSICOS.map(pl=>{
+  const lon=t[pl],sg=signOf(lon),h=houseOf(lon),tm=termOf(lon);
+  return `<div class="item"><span class="g" style="color:${PLANET_COLOR[pl]}">${GLYPH[pl]}</span>
+   <span class="t"><b>${pl} — ${SIGNS[sg]} ${fmtCurto(lon)}</b>
+   <span>casa ${h} · termo de ${tm.lord}${REGE[tm.lord]?" (rege "+REGE[tm.lord].map(x=>"a "+x).join(" e ")+")":""}</span></span></div>`;}).join("");
+ const mud=[];
+ for(const pl of CLASSICOS){
+  const a=signOf(ontem[pl]),z=signOf(t[pl]);
+  if(a!==z)mud.push(`${pl} entra em ${SIGNS[z]}`);
+  else{const ta=termOf(ontem[pl]).lord,tz=termOf(t[pl]).lord;
+   if(ta!==tz)mud.push(`${pl} passa ao termo de ${tz}`);}
+  const ha=houseOf(ontem[pl]),hz=houseOf(t[pl]);
+  if(ha!==hz)mud.push(`${pl} entra na sua casa ${hz}`);}
+ abrirCartaHTML(`<span class="sub">${WD[d.getUTCDay()]}</span><h3>${d.getUTCDate()} de ${MO[d.getUTCMonth()]} de ${d.getUTCFullYear()}</h3>
+  <p style="display:flex;align-items:center;gap:.5rem">${moonSVG(ph.el,16)} ${ph.nome}, ${ph.ilum}% iluminada · firdaria ${fd.major.lord}${fd.sub?"/"+fd.sub.lord:""} · profecção casa ${p.house}</p>
+  ${mud.length?`<p style="color:var(--neon-claro);font-size:.85rem">Neste dia: ${mud.join("; ")}.</p>`:""}
+  ${linhas}
+  <button class="fechar" onclick="fecharCarta()">fechar carta</button>`);}
 function initSemana(){
  if(!$("#sw-corpo"))return;
  $$("#sw-seg .seg-btn").forEach(b=>b.addEventListener("click",()=>{SW.ver=b.dataset.ver;renderSemana();}));
@@ -2325,7 +2343,10 @@ function setTransNow(){const n=new Date();const pad=x=>String(x).padStart(2,"0")
 (async function boot(){
  $$(".tab .ico").forEach(el=>{el.textContent=gl(el.textContent);});
  await loadNotes();
- initSync();renderInicio();initForecast();renderNatal();renderTemperamento();renderSaude();renderEixos();initSemana();renderTempo();setTransNow();renderTransitos();renderGuia();
+ initSync();renderInicio();renderNatal();renderTemperamento();renderSaude();renderEixos();initSemana();
+ $("#tl-prev").addEventListener("click",()=>{const d=new Date(TL.cursor);d.setUTCDate(d.getUTCDate()-1);TL.cursor=d;renderTimeline();});
+ $("#tl-next").addEventListener("click",()=>{const d=new Date(TL.cursor);d.setUTCDate(d.getUTCDate()+1);TL.cursor=d;renderTimeline();});
+ document.querySelector(".tl-hoje").addEventListener("click",()=>{TL.cursor=new Date();renderTimeline();});renderTempo();setTransNow();renderTransitos();renderGuia();
  buildGraph();initAssoc();initGraphEvents();graphLoop();
  setInterval(()=>{if(!document.querySelector("#pane-inicio .edit-area.on"))renderInicio();},60000);
 })();
