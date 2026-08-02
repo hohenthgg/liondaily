@@ -402,6 +402,7 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
     <button class="seg-btn" data-sub="temperamento">Temperamento</button>
     <button class="seg-btn" data-sub="saude">Saúde</button>
     <button class="seg-btn" data-sub="eixos">48 eixos</button>
+    <button class="seg-btn" data-sub="lotes">Lotes</button>
   </div>
   <div id="natal-planetas" class="sub on"></div>
   <div id="natal-casas" class="sub" style="display:none"></div>
@@ -410,6 +411,7 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
   <div id="natal-temperamento" class="sub" style="display:none"></div>
   <div id="natal-saude" class="sub" style="display:none"></div>
   <div id="natal-eixos" class="sub" style="display:none"></div>
+  <div id="natal-lotes" class="sub" style="display:none"></div>
 </section>
 
 <!-- ==================== LINHA DO TEMPO ==================== -->
@@ -1861,6 +1863,52 @@ function renderSaude(){
    def:`Compleição ${T.principal}: ${HUMOR_EXCESSO[T.principal]}. O regente da 1 (${r1}) dignificado em ${SIGNS[signOf(N[r1].lon)]} sustenta a vitalidade; o regente da 6 (${r6}) em ${SIGNS[signOf(N[r6].lon)]}${N[r6].speed<0?", retrógrado,":""} aponta ${PL_FUNCAO[r6]} como via preferencial da doença; a Lua em ${SIGNS[signOf(N["Lua"].lon)]}${afLua.length?", aflita por "+afLua.map(x=>x.m).join(" e ")+",":""} rege o ritmo do corpo — ${SIGN_CORPO[signOf(N["Lua"].lon)]}. Regime pela grade dos seis não-naturais, corrigindo o excesso com as qualidades contrárias.`})}`;}
 
 
+/* ============ LOTES HERMÉTICOS (carta noturna — fórmulas invertidas) ============ */
+/* Os sete lotes de Paulus Alexandrinus; num mapa noturno cada fórmula diurna se inverte. */
+function calcLotes(){
+ const P=DATA.natal.planets,A=DATA.natal.houses.asc;
+ const L={};
+ L["Fortuna"]=norm(A+P["Sol"].lon-P["Lua"].lon);                 /* noturno: ASC + Sol − Lua */
+ L["Espírito"]=norm(A+P["Lua"].lon-P["Sol"].lon);                /* noturno: ASC + Lua − Sol */
+ L["Eros"]=norm(A+L["Espírito"]-P["Vênus"].lon);                 /* noturno: ASC + Espírito − Vênus */
+ L["Necessidade"]=norm(A+P["Mercúrio"].lon-L["Fortuna"]);        /* noturno: ASC + Mercúrio − Fortuna */
+ L["Coragem"]=norm(A+P["Marte"].lon-L["Fortuna"]);               /* noturno: ASC + Marte − Fortuna */
+ L["Vitória"]=norm(A+L["Espírito"]-P["Júpiter"].lon);            /* noturno: ASC + Espírito − Júpiter */
+ L["Nêmesis"]=norm(A+P["Saturno"].lon-L["Fortuna"]);             /* noturno: ASC + Saturno − Fortuna */
+ return L;}
+const LOTE_INFO={
+ "Fortuna":{pl:"Lua",g:"⊗",form:"ASC + Sol − Lua",
+  sig:"O lote da Lua: o corpo, a fortuna concreta, a maré dos bens e da saúde — aquilo que vem sem ser pedido. É o mais usado de todos: dele derivam casas lunares e o firdar do corpo. Onde cai, a vida material flui e reflui."},
+ "Espírito":{pl:"Sol",g:"☉",form:"ASC + Lua − Sol",
+  sig:"O lote do Sol, também chamado daimon: a alma, a intenção, a carreira do espírito — aquilo que se conquista por escolha própria. É o contrapeso exato da Fortuna: o que a vontade faz, e não o que a maré traz."},
+ "Eros":{pl:"Vênus",g:"♀",form:"ASC + Espírito − Vênus",
+  sig:"O lote de Vênus: desejo, amor e apetite — o que a alma quer abraçar. Mostra por onde o afeto e a atração conduzem a vida, e os prazeres que dão sentido ao esforço do Espírito."},
+ "Necessidade":{pl:"Mercúrio",g:"☿",form:"ASC + Mercúrio − Fortuna",
+  sig:"O lote de Mercúrio: constrangimentos, dívidas, disputas e o que a vida obriga — inimizades, contas e guerras de palavra. Onde cai, o nativo negocia com o inevitável; bem administrado, vira perícia."},
+ "Coragem":{pl:"Marte",g:"♂",form:"ASC + Marte − Fortuna",
+  sig:"O lote de Marte: audácia, força e traição enfrentada — o campo de batalha pessoal. Mostra onde é preciso ousar, e de onde podem vir os golpes; a mesma casa que pede coragem é a que a fabrica."},
+ "Vitória":{pl:"Júpiter",g:"♃",form:"ASC + Espírito − Júpiter",
+  sig:"O lote de Júpiter: fé, aliança, prêmio e sucesso nas disputas — a mão que o céu estende. Onde cai, chegam apoios, patronos e a confiança que decide competições a favor do nativo."},
+ "Nêmesis":{pl:"Saturno",g:"♄",form:"ASC + Saturno − Fortuna",
+  sig:"O lote de Saturno: os fundos do destino — perdas, exílios, lutos e o que fica escondido até cobrar. Onde cai, a vida exige contas de longo prazo; é também o lote da justiça que alcança."}};
+const ABU_LOTES={"Fortuna": "Abu Ma'shar chama-o de Lote da Lua e de 'Ascendente' do nativo. Indica a alma e sua boa fortuna, suas potências, a vida e os corpos, bens, riqueza e pobreza, ouro e prata, reputação e elevação, autoridade e reis, o bem e o mal, e o início das obras e das coisas buscadas. É o mais nobre e preeminente dos lotes — como o Sol entre os planetas.", "Espírito": "Chamado Lote do Invisível (do Ausente) ou Lote do Sol. Vem logo após a Fortuna e indica o corpo e a alma e suas condições, religião e profecia, piedade e devoção, segredos, pensamento, a consciência íntima, as coisas ocultas e ausentes, o louvor e o senso de honra. Junto com a Fortuna é o mais excelente dos lotes: de dia a Fortuna é mais evidente; de noite, o Invisível prevalece — e este mapa é noturno.", "Eros": "O Lote de Vênus, 'que compreende amor e familiaridade' — derivado dos lotes dos dois luminares, pois a harmonia entre as pessoas se dá pelo amor. Indica paixão, desejo, afeição, a busca daquilo de que a alma gosta e se deleita, o fortalecimento do amor, os assuntos de sexo e cônjuges, a familiaridade, a diversão, o prazer e a amenidade.", "Necessidade": "O Lote de Mercúrio, dito 'lote da pobreza e dos poucos estratagemas'. Indica pobreza, luta, medo, ódio, abundância de conflito, inimigos, ira e disputa — mas também comércio, compra e venda, astúcia, estratagemas, escrita, cálculo e a busca das ciências, inclusive a dos astros. Abu Ma'shar liga a pobreza à esperteza necessária para obter o que se precisa.", "Coragem": "O Lote de Marte, 'que compreende coragem e ousadia' — a audácia e a tomada de riscos pertencem ao Marte noturno, e são boas fortunas da alma. Indica comando, valentia, tomada de risco, coragem, força e ousadia; e também severidade, rudeza, insolência, pressa, matança, roubo, obras vis, astúcia e engano.", "Vitória": "O Lote de Júpiter, 'que compreende prosperidade e auxílio'. Indica poder, vitória, auxílio, prosperidade, generosidade e bons desfechos; retidão, busca da religião, juramentos e obediência a Deus, amor ao bem, busca de justiça e decisões legais entre o povo, conhecimento e sábios, esperança, boas obras e a parceria entre as pessoas.", "Nêmesis": "O Lote de Saturno, apelidado 'o pesado, o oneroso'. Indica a preservação e a profundidade de pensamento, a religião e a vida ascética; tudo o que se perdeu, foi roubado, fugiu ou caiu em poço ou no mar; os mortos e o modo da morte; terras e semeadura, construção e reparos; apuros, avareza, boa e má fama, a velhice, fardos, prisões e grilhões — e o resgate deles."};
+function renderLotes(){
+ const L=calcLotes(),P=DATA.natal.planets;
+ $("#natal-lotes").innerHTML=`
+  <p class="sec-sub">Os sete lotes herméticos de Paulus Alexandrinus — um por planeta. Mapa noturno: cada fórmula diurna se inverte. O lote é um ponto sensível: lê-se pela casa em que cai, pelo signo e pelo senhor do lote (o regente desse signo), e acende por trânsito e profecção como qualquer ponto do mapa.</p>
+  ${Object.entries(L).map(([nome,lon])=>{
+   const info=LOTE_INFO[nome],sg=signOf(lon),h=houseOf(lon);
+   const senhor=RULERS[SIGNS[sg]],so=P[senhor];
+   const abu=ABU_LOTES[nome];
+   return cardHTML({key:"lote-"+nome,title:`Lote de ${nome}`,glyph:info.g,accent:PLANET_COLOR[info.pl],
+    pos:`${fmtLon(lon)} · casa ${h} · fórmula noturna: ${info.form}`,
+    def:info.sig+` Aqui, cai na sua casa ${h} — ${CASA_ASSUNTO[h]}.`,
+    extra:`<details class="bloco"><summary><span class="rot">Senhor do lote · ${senhor}</span></summary>
+      <p>O lote em ${SIGNS[sg]} entrega-se a ${senhor}, que está a ${fmtLon(so.lon)} (casa ${houseOf(so.lon)})${REGE[senhor]?", regendo as casas "+REGE[senhor].join(" e "):""}. A condição do senhor diz se o lote cumpre o que promete.</p></details>`
+     +(abu?`<details class="bloco"><summary><span class="rot">Abu Ma'shar · Grande Introdução</span></summary>${editableBlock("abu-lote-"+nome,abu)}</details>`:""),
+    tags:[[info.pl,"gold"],[`casa ${h}`,""],[SIGNS[sg],""]]});}).join("")}`;}
+
+
 /* ============ SEMANA PLANETÁRIA (signo · casa · termo, dia a dia) ============ */
 let SW={start:null,ver:"v1"};
 function swWeekData(start){
@@ -2124,7 +2172,7 @@ function initAssoc(){
 const PANE_READY={inicio:1};
 function ensurePane(pane){
  if(PANE_READY[pane])return;PANE_READY[pane]=1;
- if(pane==="natal"){renderNatal();renderTemperamento();renderSaude();renderEixos();}
+ if(pane==="natal"){renderNatal();renderTemperamento();renderSaude();renderEixos();renderLotes();}
  else if(pane==="tempo")renderTempo();
  else if(pane==="transitos"){setTransNow();renderTransitos();initSemana();}
  else if(pane==="eletiva"){buildGraph();initAssoc();initGraphEvents();graphLoop();}
@@ -2141,7 +2189,7 @@ $$(".tab").forEach(b=>b.addEventListener("click",()=>{
 $$("#natal-seg .seg-btn").forEach(b=>b.addEventListener("click",()=>{
  $$("#natal-seg .seg-btn").forEach(x=>x.classList.remove("on"));
  b.classList.add("on");
- const map={planetas:"#natal-planetas",casas:"#natal-casas",aspectos:"#natal-aspectos",estrelas:"#natal-estrelas",temperamento:"#natal-temperamento",saude:"#natal-saude",eixos:"#natal-eixos"};
+ const map={planetas:"#natal-planetas",casas:"#natal-casas",aspectos:"#natal-aspectos",estrelas:"#natal-estrelas",temperamento:"#natal-temperamento",saude:"#natal-saude",eixos:"#natal-eixos",lotes:"#natal-lotes"};
  Object.values(map).forEach(sel=>$(sel).style.display="none");
  $(map[b.dataset.sub]).style.display="block";
 }));
