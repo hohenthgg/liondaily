@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Geniture — 17 de agosto de 1994</title>
-<meta name="description" content="Mapa natal, firdaria, profecções, revoluções solares e trânsitos em contexto.">
+<title>Lions Daily — 17 de agosto de 1994</title>
+<meta name="description" content="Lions Daily — mapa natal, firdaria, profecções, revoluções solares e trânsitos em contexto.">
 <meta name="theme-color" content="#17100C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%23FF5C00'%3E%E2%98%89%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,7 +74,7 @@ section.pane.on{display:block;animation:fade .3s ease}
   background:var(--barro);border-radius:50%;box-shadow:var(--clay-in)}
 .card .pos{font-family:var(--f-mono);font-size:.7rem;color:var(--neutro);margin:.55rem 0 .6rem;letter-spacing:.02em}
 .card .pos .rx{color:var(--vermelho)}
-.card p.desc{font-size:.93rem;color:var(--luz);opacity:.9}
+.card p.desc{font-size:.93rem;color:var(--luz);opacity:.9;white-space:pre-line}
 .grid-cards{margin-top:1rem}
 .sec-title{font-family:var(--f-disp);font-weight:600;font-size:1.3rem;margin:2rem 0 .35rem;color:var(--luz)}
 .sec-title:first-child{margin-top:.8rem}
@@ -85,7 +85,9 @@ section.pane.on{display:block;animation:fade .3s ease}
 .tag.dig{color:var(--verde)} .tag.deb{color:var(--vermelho)} .tag.gold{color:var(--neon-claro)}
 
 /* bloco de regências / olavo dentro do card */
-.bloco{margin-top:.85rem;padding:.8rem .9rem;background:var(--barro);border-radius:var(--r-sm);box-shadow:var(--clay-in)}
+.bloco{margin-top:.85rem;padding:.8rem .9rem;background:var(--barro);border-radius:var(--r-sm);box-shadow:var(--clay-in);position:relative}
+.bloco .edit-btn{top:.55rem;right:.6rem}
+.bloco p.desc{font-size:.88rem}
 .bloco .rot{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--neon);display:block;margin-bottom:.4rem}
 .bloco p{font-size:.88rem;color:var(--luz);opacity:.92}
 .bloco .cit{font-style:italic;color:var(--neon-palha);font-size:.85rem;margin-top:.45rem;display:block}
@@ -94,6 +96,16 @@ section.pane.on{display:block;animation:fade .3s ease}
 .rege-item .hn{font-family:var(--f-mono);font-size:.66rem;color:var(--neon-claro);background:var(--barro2);
   box-shadow:var(--clay-sm);border-radius:9px;padding:.16rem .45rem;flex:0 0 auto}
 .rege-item span:last-child{color:var(--luz);opacity:.85}
+
+/* ---------- dia e hora planetária ---------- */
+.dia-hora{display:flex;gap:1.1rem;align-items:center;font-family:var(--f-mono);font-size:.66rem;color:var(--luz2);
+  padding:.15rem .55rem .55rem}
+.dia-hora b{color:var(--neon-claro);font-weight:500}
+.dia-hora .mm{color:var(--neutro);margin-left:auto;font-size:.6rem}
+
+/* ---------- sincronização ---------- */
+.sync-status{font-family:var(--f-mono);font-size:.62rem;color:var(--neutro);display:block;margin-top:.5rem}
+.sync-status.ok{color:var(--verde)} .sync-status.err{color:var(--vermelho)}
 
 /* ---------- hero / mandala ---------- */
 .hero-card{text-align:center;padding:1.3rem 1rem 1.4rem}
@@ -231,7 +243,7 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
 <body>
 
 <header>
-  <div class="brand">GENITURE<small>17.VIII.1994 · 06H00 · POUSO ALEGRE MG</small></div>
+  <div class="brand">LIONS DAILY<small>17.VIII.1994 · 06H00 · POUSO ALEGRE MG</small></div>
 </header>
 
 <main>
@@ -247,13 +259,16 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
   </div>
 
   <div class="card" style="padding:.9rem .6rem">
+    <div class="dia-hora" id="dia-hora"></div>
     <div class="mandala-wrap"><svg id="mandala" viewBox="-42 -42 684 684" role="img" aria-label="Mandala natal: roda do mapa com signos, casas, planetas, estrelas fixas e aspectos"></svg></div>
   </div>
+
+  <div id="nativo-card"></div>
 
   <div class="ctx-strip" id="ctx-strip"></div>
 
   <h2 class="sec-title">Previsões &amp; recomendações</h2>
-  <p class="sec-sub">O céu traduzido em orientações práticas, filtradas pela sua firdaria, profecção e revolução solar.</p>
+  <p class="sec-sub">Navegue pelo calendário e veja as camadas do tempo vigentes em qualquer data: firdaria, subfirdaria, profecção e revolução solar — e o aviso quando alguma vira no período.</p>
   <div class="seg" id="fc-seg">
     <button class="seg-btn on" data-mode="dia">Diário</button>
     <button class="seg-btn" data-mode="semana">Semanal</button>
@@ -272,6 +287,17 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
   <h2 class="sec-title">O momento, em camadas</h2>
   <p class="sec-sub">Firdaria, subfirdaria, profecção anual e revolução solar vigentes — a lente pela qual todo trânsito deve ser lido.</p>
   <div class="grid-cards" id="inicio-camadas"></div>
+
+  <h2 class="sec-title">Sincronização</h2>
+  <p class="sec-sub">Com um token do GitHub, cada edição feita nos cards é gravada em <span class="mono">notes.json</span> no repositório — e sobrevive ao F5 em qualquer aparelho.</p>
+  <div class="card">
+    <input class="busca" type="password" id="gh-token" placeholder="token do GitHub (fine-grained, contents: read/write)">
+    <div class="edit-actions" style="margin-top:.6rem">
+      <button class="btn" id="gh-save">guardar token</button>
+      <button class="btn" id="gh-sync">sincronizar agora</button>
+    </div>
+    <span class="sync-status" id="sync-status">sem token — edições ficam só neste navegador</span>
+  </div>
 </section>
 
 <!-- ==================== MAPA NATAL ==================== -->
@@ -356,7 +382,7 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
   <button class="tab" data-pane="guia"><span class="ico">☿</span><span>Guia</span></button>
 </nav>
 
-<footer>geniture · casas Placidus · astrologia tradicional (sete planetas) · efemérides internas ≈ 0,1° · seita noturna</footer>
+<footer>lions daily · casas Placidus · astrologia tradicional (sete planetas) · efemérides internas ≈ 0,1° · seita noturna</footer>
 
 <script>
 /* ============================================================
@@ -499,7 +525,7 @@ const SIGNS=["Áries","Touro","Gêmeos","Câncer","Leão","Virgem","Libra","Esco
 const SIGN_GLYPH=["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓"];
 const GLYPH={"Sol":"☉","Lua":"☽","Mercúrio":"☿","Vênus":"♀","Marte":"♂","Júpiter":"♃","Saturno":"♄","Nodo Norte":"☊","Nodo Sul":"☋","Fortuna":"⊗"};
 const PLANET_COLOR={"Sol":"#FF8A3D","Lua":"#E8C6AC","Mercúrio":"#FFC79A","Vênus":"#FF6FA3","Marte":"#E24A2B","Júpiter":"#FFB27A","Saturno":"#B08A72","Nodo Norte":"#5FA88B","Nodo Sul":"#7A5B48","Fortuna":"#FF5C00"};
-const ELEM_COLOR=["#E24A2B","#8A7A5B","#7FA8C0","#5FA88B","#E24A2B","#8A7A5B","#7FA8C0","#5FA88B","#E24A2B","#8A7A5B","#7FA8C0","#5FA88B"];
+const ELEM_COLOR=["#F2603F","#58B368","#F2B33D","#4F9BE8","#F2603F","#58B368","#F2B33D","#4F9BE8","#F2603F","#58B368","#F2B33D","#4F9BE8"];
 const RULERS={"Áries":"Marte","Touro":"Vênus","Gêmeos":"Mercúrio","Câncer":"Lua","Leão":"Sol","Virgem":"Mercúrio","Libra":"Vênus","Escorpião":"Marte","Sagitário":"Júpiter","Capricórnio":"Saturno","Aquário":"Saturno","Peixes":"Júpiter"};
 const EXALT={"Sol":"Áries","Lua":"Touro","Mercúrio":"Virgem","Vênus":"Peixes","Marte":"Capricórnio","Júpiter":"Câncer","Saturno":"Libra"};
 const DOMS={"Sol":["Leão"],"Lua":["Câncer"],"Mercúrio":["Gêmeos","Virgem"],"Vênus":["Touro","Libra"],"Marte":["Áries","Escorpião"],"Júpiter":["Sagitário","Peixes"],"Saturno":["Capricórnio","Aquário"]};
@@ -589,6 +615,52 @@ const CASA_CURTO={1:"vitalidade e identidade",2:"dinheiro e sustento",3:"comunic
  5:"filhos e criatividade",6:"saúde e rotina",7:"parcerias e contratos",8:"crises e heranças",
  9:"viagens e ensino",10:"carreira e reputação",11:"amigos e projetos",12:"retiro e isolamento"};
 
+/* ---- TERMOS (tabela ptolomaica de dignidades essenciais) ---- */
+const TERMS={
+ 0:[["Júpiter",6],["Vênus",14],["Mercúrio",21],["Marte",26],["Saturno",30]],
+ 1:[["Vênus",8],["Mercúrio",15],["Júpiter",22],["Saturno",26],["Marte",30]],
+ 2:[["Mercúrio",7],["Júpiter",14],["Vênus",21],["Saturno",25],["Marte",30]],
+ 3:[["Marte",6],["Júpiter",13],["Mercúrio",20],["Vênus",27],["Saturno",30]],
+ 4:[["Saturno",6],["Mercúrio",13],["Vênus",19],["Júpiter",25],["Marte",30]],
+ 5:[["Mercúrio",7],["Vênus",13],["Júpiter",18],["Saturno",24],["Marte",30]],
+ 6:[["Saturno",6],["Vênus",11],["Júpiter",19],["Mercúrio",24],["Marte",30]],
+ 7:[["Marte",6],["Júpiter",14],["Vênus",21],["Mercúrio",27],["Saturno",30]],
+ 8:[["Júpiter",8],["Vênus",14],["Mercúrio",19],["Saturno",25],["Marte",30]],
+ 9:[["Vênus",6],["Mercúrio",12],["Júpiter",19],["Marte",25],["Saturno",30]],
+ 10:[["Saturno",6],["Mercúrio",12],["Vênus",20],["Júpiter",25],["Marte",30]],
+ 11:[["Vênus",8],["Júpiter",14],["Mercúrio",20],["Marte",26],["Saturno",30]]};
+function termOf(lon){const sg=signOf(lon),d=norm(lon)%30;let from=0;
+ for(const [lord,to] of TERMS[sg]){if(d<to)return {lord,from,to,sg};from=to;}
+ const u=TERMS[sg][4];return {lord:u[0],from:TERMS[sg][3][1],to:30,sg};}
+
+/* ---- DIA E HORA PLANETÁRIA (Pouso Alegre, UTC−3) ---- */
+const CHALD=["Saturno","Júpiter","Marte","Sol","Vênus","Mercúrio","Lua"];
+const DAY_RULER=["Sol","Lua","Marte","Mercúrio","Júpiter","Vênus","Saturno"];
+function riseSet(y,m,d){
+ const lat=-22.2271*Math.PI/180,lonDeg=-45.9394;
+ const n=Math.floor((Date.UTC(y,m,d)-Date.UTC(y,0,0))/864e5);
+ const B=(360*(n-81)/365)*Math.PI/180;
+ const eot=9.87*Math.sin(2*B)-7.53*Math.cos(B)-1.5*Math.sin(B);
+ const decl=(-23.44*Math.cos((360/365)*(n+10)*Math.PI/180))*Math.PI/180;
+ const w=Math.acos(Math.min(1,Math.max(-1,-Math.tan(lat)*Math.tan(decl))))*180/Math.PI;
+ const noon=12-lonDeg/15-eot/60,base=Date.UTC(y,m,d);
+ return {rise:base+(noon-w/15)*3600e3,set:base+(noon+w/15)*3600e3};}
+function planetaryNow(now){
+ const t=now.getTime();
+ const loc=new Date(t-3*3600e3);
+ let y=loc.getUTCFullYear(),m=loc.getUTCMonth(),d=loc.getUTCDate();
+ let rs=riseSet(y,m,d);
+ if(t<rs.rise){const prev=new Date(Date.UTC(y,m,d)-864e5);
+  y=prev.getUTCFullYear();m=prev.getUTCMonth();d=prev.getUTCDate();rs=riseSet(y,m,d);}
+ const nx=new Date(Date.UTC(y,m,d)+864e5);
+ const next=riseSet(nx.getUTCFullYear(),nx.getUTCMonth(),nx.getUTCDate());
+ const dayR=DAY_RULER[new Date(Date.UTC(y,m,d)).getUTCDay()];
+ let idx,start,len;
+ if(t<rs.set){len=(rs.set-rs.rise)/12;idx=Math.floor((t-rs.rise)/len);start=rs.rise+idx*len;}
+ else{len=(next.rise-rs.set)/12;idx=12+Math.floor((t-rs.set)/len);start=rs.set+(idx-12)*len;}
+ const hr=CHALD[(CHALD.indexOf(dayR)+idx)%7];
+ return {dayR,hr,elapsed:Math.round((t-start)/60000),remain:Math.round((start+len-t)/60000)};}
+
 function dignity(p,lon){const s=SIGNS[signOf(lon)];const tags=[];
  if(DOMS[p]&&DOMS[p].includes(s))tags.push(["domicílio","dig"]);
  if(EXALT[p]===s)tags.push(["exaltação","dig"]);
@@ -600,14 +672,45 @@ function dignity(p,lon){const s=SIGNS[signOf(lon)];const tags=[];
 const LS_KEY="geniture-notas";
 let NOTES={},saveT=null,editSeq=0;
 function hasLS(){try{localStorage.setItem("__t","1");localStorage.removeItem("__t");return true;}catch(e){return false;}}
+const GH_REPO="hohenthgg/liondaily",GH_TOKEN_KEY="lions-gh-token";
+function ghToken(){try{return localStorage.getItem(GH_TOKEN_KEY)||"";}catch(e){return "";}}
+function syncStatus(msg,cls){const el=$("#sync-status");if(el){el.textContent=msg;el.className="sync-status "+(cls||"");}}
 async function loadNotes(){
- try{if(window.storage){const r=await window.storage.get(LS_KEY);if(r&&r.value){NOTES=JSON.parse(r.value);return;}}}catch(e){}
- try{if(hasLS()){const v=localStorage.getItem(LS_KEY);if(v)NOTES=JSON.parse(v);}}catch(e){}
+ let remote={};
+ try{const r=await fetch("notes.json?ts="+Date.now(),{cache:"no-store"});
+  if(r.ok)remote=await r.json();}catch(e){}
+ let local={};
+ try{if(hasLS()){const v=localStorage.getItem(LS_KEY);if(v)local=JSON.parse(v);}}catch(e){}
+ NOTES={...remote,...local};
+}
+async function pushNotes(){
+ const tok=ghToken();if(!tok){syncStatus("sem token — edições ficam só neste navegador");return false;}
+ syncStatus("sincronizando…");
+ const url="https://api.github.com/repos/"+GH_REPO+"/contents/notes.json";
+ const headers={Authorization:"Bearer "+tok,Accept:"application/vnd.github+json"};
+ try{
+  let sha;const g=await fetch(url+"?ref=main",{headers,cache:"no-store"});
+  if(g.ok)sha=(await g.json()).sha;
+  const bytes=new TextEncoder().encode(JSON.stringify(NOTES,null,1));
+  let bin="";bytes.forEach(x=>bin+=String.fromCharCode(x));
+  const body={message:"Atualiza notas do Lions Daily",content:btoa(bin),branch:"main"};
+  if(sha)body.sha=sha;
+  const r=await fetch(url,{method:"PUT",headers,body:JSON.stringify(body)});
+  if(r.ok){syncStatus("sincronizado no GitHub · "+new Date().toLocaleTimeString("pt-BR"),"ok");return true;}
+  syncStatus("erro "+r.status+" ao gravar no GitHub","err");return false;
+ }catch(e){syncStatus("falha de rede ao sincronizar","err");return false;}
 }
 function saveNotes(){clearTimeout(saveT);saveT=setTimeout(async()=>{
- const v=JSON.stringify(NOTES);
- try{if(window.storage){await window.storage.set(LS_KEY,v);return;}}catch(e){}
- try{if(hasLS())localStorage.setItem(LS_KEY,v);}catch(e){}},400);}
+ try{if(hasLS())localStorage.setItem(LS_KEY,JSON.stringify(NOTES));}catch(e){}
+ pushNotes();},600);}
+function initSync(){
+ const inp=$("#gh-token");if(!inp)return;
+ if(ghToken()){inp.value=ghToken();syncStatus("token guardado — edições vão para o GitHub","ok");}
+ $("#gh-save").addEventListener("click",()=>{
+  try{localStorage.setItem(GH_TOKEN_KEY,inp.value.trim());}catch(e){}
+  syncStatus(inp.value.trim()?"token guardado — edições vão para o GitHub":"token removido","ok");});
+ $("#gh-sync").addEventListener("click",()=>pushNotes());
+}
 function noteKey(k){return NOTES[k];}
 function editableBlock(key,defaultText){
  const id="ed"+(editSeq++);
@@ -746,7 +849,7 @@ function drawMandala(){
   const a=th(st.lon)*180/Math.PI;
   let rot=-a; let anchor="start"; let dx=5;
   if(Math.cos(th(st.lon))<0){rot=-a+180;anchor="end";dx=-5;}
-  s+=`<text x="${sx}" y="${sy}" fill="#FFD08A" font-size="8" text-anchor="${anchor}" dominant-baseline="central"
+  s+=`<text x="${sx}" y="${sy}" fill="#E8D44D" font-size="8" text-anchor="${anchor}" dominant-baseline="central"
       font-family="Spline Sans Mono,monospace" transform="rotate(${rot} ${sx} ${sy}) translate(${dx} 0)">${st.nome}</text>`;}
  /* planetas com anti-colisão */
  const postos=[];
@@ -758,8 +861,11 @@ function drawMandala(){
   const [x,y]=P(r,o.lon);
   const cor=PLANET_COLOR[o.p]||"#FFEDE0";
   s+=`<text x="${x}" y="${y}" fill="${cor}" font-size="19" text-anchor="middle" dominant-baseline="central">${GLYPH[o.p]}</text>`;
-  const [tx,ty]=P(r-16,o.lon);
-  s+=`<text x="${tx}" y="${ty}" fill="${cor}" font-size="8.5" text-anchor="middle" dominant-baseline="central" opacity=".85" font-family="Spline Sans Mono,monospace">${fmtCurto(o.lon)}${o.speed<0?" ℞":""}</text>`;
+  const dgr=Math.floor(norm(o.lon)%30),mnt=Math.floor(((norm(o.lon)%30)-dgr)*60);
+  const [tx,ty]=P(r-15,o.lon);
+  s+=`<text x="${tx}" y="${ty}" fill="${cor}" font-size="9" text-anchor="middle" dominant-baseline="central" opacity=".9" font-family="Spline Sans Mono,monospace">${dgr}°${o.speed<0?" ℞":""}</text>`;
+  const [ux,uy]=P(r-25,o.lon);
+  s+=`<text x="${ux}" y="${uy}" fill="${cor}" font-size="7.5" text-anchor="middle" dominant-baseline="central" opacity=".65" font-family="Spline Sans Mono,monospace">${String(mnt).padStart(2,"0")}′</text>`;
   const [m1x,m1y]=P(R_sign,o.lon),[m2x,m2y]=P(R_sign-11,o.lon);
   s+=`<line x1="${m1x}" y1="${m1y}" x2="${m2x}" y2="${m2y}" stroke="${cor}" stroke-width="1.5"/>`;}
  /* aspectos no miolo */
@@ -769,7 +875,7 @@ function drawMandala(){
   if(!asp)continue;
   const [x1,y1]=P(R_in,N[a].lon),[x2,y2]=P(R_in,N[b].lon);
   const duro=(asp.ang===90||asp.ang===180);
-  const cor=duro?"rgba(226,74,43,.72)":asp.ang===0?"rgba(255,208,138,.6)":"rgba(95,168,139,.72)";
+  const cor=duro?"rgba(240,72,48,.8)":asp.ang===0?"rgba(255,208,138,.55)":"rgba(74,123,212,.8)";
   s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${cor}" stroke-width="1.2"/>`;}
  s+=`<circle cx="${C}" cy="${C}" r="3" fill="#FF5C00"/>`;
  svg.innerHTML=s;
@@ -802,6 +908,29 @@ function renderInicio(){
  $("#sol-agora").innerHTML=`${gl("☉")} O Sol está a <b>${fmtLon(t["Sol"])}</b> — sua casa ${sunHouse}`;
  const f=faseDe(now);
  $("#fase-lua").innerHTML=`${moonSVG(f.el,18)}<span>${f.nome} · ${f.ilum}% iluminada</span>`;
+ /* dia e hora planetária */
+ const ph=planetaryNow(now);
+ const dh=$("#dia-hora");
+ if(dh)dh.innerHTML=`<span>Dia: ${gl(GLYPH[ph.dayR].replace(VS,""))} <b>${ph.dayR}</b></span>
+   <span>Hora: ${gl(GLYPH[ph.hr].replace(VS,""))} <b>${ph.hr}</b></span>
+   <span class="mm">−${ph.elapsed}/+${ph.remain} min</span>`;
+ /* o nativo: regente do ASC (Sol) — signo, casa e termo */
+ const nat=$("#nativo-card");
+ if(nat){
+  const sl=t["Sol"],tm=termOf(sl),hN=houseOf(sl);
+  const casasTm=REGE[tm.lord]||[];
+  const temas=casasTm.map(h=>`<div class="rege-item"><span class="hn">casa ${h}</span><span>${CASA_ASSUNTO[h]}</span></div>`).join("");
+  const temasCurto=casasTm.map(h=>CASA_CURTO[h]).join(", e de ");
+  nat.innerHTML=`<div class="card destaque" style="--accent:#FF8A3D">
+   <span class="tone lente">O nativo agora</span>
+   <h3><span class="glifo">${gl("☉")}</span><span>Sol — regente do Ascendente</span></h3>
+   <div class="pos">${fmtLon(sl)} · sua casa ${hN} · termo de ${tm.lord} (${tm.from}°–${tm.to}° de ${SIGNS[tm.sg]})</div>
+   <p class="desc">O Sol rege o Ascendente em Leão: ele é <b>o nativo</b> no céu de agora. Caminhando pelos <b>termos de ${tm.lord}</b>, ele evoca os assuntos das casas que ${tm.lord} rege no mapa — agora, ${temasCurto}.</p>
+   <div class="bloco"><span class="rot">${tm.lord} rege · temas evocados no período</span>
+    <div class="rege-lista">${temas}</div>
+    <p style="margin-top:.6rem;font-size:.8rem;color:var(--neutro)">Quando o Sol trocar de termo, muda o senhor — e mudam os assuntos que o período convoca.</p></div>
+  </div>`;
+ }
  const fd=firdariaAt(now),p=profectionAt(now),sr=solarReturnAt(now);
  const sintDefault=`Com a Lua em ${moonSign} na sua casa ${moonHouse} — ${CASA_ASSUNTO[moonHouse]} —, o clima do dia toca esses assuntos no corpo e no humor. O Sol em ${sunSign} ilumina a casa ${sunHouse}: ${CASA_ASSUNTO[sunHouse]}. É aí que a vida pede presença.`;
  $("#sintese-agora").textContent=noteKey("sintese-inicio")||sintDefault;
@@ -840,14 +969,9 @@ function cardHTML({key,title,glyph,pos,def,tags=[],destaque=false,accent,extra="
  </div>`;}
 
 /* ============ MAPA NATAL ============ */
-const OLAVO={
- "Sol-1":{t:"Conhece-se a si mesmo antes de tudo e, sendo transparente aos próprios olhos, supõe-se transparente aos demais: a própria biografia vira a chave com que decifra o mundo. O traço central da autoimagem é a liberdade — vê-se como centro que irradia. Captar a perspectiva alheia não é intuição, é esforço aprendido.",c:"toma como modelo de toda percepção da realidade sua autoimagem"},
- "Lua-5":{t:"Valoriza as situações de desafio porque espera encontrar nelas a felicidade, e sente prazer no próprio ato de conquistar. Humor e desempenho se determinam mutuamente: alterna entre sentir-se capacíssimo e incapaz sem motivo objetivo, de modo que só rende quando oportunidade, capacidade e motivação coincidem.",c:"Deseja a vitória e sente prazer no ato de conquistar as coisas."},
- "Vênus-2":{t:"Retém na memória apenas os dados sensíveis agradáveis, abstraindo-se dos desagradáveis, e os usa para otimizar as sensações do dia. Enxerga no ambiente físico as possibilidades que satisfaçam seu equilíbrio sensorial; se a depressão se instala, porém, o mundo inteiro lhe aparece sob uma sensação generalizada de feiúra.",c:"Imaginação harmônica das sensações."},
- "Marte-11":{t:"Sente-se ameaçado por qualquer oposição ou obstáculo que se interponha entre ele e seus planos, e reage removendo-o no ato: não quer perder tempo pensando, negociando ou transigindo. Tanto abandona num repente projetos longamente acalentados quanto improvisa, amoldando a seus fins uma situação fortuita.",c:"tem pressa, urgência em chegar ao objetivo proposto"},
- "Júpiter-3":{t:"Autoconfiança ilimitada na própria capacidade de aprender, associar ideias e persuadir: não se deixa abater por argumentação contrária e só muda de opinião quando se sente autor da mudança. Essa confiança é espontânea e dogmática, independente de fundamento — resultará em eficácia no falar ou em pura inépcia verbosa.",c:"eficácia no aprender e no falar, ou numa inépcia verbosa"},
- "Saturno-7":{t:"Os outros lhe parecem reais e ele a si mesmo insubstancial, escorregadio: acumula as imagens divergentes que cada um faz dele e tenta uma síntese sempre problemática. Daí querer extrair regras, um código moral e jurídico privado para julgar condutas — e a vulnerabilidade a que lhe grudem a máscara que quiserem.",c:"não há um espelho estável de si mesmo no outro"}
-};
+const OLAVO={"Sol-1": "A Casa I trata da autoimagem e da aparência imediata do indivíduo; o Sol aqui configura a \"Inteligência Intuitiva Autônoma\". Para essa pessoa, o primeiro dado seguro que ela obtém é sobre si mesma: a própria imagem, contemplada ou apenas pensada, aparece como algo óbvio e inquestionável. O conhecimento de si parece tão natural que ela tem a impressão de se conhecer desde sempre e, por se sentir transparente aos próprios olhos, supõe-se igualmente transparente aos demais, achando inverossímil que alguém seja diferente dela.\n\nFaz parte da sua natureza não se preocupar de imediato em agradar ou não: autorreferencia-se o tempo todo, nunca estranha o próprio comportamento e o usa como modelo para captar o comportamento alheio. Sua biografia e os papéis que já desempenhou funcionam como chave de compreensão do mundo — como se a própria vida fosse o molde a partir do qual, por semelhanças e diferenças, as outras vidas se formassem.\n\nO traço fundamental dessa autoimagem é a liberdade: o indivíduo se vê como criador do próprio mundo, um centro que irradia livremente, tendo como informação básica, a cada instante, o repertório do que pode fazer e ser. Em contrapartida, quando não é o centro dos acontecimentos, nada intui espontaneamente: precisa de esforço para compreender o que o outro espera dele, pois a percepção da perspectiva alheia nunca é imediata — exige aprendizado.\n\nSíntese do autor: \"Intui primordialmente e toma como modelo de toda percepção da realidade sua auto-imagem.\" Exemplos: Santa Teresa de Ávila, Abraham Lincoln, Richard Wagner, Renoir, Rimbaud, Debussy, Toulouse-Lautrec e Guimarães Rosa.", "Lua-5": "A Casa V representa o conhecimento que o indivíduo tem de suas possibilidades de ação num dado momento — a consciência do poder pessoal, o domínio das situações que se podem conquistar ou perder. Com a Lua nessa casa, o indivíduo valoriza as situações de desafio porque acredita que é nelas que encontrará a felicidade: deseja a vitória e sente prazer no próprio ato de conquistar.\n\nO ponto central é a circularidade entre emoção e desempenho: o estado emocional determina a capacidade de enfrentar desafios, e vice-versa. A pessoa está feliz ou infeliz conforme o próprio desempenho e, ao mesmo tempo, o desempenho depende de ela estar feliz ou infeliz. Por isso, alternadamente pode sentir-se muito capaz ou muito incapaz, independentemente de motivos objetivos que justifiquem uma coisa ou outra.\n\nDisso decorre que a demonstração efetiva da sua capacidade depende de uma coincidência rara: é preciso que se encontrem, ao mesmo tempo, a oportunidade externa, a capacidade real e a motivação subjetiva.\n\nSíntese do autor: \"Sente como fonte principal de motivação ou desmotivação qualquer fato ou situação que interprete como um desafio à sua capacidade.\" Exemplos: Andersen, Cézanne, Rodin, Guilherme II, Matisse, Ravel, Picasso, Chevalier, Hemingway, Malraux e Mário Ferreira dos Santos.", "Vênus-2": "A Casa II refere-se ao conhecimento do mundo físico e dos dados sensíveis presentes — formas, cores, cheiros, sons, pesos, texturas — no confronto do indivíduo com o que o cerca. Com Vênus nessa casa, o indivíduo guarda na memória os dados sensíveis agradáveis captados do mundo físico, abstraindo-se dos desagradáveis, e utiliza esse acervo para otimizar as sensações do dia a dia.\n\nEle enxerga no ambiente físico as possibilidades que estejam de acordo com sua expectativa, aquelas capazes de satisfazer seu equilíbrio sensorial. O autor resume essa disposição na fórmula \"imaginação harmônica das sensações\": a fantasia trabalha continuamente a favor de uma experiência sensorial embelezada e gratificante do mundo material.\n\nHá, porém, um reverso: se um estado emocional invencivelmente depressivo se instala, ele se expressa com muita facilidade numa imagem alterada do mundo físico. A sensação generalizada de feiura do ambiente passa a exprimir, com nitidez física, o estado interior — o mundo externo torna-se o espelho da depressão.\n\nSíntese do autor: \"Imagina poder moldar sempre em sentido proveitoso ou gratificante tudo o que afete o seu equilíbrio sensorial.\" Exemplos: Alexandre Dumas, Lincoln, Mark Twain, Renoir, Toulouse-Lautrec e Camus.", "Marte-11": "A Casa XI refere-se aos projetos futuros do indivíduo, aos planos de vida e ao modo como ele concebe o próprio devir. Com Marte nessa casa, o indivíduo sente-se ameaçado por qualquer oposição ou questionamento dirigido a algo que está se propondo — algo que quer ser ou fazer — e por qualquer coisa que se interponha entre ele e seus planos.\n\nSua reação característica é tentar remover prontamente o obstáculo: há pressa, urgência em chegar ao objetivo proposto. Ele não quer perder tempo pensando, negociando ou transigindo; quer agir logo, desencadeando efeitos que o levem aonde deseja chegar. Essa mesma disposição tem dois desdobramentos opostos: pode levá-lo a abandonar, num repente, projetos longamente acalentados, mas também pode dar-lhe a capacidade de adaptar de improviso uma situação fortuita, amoldando-a aos seus planos.\n\nSe o indivíduo não for ambicioso, poderá agir no sentido de destruir as próprias possibilidades futuras, antes que outras pessoas o façam.\n\nSíntese do autor: \"Reage de maneira pronta, exteriorizada e fugaz a qualquer informação que afete sua visão de futuro.\" Exemplos: Napoleão, Schubert, Balzac, Emerson, Cézanne, Hardy, Jung, Graciliano Ramos, Koestler e Camus.", "Júpiter-3": "A Casa III refere-se ao pensamento e à linguagem — ao estabelecimento de relações entre as coisas, de modo a representar uma coisa por outra, no jogo de signo e significado. Com Júpiter nessa casa, o indivíduo tem uma autoconfiança ilimitada na própria capacidade de aprendizagem e de fazer associações entre ideias e conceitos.\n\nEssa confiança estende-se à comunicação: ele confia na sua capacidade de transmitir aos outros o que pensa e aprende, e de persuadir o interlocutor de qualquer coisa que queira. Não se deixa abater por argumentações contrárias; se muda de ideia, precisa sentir-se ele mesmo o autor da mudança. Quer estar livre para pensar o que quiser e confia na eficácia da própria palavra, no seu poder de convencer.\n\nEssa confiança é espontânea, dogmática e totalmente independente de ter ou não fundamento. Será a capacidade intelectual real do indivíduo que decidirá se ela resultará em eficácia genuína no aprender e no falar, ou numa inépcia verbosa.\n\nSíntese do autor: \"Age como se tivesse o poder de amoldar a seus propósitos o curso do raciocínio — seu ou alheio.\" Exemplos: Leonardo da Vinci, Santa Teresa de Ávila, Rimbaud, Debussy, Chaplin, Hemingway e Mário Ferreira dos Santos.", "Saturno-7": "A Casa VII trata da apreensão do eu através da relação com o outro — o conhecimento por espelhismo, as expectativas bilaterais e a definição mútua de papéis. Com Saturno nessa casa, o indivíduo focaliza a atenção no outro e constata, perplexo, que cada pessoa o vê de uma forma diferente. Os outros funcionam como espelhos e, diante de tantas imagens, torna-se difícil obter uma imagem coerente de si mesmo. Ele compara incessantemente as muitas imagens colhidas ao longo da vida, tentando uma síntese inevitavelmente problemática, o que dificulta as tomadas de posição momentâneas.\n\nOs outros lhe parecem reais, enquanto ele próprio se sente insubstancial, escorregadio. Em tudo o que faz sente-se observado por espectadores, reais ou imaginários, e procura corresponder às diferentes expectativas deles. A cada comparação de comportamentos, tenta extrair uma regra que explique o passado e prepare o futuro — uma espécie de código moral e jurídico para si mesmo. Tentando agradar a todos, torna-se vulnerável a que os outros lhe \"grudem\" a máscara que quiserem.\n\nNa relação, confiar e desconfiar é sempre desconfortável: qualquer falha do outro vira motivo de desconfiança, e ele oscila entre a rigidez no exigir e uma benevolência sem critério. Não há espelho estável de si no outro, pois não há uniformidade na conduta alheia; agindo por tentativa e erro, erra até consolidar conclusões gerais válidas. A aporia da posição: \"Se cada 'outro' me vê como uma forma diferente, eu então não sou nada? Serei apenas um conjunto de imagens?\"\n\nExemplos: Pasteur, Mussolini e Graciliano Ramos."};
+const BARBAULT_SIGNO={"Sol": ["Leão", "O leonino é uma força da natureza, muitas vezes de constituição atlética e animada por um temperamento bilioso. Um forte, são, que vai ao encontro da vida, confiante, feliz, natural, com uma abundância vital que lhe dá aprumo, envergadura, certeza, audácia, uma sede de conquista, de domínio, de ambições. É um apaixonado: impulso do Eu, expansão vital, sentimento de grandeza, orgulho, necessidade de prestígio, caráter magnânimo e altaneiro; ambição realizadora visível, forças íntimas mobilizadas a serviço de uma paixão principal, de um ideal dominante que se torna a alma da sua vida; sentido do mando, do poder, das responsabilidades. Risco de inflação do Eu, com necessidade de ser olhado, apreciado, admirado."], "Lua": ["Capricórnio", "O instinto feminino, e sobretudo maternal, acha-se empobrecido e sujeito à sublimação social (paixão profissional). A sensibilidade é recalcada, reprimida ou disciplinada. Contribui para o celibato ou para o casamento de interesse ou pela razão. A fuga diante do amor em Napoleão é característica desta posição."], "Mercúrio": ["Leão", "Inteligência soldada à vontade e às necessidades vitais; encarnando-se na matéria viva do indivíduo, ilumina e prolonga a sua ação sem metafísica nem sutilezas dialéticas. Espírito lúcido e lógico, que precisa de conhecer melhor para melhor gozar; vistas largas e vista penetrante — o relance de olhos — para agir em plena clareza e transformar em consciência a sua mais ampla experiência de vida."], "Vênus": ["Libra", "Alma afetuosa e amável; doçura, bondade, sentido estético, amor de caráter delicado, requintado, harmonioso. Conhece a hesitação perante o amor, pois a sua atração é temperada por um jogo de entusiasmos e contenções, de desejos e temores. O ser precisa de socializar a sua paixão, de fazê-la desabrochar no quadro das conveniências e dos costumes: é feito para o casamento, a união."], "Marte": ["Câncer", "A agressividade marciana em queda e desarmada, recalcada ou simplesmente passiva — a defesa passiva, a tenacidade, à maneira das tenazes do caranguejo que não larga. É possível a compensação, como em Byron que, enfermo, quis ser e foi nadador, boxeador, esgrimista, guerreiro. De modo geral, a agressividade volta-se contra o sujeito ou exerce-se no interior, no meio íntimo. Posição pouco propícia às conquistas exteriores, sobretudo militares."], "Júpiter": ["Escorpião", "É o poder da águia do astro e do signo que se afirma: magnetismo, vontade, autoridade, ambição, instinto criador, qualidade soberana. A intensa pulsão vital de Luís XIV e de Napoleão reside em parte nesta posição, neles dominante."], "Saturno": ["Peixes", "Símbolo da solidão, da prisão escura de onde a alma queria escapar; tende para a complacência mórbida e para o masoquismo. Predisposição para o sacrifício (Huysmans, Leconte de Lisle, Newton, Schopenhauer)."]};
+const BARBAULT_CASA={"Sol": [1, "Coeficiente de atividade ou de atratividade; propício para tomar o leme do seu destino, impor-se pelo seu magnetismo pessoal, manifestar uma aptidão com eficácia ou realizar pelos seus próprios meios; dá relevo à personalidade. Particularidades solares tanto mais salientes quanto mais o astro está perto do Ascendente. Bem colocado, o Sol é fator de elevação, ascensão, distinção, valorização da personalidade — numa palavra, de êxito."], "Lua": [5, "O astro da fecundidade no setor dos filhos: contando na vida o amor de um ou mais filhos. Diversidade nos prazeres e distrações; possibilidade de ligações amorosas fáceis, inconstantes, numerosas."], "Mercúrio": [1, "Coeficiente de retração do instinto e de cerebralização que facilita a adaptação à vida; fator de inteligência. Particularidades mercurianas tanto mais pronunciadas quanto mais o astro está perto do Ascendente. É-se aquilo que se pensa. Bem situado, o astro dá facilidade de adaptação, um à-vontade que permite viver agradavelmente."], "Vênus": [2, "Cria uma associação afetiva entre o amor e o dinheiro. A fortuna está em parte ligada à vida sentimental; aquisições (ou perdas) vindas de pessoas amáveis e amadas; posição significativa de presentes, dádivas. Atitude pecuniária harmoniosa e equilibrada, que permite viver materialmente de modo satisfatório, além de suscitar a intervenção da roda de socorro em caso de necessidade; facilidade para ganhar."], "Marte": [11, "A amizade é um transporte espontâneo, muitas vezes impulsivo, de sentimentos generosos, francos e expansivos, que não exclui os entusiasmos irracionais, as pressões tirânicas, os excessos apaixonados ou as rivalidades na emulação. A amizade é um esporte ambivalente que conduz, em dissonância, às disputas entre amigos, às rupturas violentas, aos entusiasmos de curta duração."], "Júpiter": [3, "Favorece as relações com o meio, no qual o indivíduo se afirma e do qual tira bons proveitos. Favorece igualmente os estudos; sucessos nos exames. Pode permitir o êxito no domínio das comunicações, relações e deslocamentos; proteção na estrada, apesar do desejo de nela afirmar o seu poder."], "Saturno": [7, "Incompatibilidade da natureza do astro e das afetações deste setor. A menos que seja harmônico — e nesse caso estabiliza uma união calma, de razão ou de interesse —, Saturno é um obstáculo ao casamento: celibato, casamento tardio e difícil de realizar, um impedimento na realização da união desejada, uma união sem amor ou infeliz, ou mesmo a destruição da união por separação ou viuvez. Igualmente contrário às associações, que podem causar infortúnio."]};
 function blocoRegencia(p){
  const casas=REGE[p];if(!casas||!casas.length)return "";
  const itens=casas.map(h=>`<div class="rege-item"><span class="hn">casa ${h}</span><span>${CASA_ASSUNTO[h]}</span></div>`).join("");
@@ -859,8 +983,12 @@ function blocoOlavo(p,h){
  const o=OLAVO[p+"-"+h];
  if(!o)return `<div class="bloco"><span class="rot">Planetas nas casas · Olavo de Carvalho</span>
    <p style="font-size:.84rem;color:var(--neutro)">O livro trata de Sol, Lua, Vênus, Marte, Júpiter e Saturno; não há capítulo para ${p}. A função mercurial aparece ali sob a Casa III — pensamento, signo e linguagem.</p></div>`;
- return `<div class="bloco"><span class="rot">Planetas nas casas · Olavo de Carvalho</span>
-   <p>${o.t}</p>${o.c?`<span class="cit">“${o.c}”</span>`:""}</div>`;}
+ return `<div class="bloco"><span class="rot">Planetas nas casas · Olavo de Carvalho</span>${editableBlock("olavo-"+p+"-"+h,o)}</div>`;}
+function blocoBarbault(p){
+ const sg=BARBAULT_SIGNO[p],cs=BARBAULT_CASA[p];let out="";
+ if(sg)out+=`<div class="bloco"><span class="rot">Barbault · ${p} em ${sg[0]}</span>${editableBlock("barb-sg-"+p,sg[1])}</div>`;
+ if(cs)out+=`<div class="bloco"><span class="rot">Barbault · ${p} na casa ${cs[0]}</span>${editableBlock("barb-cs-"+p,cs[1])}</div>`;
+ return out;}
 
 function renderNatal(){
  const N=DATA.natal.planets,H=DATA.natal.houses;
@@ -872,7 +1000,7 @@ function renderNatal(){
   const o=N[p];const h=houseOf(o.lon);const digs=dignity(p,o.lon);
   const rx=o.speed<0?' <span class="rx">℞</span>':"";
   const base=`${T_PLANETA[p]} Na casa ${h}: ${CASA_ASSUNTO[h]}.`;
-  const extra=(CLASSICOS.includes(p)?blocoRegencia(p)+blocoOlavo(p,h):blocoRegencia(p));
+  const extra=(CLASSICOS.includes(p)?blocoRegencia(p)+blocoOlavo(p,h)+blocoBarbault(p):blocoRegencia(p));
   return cardHTML({key:"natal-pl-"+p,title:p,glyph:GLYPH[p],accent:PLANET_COLOR[p],
    pos:`${fmtLon(o.lon)}${rx} · casa ${h}`,def:base,extra,
    tags:[...digs,[`casa ${h}`,""],...(REGE[p]?[[`rege ${REGE[p].map(x=>"casa "+x).join(" e ")}`,"gold"]]:[])]});
@@ -1172,119 +1300,66 @@ function renderTemperamento(){
 }
 
 
-/* ============ PREVISÕES & CALENDÁRIO ============ */
+/* ============ PREVISÕES: AS CAMADAS DO TEMPO NO CALENDÁRIO ============ */
 const WD=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
 const WD3=["dom","seg","ter","qua","qui","sex","sáb"];
 const MO=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
 const MO3=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 const MONTH_INGRESS=[10,11,0,1,2,3,4,5,6,7,8,9]; /* signo que o Sol adentra em cada mês */
-const FAVOR={"Vênus":"relacionamentos, arte, prazer e conciliação","Júpiter":"expansão, estudos, viagens e contratos",
- "Sol":"visibilidade, autoridade, vitalidade e reconhecimento","Mercúrio":"conversas, escrita, comércio e trâmites"};
-const CAUTELA={"Marte":"pressa, conflito e acidentes — canalize em exercício e ação decidida",
- "Saturno":"cansaço, atrasos e restrição — reduza o escopo e tenha paciência"};
 
 function atNoon(d){return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate(),15,0));} /* 12h em Pouso Alegre */
 function sameDay(a,b){return a.getUTCFullYear()===b.getUTCFullYear()&&a.getUTCMonth()===b.getUTCMonth()&&a.getUTCDate()===b.getUTCDate();}
-function houseOfSign(sg){return houseOf(sg*30+15);}
-function contactTone(p,ang){const soft=(ang===60||ang===120),hard=(ang===90||ang===180),conj=(ang===0);
- if(p==="Vênus"||p==="Júpiter"||p==="Sol"||p==="Mercúrio"){if(conj||soft)return"bom";if(hard)return"neutro";}
- if(p==="Marte"||p==="Saturno"){if(conj||hard)return"ruim";if(soft)return"neutro";}
- return"neutro";}
-function moonVoC(date){const t=EPH.all(date);const mlon=t["Lua"];const arc=norm((signOf(mlon)+1)*30-mlon);
- let next=Infinity,nP=null;
- for(const p of ["Sol","Mercúrio","Vênus","Marte","Júpiter","Saturno"]){const pl=t[p];
-  for(const a of [0,60,90,120,180])for(const tgt of [norm(pl+a),norm(pl-a)]){
-   const d=norm(tgt-mlon);if(d>0.02&&d<arc&&d<next){next=d;nP=p;}}}
- return{voc:next===Infinity,arc,nextP:nP,nextDeg:next===Infinity?arc:next};}
-function dayForecast(date){const noon=atNoon(date);const t=EPH.all(noon);
- const mlon=t["Lua"],msign=signOf(mlon),mhouse=houseOf(mlon);
- const ph=faseDe(noon),voc=moonVoC(noon);
- const contacts=[];
- for(const p of ["Vênus","Júpiter","Sol","Mercúrio","Marte","Saturno"]){
-  const a=aspectsBetween(mlon,t[p],0.85);if(a)contacts.push({p,a,tone:contactTone(p,a.ang)});}
- const f=firdariaAt(noon),pr=profectionAt(noon);
- let score=ph.crescente?0.5:-0.3;if(voc.voc)score-=1;
- for(const c of contacts)score+=c.tone==="bom"?2:c.tone==="ruim"?-2:0;
- const bom=contacts.filter(c=>c.tone==="bom").sort((a,b)=>a.a.orb-b.a.orb)[0];
- const ruim=contacts.filter(c=>c.tone==="ruim").sort((a,b)=>a.a.orb-b.a.orb)[0];
- return{date:noon,mlon,msign,mhouse,ph,voc,contacts,f,pr,score,bom,ruim};}
 function weekStart(d){const x=atNoon(d);x.setUTCDate(x.getUTCDate()-x.getUTCDay());return x;}
-function lunations(year,month){const res=[];let prev=null;
- for(let ts=Date.UTC(year,month,1);ts<=Date.UTC(year,month+1,1);ts+=6*3600e3){
-  const t=EPH.all(new Date(ts));const el=norm(t["Lua"]-t["Sol"]);
-  if(prev){if(el<prev.el)res.push({type:"Lua nova",ts:ts-3*3600e3,el:0});
-   if(prev.el<180&&el>=180)res.push({type:"Lua cheia",ts:ts-3*3600e3,el:180});}
-  prev={el};}
- return res;}
-function sunIngress(year,month){let prev=null;
- for(let ts=Date.UTC(year,month,1);ts<=Date.UTC(year,month+1,1);ts+=12*3600e3){
-  const s=signOf(EPH.all(new Date(ts))["Sol"]);if(prev!==null&&s!==prev)return{sign:s,ts};prev=s;}
- return null;}
-function aspNm(a){return a.name.toLowerCase();}
-function fcCard(tone,label,glifo,title,body,accent){
- return `<div class="card" style="--accent:${accent}">
+function fmtBr(iso){const [y,m,d]=iso.split("-");return `${+d}/${+m}/${y}`;}
+
+function fcCard(tone,label,glifo,title,body,accent,destaque){
+ return `<div class="card${destaque?" destaque":""}" style="--accent:${accent}">
    <span class="tone ${tone}">${label}</span>
    <h3><span class="glifo">${glifo}</span><span>${title}</span></h3>
    <p class="desc" style="margin-top:.6rem">${body}</p></div>`;}
 
-function dayCards(date){const d=dayForecast(date),c=[];
- const wax=d.ph.crescente?"Fase crescente: energia que sobe — favorece iniciar, semear e expandir."
-   :"Fase minguante: energia que recolhe — favorece concluir, revisar, soltar e limpar.";
- c.push(fcCard("info","Clima do dia","☽","A Lua guia o dia",
-   `A Lua está em <b>${SIGNS[d.msign]}</b>, na sua <b>casa ${d.mhouse}</b> — ${CASA_ASSUNTO[d.mhouse]}. ${d.ph.nome}, ${d.ph.ilum}% iluminada. ${wax}`,"#E8C6AC"));
- let fav;
- if(d.bom)fav=`A Lua faz <b>${aspNm(d.bom.a)}</b> com ${GLYPH[d.bom.p]} <b>${d.bom.p}</b>: favorece ${FAVOR[d.bom.p]}. ${d.ph.crescente?"Bom momento para começar e pedir.":"Bom para arrematar e retribuir."}`;
- else fav=`Sem contatos lunares marcantes com benéficos hoje. Aposte no essencial e no que já está em curso — ${d.ph.crescente?"pequenos começos discretos":"finalizações e cuidado com o corpo"}.`;
- c.push(fcCard("bom","Favorável a","✓","O que flui",fav,"#5FA88B"));
- let cau;
- if(d.voc.voc)cau=`<b>Lua fora de curso</b> — não forma novos aspectos antes de mudar de signo. Evite iniciar coisas importantes; ótimo para rotina, descanso e tarefas mecânicas.`;
- else if(d.ruim)cau=`A Lua faz <b>${aspNm(d.ruim.a)}</b> com ${GLYPH[d.ruim.p]} <b>${d.ruim.p}</b>: atenção a ${CAUTELA[d.ruim.p]}.`;
- else cau=`Nenhuma tensão lunar de peso hoje. Dia estável — o cuidado é apenas não se dispersar.`;
- c.push(fcCard("ruim","Cautela","△","O que vigiar",cau,"#E24A2B"));
- const f=d.f,pr=d.pr,lords=[...new Set([f.major.lord,f.sub&&f.sub.lord,pr.lord].filter(Boolean))];
- c.push(fcCard("lente","Lente do período","☉","O fio condutor",
-   `Sob a firdaria de <b>${f.major.lord}</b>${f.sub?` e a subfirdaria de <b>${f.sub.lord}</b>`:""}, num ano profectado à <b>casa ${pr.house}</b> (${pr.sign}, senhor <b>${pr.lord}</b>). Trânsitos que tocam ${lords.join(", ")} falam mais alto.`,"#FF5C00"));
- return c.join("");}
-
-function weekCards(date){const ws=weekStart(date);
- let best=null,worst=null,signs=[],days=[];
- for(let i=0;i<7;i++){const dd=new Date(ws);dd.setUTCDate(ws.getUTCDate()+i);const fc=dayForecast(dd);
-  const sn=SIGNS[fc.msign];if(signs[signs.length-1]!==sn)signs.push(sn);
-  if(!best||fc.score>best.fc.score)best={dd,fc};if(!worst||fc.score<worst.fc.score)worst={dd,fc};days.push({dd,fc});}
- const phA=days[0].fc.ph,phB=days[6].fc.ph;
- const bons=days.filter(x=>x.fc.score>=2).length,tensos=days.filter(x=>x.fc.score<=-1).length;
- const c=[];
- c.push(fcCard("info","Panorama","☽","A Lua na semana",
-   `A Lua percorre <b>${signs.join(" → ")}</b>, de ${phA.nome} a ${phB.nome}. ${bons} dia(s) de bom fluxo e ${tensos} dia(s) de atenção.`,"#E8C6AC"));
- const bd=best.dd;
- c.push(fcCard("bom","Melhor janela","✓","Quando agir",
-   `<b>${cap(WD[bd.getUTCDay()])}, ${bd.getUTCDate()}/${bd.getUTCMonth()+1}</b> — Lua em ${SIGNS[best.fc.msign]}${best.fc.bom?`, ${aspNm(best.fc.bom.a)} de ${GLYPH[best.fc.bom.p]} ${best.fc.bom.p}`:""}. Concentre aqui pedidos, encontros e começos que importam.`,"#5FA88B"));
- const wd=worst.dd;
- c.push(fcCard("ruim","Atenção","△","Quando recuar",
-   `<b>${cap(WD[wd.getUTCDay()])}, ${wd.getUTCDate()}/${wd.getUTCMonth()+1}</b> — Lua em ${SIGNS[worst.fc.msign]}${worst.fc.ruim?`, ${aspNm(worst.fc.ruim.a)} de ${GLYPH[worst.fc.ruim.p]} ${worst.fc.ruim.p}`:worst.fc.voc.voc?", fora de curso":""}. Evite decisões forçadas e conflitos.`,"#E24A2B"));
- const f=days[3].fc.f,pr=days[3].fc.pr;
- c.push(fcCard("lente","Lente do período","☉","O fio condutor",
-   `Firdaria de <b>${f.major.lord}</b>${f.sub?` / <b>${f.sub.lord}</b>`:""} · ano profectado à <b>casa ${pr.house}</b> (${pr.sign}, senhor <b>${pr.lord}</b>). A semana é um capítulo dentro dessa história maior.`,"#FF5C00"));
- return c.join("");}
-
-function monthCards(date){const yr=date.getUTCFullYear(),mo=date.getUTCMonth();
- const luns=lunations(yr,mo),ing=sunIngress(yr,mo);
- const mid=new Date(Date.UTC(yr,mo,15)),t=EPH.all(mid);
- const f=firdariaAt(mid),pr=profectionAt(mid),sr=solarReturnAt(mid),c=[];
- const lunTxt=luns.length?luns.map(l=>`${l.type} em ${new Date(l.ts).getUTCDate()}/${mo+1}`).join(" · "):"nenhuma lunação exata neste mês";
- c.push(fcCard("info","Lua do mês","☽","Ciclo lunar",
-   `${cap(lunTxt)}. Trabalhe com o ritmo: <b>plante na Lua nova</b>, ajuste no crescente, <b>colha na cheia</b> e solte no minguante.`,"#E8C6AC"));
- const sunSign=signOf(t["Sol"]),sunH=houseOf(t["Sol"]);
- const ingTxt=ing?` O Sol entra em <b>${SIGNS[ing.sign]}</b> no dia ${new Date(ing.ts).getUTCDate()}/${mo+1}, acendendo a casa ${houseOfSign(ing.sign)}.`:"";
- c.push(fcCard("bom","Estação solar","☉","Onde o mês brilha",
-   `Neste mês o Sol atravessa <b>${SIGNS[sunSign]}</b>, iluminando sua <b>casa ${sunH}</b> — ${CASA_ASSUNTO[sunH]}.${ingTxt}`,"#FF8A3D"));
- c.push(fcCard("info","Trânsitos lentos","♄","O pano de fundo",
-   `<b>Júpiter</b> em ${SIGNS[signOf(t["Júpiter"])]} (sua casa ${houseOf(t["Júpiter"])}) expande esse setor; <b>Saturno</b> em ${SIGNS[signOf(t["Saturno"])]} (sua casa ${houseOf(t["Saturno"])}) pede maturidade e estrutura ali.`,"#B08A72"));
- c.push(fcCard("lente","Fio do ano","✦","A moldura maior",
-   `Firdaria de <b>${f.major.lord}</b>${f.sub?` / <b>${f.sub.lord}</b>`:""} · profecção da <b>casa ${pr.house}</b> em ${pr.sign} (senhor <b>${pr.lord}</b>)${sr?` · revolução solar ${sr.year}/${sr.year+1}, ASC em ${SIGNS[signOf(sr.asc)]} (casa ${houseOf(sr.asc)} natal)`:""}.`,"#FF5C00"));
+/* cartões das quatro camadas, avaliadas em d0; mudanças detectadas até d1 */
+function layerCards(d0,d1){
+ const A={f:firdariaAt(d0),p:profectionAt(d0),sr:solarReturnAt(d0)};
+ const B={f:firdariaAt(d1),p:profectionAt(d1),sr:solarReturnAt(d1)};
+ const N=DATA.natal.planets,c=[];
+ const posDe=p=>N[p]?`${fmtLon(N[p].lon)} (casa ${houseOf(N[p].lon)})`:"—";
+ const regeDe=p=>REGE[p]?` Rege as casas ${REGE[p].join(" e ")} — significador de ${REGE[p].map(h=>CASA_CURTO[h]).join(", e de ")}.`:"";
+ const f=A.f;
+ c.push(fcCard("lente","Firdaria maior",GLYPH[f.major.lord],"Firdaria de "+f.major.lord,
+   `De ${fmtBr(f.major.start)} a ${fmtBr(f.major.end)} (idades ${f.major.start_age}–${f.major.end_age}). ${f.major.lord} natal está a ${posDe(f.major.lord)}.${regeDe(f.major.lord)} ${T_FIRD[f.major.lord]||""}`,
+   PLANET_COLOR[f.major.lord],true));
+ if(f.sub)c.push(fcCard("lente","Subfirdaria",GLYPH[f.sub.lord],"Subfirdaria de "+f.sub.lord,
+   `De ${fmtBr(f.sub.start)} a ${fmtBr(f.sub.end)}. ${f.sub.lord} natal está a ${posDe(f.sub.lord)}.${regeDe(f.sub.lord)} Tom secundário que tempera o período maior.`,
+   PLANET_COLOR[f.sub.lord]));
+ const p=A.p;
+ c.push(fcCard("lente","Profecção anual",SIGN_GLYPH[SIGNS.indexOf(p.sign)],`Profecção: casa ${p.house}`,
+   `Idade ${p.age}, de ${fmtBr(p.start)} ao aniversário seguinte. O ano ativa a casa ${p.house} (${p.sign}): ${CASA_ASSUNTO[p.house]}. O senhor do ano é <b>${p.lord}</b> — ${posDe(p.lord)}.${regeDe(p.lord)}`,
+   "#FF8A3D"));
+ if(A.sr)c.push(fcCard("lente","Revolução solar","☉",`Revolução ${A.sr.year}/${A.sr.year+1}`,
+   `Carta de ${A.sr.utc}. O Ascendente da revolução está a ${fmtLon(A.sr.asc)} — cai na sua casa ${houseOf(A.sr.asc)} natal, o palco do ano. Meio-do-Céu da revolução a ${fmtLon(A.sr.mc)}.`,
+   "#FF5C00"));
+ /* casos distintos: o período atravessa uma troca de camada */
+ const mud=[];
+ if(A.f.major.lord!==B.f.major.lord)
+  mud.push(`a <b>firdaria maior</b> passa de ${A.f.major.lord} para <b>${B.f.major.lord}</b> em ${fmtBr(B.f.major.start)}`);
+ const subA=A.f.sub?A.f.sub.lord:null,subB=B.f.sub?B.f.sub.lord:null;
+ if(subA!==subB&&A.f.major.lord===B.f.major.lord)
+  mud.push(`a <b>subfirdaria</b> passa de ${subA||"—"} para <b>${subB||"—"}</b> em ${fmtBr(B.f.sub?B.f.sub.start:B.f.major.start)}`);
+ if(A.p.age!==B.p.age)
+  mud.push(`no aniversário (17/08) a <b>profecção</b> passa à casa ${B.p.house} (${B.p.sign}, senhor <b>${B.p.lord}</b>) e entra em vigor a <b>revolução solar ${B.sr?B.sr.year:""}</b>`);
+ if(mud.length)
+  c.push(fcCard("info","Mudança no período","✦","O que vira",cap(mud.join("; "))+".","#E8D44D"));
  return c.join("");}
 
 let FC={mode:"dia",cursor:atNoon(new Date())};
+function fcPeriod(){
+ const cur=FC.cursor;
+ if(FC.mode==="dia")return [cur,cur];
+ if(FC.mode==="semana"){const a=weekStart(cur),z=new Date(a);z.setUTCDate(a.getUTCDate()+6);return [a,z];}
+ const a=new Date(Date.UTC(cur.getUTCFullYear(),cur.getUTCMonth(),1,15));
+ const z=new Date(Date.UTC(cur.getUTCFullYear(),cur.getUTCMonth()+1,0,15));
+ return [a,z];}
 function renderFcCal(){
  const cur=FC.cursor,titleEl=$("#fc-cal-title"),body=$("#fc-cal-body"),realNow=atNoon(new Date());
  if(FC.mode==="mes"){
@@ -1311,7 +1386,8 @@ function renderFcCal(){
 function renderForecast(){
  $$(".seg-btn[data-mode]").forEach(b=>b.classList.toggle("on",b.dataset.mode===FC.mode));
  renderFcCal();
- $("#fc-cards").innerHTML=FC.mode==="dia"?dayCards(FC.cursor):FC.mode==="semana"?weekCards(FC.cursor):monthCards(FC.cursor);
+ const [a,z]=fcPeriod();
+ $("#fc-cards").innerHTML=layerCards(a,z);
 }
 function fcShift(dir){const c=new Date(FC.cursor.getTime());
  if(FC.mode==="dia")c.setUTCDate(c.getUTCDate()+dir);
@@ -1470,7 +1546,7 @@ function setTransNow(){const n=new Date();const pad=x=>String(x).padStart(2,"0")
 (async function boot(){
  $$(".tab .ico").forEach(el=>{el.textContent=gl(el.textContent);});
  await loadNotes();
- renderInicio();initForecast();renderNatal();renderTemperamento();renderTempo();setTransNow();renderTransitos();renderGuia();
+ initSync();renderInicio();initForecast();renderNatal();renderTemperamento();renderTempo();setTransNow();renderTransitos();renderGuia();
  buildGraph();initGraphEvents();graphLoop();
  setInterval(()=>{if(!document.querySelector("#pane-inicio .edit-area.on"))renderInicio();},60000);
 })();
