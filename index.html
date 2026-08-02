@@ -181,6 +181,13 @@ table.mini td:last-child{text-align:right;color:var(--neon-palha)}
 .asp-linha .ob{font-family:var(--f-mono);font-size:.6rem;color:var(--neutro)}
 .asp-linha.tenso .par{color:var(--vermelho)} .asp-linha.suave .par{color:var(--verde)}
 
+/* ---------- barras de temperamento ---------- */
+.tbar{display:flex;align-items:center;gap:.5rem;margin:.34rem 0}
+.tb-rot{font-family:var(--f-mono);font-size:.6rem;color:var(--neutro);width:5.4rem;flex:0 0 auto}
+.tb-trilho{flex:1;height:9px;border-radius:6px;background:var(--barro2);box-shadow:var(--clay-in);overflow:hidden}
+.tb-fill{display:block;height:100%;border-radius:6px}
+.tb-val{font-family:var(--f-mono);font-size:.6rem;color:var(--luz2);width:2.1rem;text-align:right;flex:0 0 auto}
+
 /* ---------- estrelas fixas ---------- */
 .estrela .mag{font-family:var(--f-mono);font-size:.58rem;color:var(--neutro2);letter-spacing:.05em}
 .estrela .nat{font-family:var(--f-mono);font-size:.62rem;color:var(--neon-palha)}
@@ -276,11 +283,13 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
     <button class="seg-btn" data-sub="casas">Casas</button>
     <button class="seg-btn" data-sub="aspectos">Aspectos</button>
     <button class="seg-btn" data-sub="estrelas">Estrelas fixas</button>
+    <button class="seg-btn" data-sub="temperamento">Temperamento</button>
   </div>
   <div id="natal-planetas" class="sub on"></div>
   <div id="natal-casas" class="sub" style="display:none"></div>
   <div id="natal-aspectos" class="sub" style="display:none"></div>
   <div id="natal-estrelas" class="sub" style="display:none"></div>
+  <div id="natal-temperamento" class="sub" style="display:none"></div>
 </section>
 
 <!-- ==================== LINHA DO TEMPO ==================== -->
@@ -1024,6 +1033,145 @@ function renderGuia(){
   </div>`).join("");
 }
 
+/* ============ TEMPERAMENTO (doutrina humoral galênico-culpeperiana) ============ */
+/* qualidades como vetor [quente, frio, seco, úmido] */
+const Q_FOGO=[1,0,1,0],Q_TERRA=[0,1,1,0],Q_AR=[1,0,0,1],Q_AGUA=[0,1,0,1];
+const ELEM_Q=[Q_FOGO,Q_TERRA,Q_AR,Q_AGUA];
+const elemQ=s=>ELEM_Q[s%4];
+const ELEM_NOME=["fogo","terra","ar","água"];
+/* naturezas planetárias (Culpeper): Júpiter quente-úmido; Sol e Marte quentes-secos;
+   Saturno e Mercúrio frios-secos; Lua e Vênus frias-úmidas */
+const NAT_Q={"Sol":Q_FOGO,"Marte":Q_FOGO,"Júpiter":Q_AR,"Saturno":Q_TERRA,"Mercúrio":Q_TERRA,"Lua":Q_AGUA,"Vênus":Q_AGUA};
+const NAT_TEMP={"Sol":"colérico","Marte":"colérico","Júpiter":"sanguíneo","Saturno":"melancólico","Mercúrio":"melancólico","Lua":"fleumático","Vênus":"fleumático"};
+const TEMP_INFO={
+ "colérico":{el:"fogo",q:"quente e seco",humor:"bile amarela",est:"verão",idade:"juventude",
+  virtudes:"Agudo de espírito, audaz e sem acanhamento; eloquente, corajoso e de coração firme. Concepção rápida e ambiciosa — os pensamentos aspiram sempre a fortunas maiores. Ama a ação acima do repouso e resolve depressa o que outros adiam.",
+  sombras:"A ira acende rápido (e apazigua rápido); apressado, briguento e dado à zombaria. Impaciência com quem é lento, dificuldade em transigir, tendência a atropelar o processo para chegar ao fim.",
+  irma:"A mesma pressa que o faz atropelar é a raiz da sua capacidade de decidir sob pressão, quando os outros travam.",
+  regime:"Excesso de calor e secura: peça <b>frio e úmido</b>. Evite excessos de picante, álcool e exposição ao calor; prefira alimentos frescos e aquosos, banhos mornos, hidratação abundante e descanso real entre esforços."},
+ "melancólico":{el:"terra",q:"frio e seco",humor:"bile negra",est:"outono",idade:"meia-idade",
+  virtudes:"Cogitação profunda, prudência e constância na escolha; estudioso, cauteloso, capaz de sustentar um propósito por anos. Sensibilidade elevada e vocação contemplativa — no perigo real, revela sangue-frio e coragem estoica.",
+  sombras:"Solitário e taciturno; retém a ira por muito tempo e não mira em coisas pequenas. Desconfiança, apreensão antecipada — sofre mais com o que imagina do que com a realidade.",
+  irma:"A apreensão do melancólico é a mesma raiz do seu estoicismo diante do perigo verdadeiro.",
+  regime:"Excesso de frio e secura: peça <b>calor e umidade</b>. Evite jejuns longos, vigílias e o isolamento prolongado; procure companhia, ambientes aquecidos, comida quente e úmida, e exercício moderado e regular."},
+ "sanguíneo":{el:"ar",q:"quente e úmido",humor:"sangue",est:"primavera",idade:"infância",
+  virtudes:"Alegre, jovial, generoso e compassivo; corajoso sem se ofender, sociável, eloquente e persuasivo. Entusiasmo fácil, vivacidade mental e confiança no futuro — por isso realiza e vence.",
+  sombras:"Volúvel e inconstante, promete mais do que cumpre; entrega-se aos prazeres sensuais e ao excesso de confiança. Muitos amigos, poucos vínculos profundos.",
+  irma:"A mesma leveza que o torna inconstante é a que impede a dor de lhe grudar no coração.",
+  regime:"Excesso de calor e umidade: peça <b>frio e secura</b>. Modere a mesa e a bebida, evite o sedentarismo confortável e imponha alguma disciplina de horário — o risco é o abuso, não a falta."},
+ "fleumático":{el:"água",q:"frio e úmido",humor:"fleuma",est:"inverno",idade:"velhice",
+  virtudes:"Gentil, quieto e amante da paz; nem irascível, nem fraudulento. Estável, recatado e sóbrio, com notável ausência de malícia — sustenta o cotidiano sem atrito.",
+  sombras:"Pesado e lento, avesso ao esforço; memória fraca e sonolência. Foge do conflito e custa a mudar hábitos, mesmo os que lhe fazem mal.",
+  irma:"A mesma lentidão que parece indolência é o que lhe dá a serenidade que os outros não alcançam.",
+  regime:"Excesso de frio e umidade: peça <b>calor e secura</b>. Exercício vigoroso e diário, alimentos quentes e secos, ambientes arejados e secos, e combate ativo ao excesso de sono."}
+};
+/* compostos descartados: quando uma qualidade ativa aparece duas vezes, o composto colapsa */
+const TEMP_GLIFO={"colérico":"\u2609","sanguíneo":"\u2643","melancólico":"\u2644","fleumático":"\u263D"};
+const COMPOSTO_INVALIDO={"sanguíneo-colérico":"colérico","colérico-sanguíneo":"colérico",
+ "melancólico-fleumático":"fleumático","fleumático-melancólico":"fleumático"};
+
+function calcTemperamento(){
+ const P=DATA.natal.planets,ASC=DATA.natal.houses.asc;
+ let Q=[0,0,0,0];const fatores=[];
+ const add=(q,w,label,detalhe)=>{for(let i=0;i<4;i++)Q[i]+=q[i]*w;fatores.push({label,w,q,detalhe});};
+ const sA=signOf(ASC);
+ add(elemQ(sA),3,`Ascendente em ${SIGNS[sA]}`,`signo de ${ELEM_NOME[sA%4]}`);
+ const rl=RULERS[SIGNS[sA]];
+ add(NAT_Q[rl],3,`Senhor do Ascendente: ${rl}`,`natureza ${NAT_TEMP[rl]}`);
+ const sL=signOf(P["Lua"].lon);
+ add(elemQ(sL),2.5,`Lua em ${SIGNS[sL]}`,`signo de ${ELEM_NOME[sL%4]}`);
+ const el=norm(P["Lua"].lon-P["Sol"].lon);
+ const fq=el<90?Q_AR:el<180?Q_FOGO:el<270?Q_TERRA:Q_AGUA;
+ const fn=el<90?"da nova ao quarto crescente":el<180?"do quarto crescente à cheia":el<270?"da cheia ao quarto minguante":"do minguante à nova";
+ add(fq,2,`Fase da Lua ao nascer`,fn);
+ const sS=signOf(P["Sol"].lon);
+ const estIdx=Math.floor(sS/3);
+ const estQ=[Q_AR,Q_FOGO,Q_TERRA,Q_AGUA][estIdx];
+ const estN=["primavera","verão","outono","inverno"][estIdx];
+ add(estQ,2,`Estação do Sol`,`Sol em ${SIGNS[sS]} — ${estN}`);
+ for(const p of CLASSICOS){const d=Math.abs(norm(P[p].lon-ASC+180)-180);
+  if(d<=10)add(NAT_Q[p],2,`${p} conjunto ao Ascendente`,`orbe ${grausMin(d)} · natureza ${NAT_TEMP[p]}`);}
+ for(const p of CLASSICOS)for(const [alvo,lon] of [["Ascendente",ASC],["Lua",P["Lua"].lon]]){
+  if(p==="Lua"&&alvo==="Lua")continue;
+  const d=Math.abs(norm(P[p].lon-lon+180)-180);
+  for(const a of [0,60,90,120,180]){
+   if(Math.abs(d-a)<=6&&!(alvo==="Ascendente"&&a===0&&d<=10)){
+    add(NAT_Q[p],1,`${p} aspecta ${alvo}`,`natureza ${NAT_TEMP[p]}`);break;}}}
+ const [qt,fr,sc,um]=Q;
+ const pQ=qt/(qt+fr),pS=sc/(sc+um);
+ const vet=[["colérico",pQ*pS],["sanguíneo",pQ*(1-pS)],["melancólico",(1-pQ)*pS],["fleumático",(1-pQ)*(1-pS)]]
+   .sort((a,b)=>b[1]-a[1]);
+ let principal=vet[0][0],secundario=vet[1][0];
+ const chave=principal+"-"+secundario;
+ const colapso=COMPOSTO_INVALIDO[chave]||null;
+ return {Q,pQ,pS,vet,fatores,principal,secundario,colapso,quente:qt,frio:fr,seco:sc,umido:um};
+}
+function barra(rot,valor,cor){
+ return `<div class="tbar"><span class="tb-rot">${rot}</span>
+  <span class="tb-trilho"><span class="tb-fill" style="width:${(valor*100).toFixed(1)}%;background:${cor}"></span></span>
+  <span class="tb-val">${(valor*100).toFixed(0)}%</span></div>`;}
+
+function renderTemperamento(){
+ const T=calcTemperamento();
+ const CORES={"colérico":"#E24A2B","sanguíneo":"#FF8A3D","melancólico":"#B08A72","fleumático":"#5FA88B"};
+ const pr=TEMP_INFO[T.principal],sec=TEMP_INFO[T.secundario];
+ const eixos=`<div class="bloco"><span class="rot">Eixos das qualidades</span>
+   ${barra("quente",T.pQ,"#E24A2B")}${barra("frio",1-T.pQ,"#7FA8C0")}
+   ${barra("seco",T.pS,"#FFB27A")}${barra("úmido",1-T.pS,"#5FA88B")}
+   <p style="margin-top:.6rem;font-size:.8rem;color:var(--neutro)">Soma bruta — quente ${T.quente} · frio ${T.frio} · seco ${T.seco} · úmido ${T.umido}. O par vencedor (<b>${pr.q}</b>) define a compleição.</p></div>`;
+ const vetor=`<div class="bloco"><span class="rot">Vetor dos quatro humores</span>
+   ${T.vet.map(([k,v])=>barra(k,v,CORES[k])).join("")}
+   <p style="margin-top:.6rem;font-size:.8rem;color:var(--neutro)">Ninguém é um tipo puro: o temperamento se lê como vetor ordenado, não como rótulo único.</p></div>`;
+ const tabela=`<div class="bloco"><span class="rot">Como foi calculado</span>
+   <table class="mini">${T.fatores.map(f=>{
+     const q=["quente","frio","seco","úmido"].filter((_,i)=>f.q[i]).join("-");
+     return `<tr><td>${f.label}</td><td style="font-size:.62rem">${f.detalhe}</td><td>${q} ×${f.w}</td></tr>`;}).join("")}</table>
+   <p style="margin-top:.6rem;font-size:.8rem;color:var(--neutro)">Método clássico: signo e estação do Ascendente, senhor do Ascendente, signo e fase da Lua, estação do Sol e planetas conjuntos ou em aspecto ao Ascendente e à Lua.</p></div>`;
+ /* ativação temporal pela firdaria vigente */
+ const f=firdariaAt(new Date());
+ const tf=NAT_TEMP[f.major.lord],ts=f.sub?NAT_TEMP[f.sub.lord]:null;
+ const mesmo=x=>x===T.principal;
+ const opostos={"colérico":"fleumático","fleumático":"colérico","sanguíneo":"melancólico","melancólico":"sanguíneo"};
+ const descreveP=(lord,temp)=>{
+  if(!temp)return "";
+  if(mesmo(temp))return `<b>${lord}</b> é do mesmo temperamento (${temp}): reforça tanto as virtudes quanto os vícios do tipo.`;
+  if(opostos[T.principal]===temp)return `<b>${lord}</b> é do temperamento oposto (${temp}): tende a desconforto e a sintomas da qualidade invasora — mas também tempera o excesso.`;
+  return `<b>${lord}</b> é ${temp}: introduz uma qualidade contrária parcial, moderando o excesso natural.`;};
+ const temporal=`<div class="bloco"><span class="rot">Ativação no tempo</span>
+   <p>${descreveP(f.major.lord,tf)}</p>${f.sub?`<p style="margin-top:.4rem">${descreveP(f.sub.lord,ts)}</p>`:""}
+   <p style="margin-top:.5rem;font-size:.8rem;color:var(--neutro)">Períodos regidos por planeta de temperamento oposto tendem a desconforto na qualidade que invade; os do mesmo temperamento acentuam o que já é forte.</p></div>`;
+ const regime=`<div class="bloco"><span class="rot">Regime · os seis não-naturais</span>
+   <p>${pr.regime}</p>
+   <div class="rege-lista" style="margin-top:.6rem">
+    ${["ar e ambiente","dieta","exercício e repouso","sono e vigília","retenção e evacuação","perturbações da mente"]
+      .map((x,i)=>`<div class="rege-item"><span class="hn">${i+1}</span><span>${x}</span></div>`).join("")}</div>
+   <p style="margin-top:.6rem;font-size:.8rem;color:var(--neutro)">Galeno e Culpeper regulam saúde e caráter por estas seis frentes: o desregramento em qualquer uma adoece; a boa ordenação previne e corrige.</p></div>`;
+ const composto=T.colapso
+  ? `<p class="desc" style="margin-top:.6rem">A combinação <b>${T.principal}-${T.secundario}</b> não se sustenta na doutrina: quando a mesma qualidade ativa aparece duas vezes, o composto colapsa em <b>${T.colapso}</b>.</p>`
+  : `<p class="desc" style="margin-top:.6rem">Composto <b>${T.principal}-${T.secundario}</b>: o primeiro nome é a compleição principal; o segundo tempera e dá o contorno.</p>`;
+
+ $("#natal-temperamento").innerHTML=
+  `<p class="sec-sub">A compleição nasce da predominância de um humor, apurada pelas qualidades (quente/frio, seco/úmido) reunidas no mapa. <b>A compleição inclina, não obriga</b> — na fórmula de Salerno, “não podem gerar virtude nem vício, mas podem dar inclinação a ambos”.</p>
+   <div class="card destaque" style="--accent:${CORES[T.principal]}">
+     <span class="tone lente">Compleição dominante</span>
+     <h3><span class="glifo">${gl(TEMP_GLIFO[T.principal])}</span><span>${cap(T.principal)}</span></h3>
+     <div class="pos">${pr.q} · ${pr.el} · ${pr.humor} · ${pr.est} · ${pr.idade}</div>
+     ${composto}
+     ${vetor}${eixos}
+   </div>
+   ${cardHTML({key:"temp-virtudes",title:"Virtudes",glyph:"✦",accent:CORES[T.principal],
+     pos:`tendências do ${T.principal}`,def:pr.virtudes.replace(/<[^>]+>/g,"")})}
+   ${cardHTML({key:"temp-sombras",title:"Sombras",glyph:"△",accent:"#E24A2B",
+     pos:`o reverso do mesmo humor`,def:pr.sombras.replace(/<[^>]+>/g,""),
+     extra:`<div class="bloco"><span class="rot">A virtude-irmã</span><p>${pr.irma}</p></div>`})}
+   ${cardHTML({key:"temp-secundario",title:cap(T.secundario)+" — o tom secundário",glyph:"✧",accent:CORES[T.secundario],
+     pos:`${sec.q} · ${sec.el}`,def:sec.virtudes.replace(/<[^>]+>/g,""),
+     extra:`<div class="bloco"><span class="rot">Sombra secundária</span><p>${sec.sombras}</p>
+       <span class="cit">${sec.irma}</span></div>`})}
+   <div class="card">${regime}${temporal}${tabela}</div>`;
+}
+
+
 /* ============ PREVISÕES & CALENDÁRIO ============ */
 const WD=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
 const WD3=["dom","seg","ter","qua","qui","sex","sáb"];
@@ -1309,7 +1457,7 @@ $$(".tab").forEach(b=>b.addEventListener("click",()=>{
 $$("#natal-seg .seg-btn").forEach(b=>b.addEventListener("click",()=>{
  $$("#natal-seg .seg-btn").forEach(x=>x.classList.remove("on"));
  b.classList.add("on");
- const map={planetas:"#natal-planetas",casas:"#natal-casas",aspectos:"#natal-aspectos",estrelas:"#natal-estrelas"};
+ const map={planetas:"#natal-planetas",casas:"#natal-casas",aspectos:"#natal-aspectos",estrelas:"#natal-estrelas",temperamento:"#natal-temperamento"};
  Object.values(map).forEach(sel=>$(sel).style.display="none");
  $(map[b.dataset.sub]).style.display="block";
 }));
@@ -1322,7 +1470,7 @@ function setTransNow(){const n=new Date();const pad=x=>String(x).padStart(2,"0")
 (async function boot(){
  $$(".tab .ico").forEach(el=>{el.textContent=gl(el.textContent);});
  await loadNotes();
- renderInicio();initForecast();renderNatal();renderTempo();setTransNow();renderTransitos();renderGuia();
+ renderInicio();initForecast();renderNatal();renderTemperamento();renderTempo();setTransNow();renderTransitos();renderGuia();
  buildGraph();initGraphEvents();graphLoop();
  setInterval(()=>{if(!document.querySelector("#pane-inicio .edit-area.on"))renderInicio();},60000);
 })();
