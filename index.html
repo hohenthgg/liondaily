@@ -107,6 +107,62 @@ section.pane.on{display:block;animation:fade .3s ease}
 .sync-status{font-family:var(--f-mono);font-size:.62rem;color:var(--neutro);display:block;margin-top:.5rem}
 .sync-status.ok{color:var(--verde)} .sync-status.err{color:var(--vermelho)}
 
+/* ---------- timeline (aba Tempo) ---------- */
+.tl-top{display:flex;align-items:baseline;justify-content:space-between;margin-top:.6rem}
+.tl-brand{font-family:var(--f-disp);font-weight:700;font-size:1.7rem;color:var(--luz)}
+.tl-hoje{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;color:var(--neon-claro);
+  background:var(--barro2);border-radius:12px;padding:.35rem .7rem;box-shadow:var(--clay-sm)}
+.tl-sub{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);margin:.2rem 0 .9rem}
+.tl-info{display:flex;justify-content:space-between;gap:.6rem;padding:.9rem 1rem}
+.tl-info>div{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.tl-info span{font-family:var(--f-mono);font-size:.53rem;letter-spacing:.14em;color:var(--neutro);text-transform:uppercase}
+.tl-info b{font-family:var(--f-disp);font-size:.98rem;color:var(--luz);font-weight:600;white-space:nowrap}
+.tl-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem}
+.tl-grid .card{margin-bottom:0;padding:.85rem .9rem}
+.tl-grid .card h3{font-size:.92rem}
+.tl-grid .card p.desc{font-size:.8rem}
+.tl-grid .tone{font-size:.5rem;padding:.22rem .5rem;margin-bottom:.45rem}
+.tl-disc{font-family:var(--f-mono);font-size:.66rem;color:var(--neutro);padding:.9rem 1rem}
+.orb-leg{display:flex;justify-content:center;flex-wrap:wrap;gap:.4rem .9rem;margin-top:.5rem;
+  font-family:var(--f-mono);font-size:.56rem;color:var(--neutro);letter-spacing:.04em}
+.orb-leg b{font-weight:400}
+.linklike{background:none;border:none;color:var(--neutro2);font-family:var(--f-mono);font-size:.56rem;
+  letter-spacing:.04em;text-decoration:underline;padding:0}
+
+/* ---------- cartas do guia ---------- */
+.guia-item{cursor:pointer;transition:transform .15s}
+.guia-item:active{transform:scale(.985)}
+.carta-veu{position:fixed;inset:0;z-index:80;display:none;background:rgba(10,6,4,.72);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:flex-end;justify-content:center}
+.carta-veu.on{display:flex;animation:fade .25s ease}
+.carta{width:min(560px,100%);max-height:86vh;overflow-y:auto;background:linear-gradient(165deg,#33200F,#241812);
+  border-radius:28px 28px 0 0;padding:1.3rem 1.25rem calc(1.4rem + env(safe-area-inset-bottom));
+  box-shadow:0 -18px 50px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,178,122,.16);position:relative;
+  animation:sobe .3s cubic-bezier(.2,.9,.3,1)}
+@keyframes sobe{from{transform:translateY(48px);opacity:.4}to{transform:none;opacity:1}}
+.carta::before{content:"";position:absolute;top:.55rem;left:50%;transform:translateX(-50%);
+  width:44px;height:4px;border-radius:3px;background:var(--neutro2)}
+.carta h3{font-family:var(--f-disp);font-size:1.25rem;margin:.4rem 0 .2rem;color:var(--neon-claro)}
+.carta .sub{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--neon);display:block;margin-bottom:.6rem}
+.carta p{font-size:.92rem;color:var(--luz);opacity:.92;margin-bottom:.7rem}
+.carta .item{display:flex;gap:.7rem;padding:.65rem 0;border-bottom:1px solid rgba(176,138,114,.14);align-items:baseline}
+.carta .item:last-child{border-bottom:none}
+.carta .item .g{font-size:1.25rem;width:2rem;flex:0 0 auto;text-align:center;color:var(--neon-palha)}
+.carta .item .t b{display:block;font-family:var(--f-disp);font-size:.95rem;color:var(--luz)}
+.carta .item .t span{font-size:.82rem;color:var(--luz2);opacity:.85}
+.carta .fechar{position:sticky;bottom:0;display:block;margin:1rem auto 0;background:var(--barro2);
+  border:none;border-radius:16px;padding:.65rem 1.6rem;font-family:var(--f-mono);font-size:.7rem;
+  color:var(--neon-claro);box-shadow:var(--clay-sm)}
+
+/* ---------- associações da eletiva ---------- */
+.assoc-chip{font-family:var(--f-mono);font-size:.62rem;padding:.4rem .65rem;border-radius:12px;border:none;
+  color:var(--neutro);background:var(--barro);box-shadow:var(--clay-sm);transition:color .15s,box-shadow .15s}
+.assoc-chip.on{color:var(--neon-claro);box-shadow:var(--clay-in)}
+.assoc-row{display:flex;align-items:center;gap:.55rem;padding:.5rem .65rem;background:var(--barro);
+  border-radius:12px;box-shadow:var(--clay-in);margin-top:.45rem;font-size:.85rem}
+.assoc-row .cs{font-family:var(--f-mono);font-size:.6rem;color:var(--neon-claro);margin-left:auto;white-space:nowrap}
+.assoc-row button{background:none;border:none;color:var(--vermelho);font-size:.9rem;padding:0 .2rem}
+
 /* ---------- hero / mandala ---------- */
 .hero-card{text-align:center;padding:1.3rem 1rem 1.4rem}
 .eyebrow{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.2em;color:var(--neon);text-transform:uppercase;margin-bottom:.7rem}
@@ -250,6 +306,7 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
 
 <!-- ==================== INÍCIO ==================== -->
 <section class="pane on" id="pane-inicio">
+  <div id="nativo-card"></div>
   <div class="card hero-card">
     <div class="eyebrow" id="hoje-data">céu de agora</div>
     <div class="hero-l" id="lua-agora">…</div>
@@ -257,13 +314,6 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
     <div class="fase" id="fase-lua">…</div>
     <p class="sintese" id="sintese-agora">…</p>
   </div>
-
-  <div class="card" style="padding:.9rem .6rem">
-    <div class="dia-hora" id="dia-hora"></div>
-    <div class="mandala-wrap"><svg id="mandala" viewBox="-42 -42 684 684" role="img" aria-label="Mandala natal: roda do mapa com signos, casas, planetas, estrelas fixas e aspectos"></svg></div>
-  </div>
-
-  <div id="nativo-card"></div>
 
   <div class="ctx-strip" id="ctx-strip"></div>
 
@@ -286,17 +336,20 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
 
   <h2 class="sec-title">O momento, em camadas</h2>
   <p class="sec-sub">Firdaria, subfirdaria, profecção anual e revolução solar vigentes — a lente pela qual todo trânsito deve ser lido.</p>
+  <div id="camadas-orbital"></div>
   <div class="grid-cards" id="inicio-camadas"></div>
 
-  <h2 class="sec-title">Sincronização</h2>
-  <p class="sec-sub">Com um token do GitHub, cada edição feita nos cards é gravada em <span class="mono">notes.json</span> no repositório — e sobrevive ao F5 em qualquer aparelho.</p>
-  <div class="card">
-    <input class="busca" type="password" id="gh-token" placeholder="token do GitHub (fine-grained, contents: read/write)">
-    <div class="edit-actions" style="margin-top:.6rem">
-      <button class="btn" id="gh-save">guardar token</button>
-      <button class="btn" id="gh-sync">sincronizar agora</button>
+  <div id="sync-sec" style="display:none">
+    <h2 class="sec-title">Ajustes · sincronização</h2>
+    <p class="sec-sub">Com um token do GitHub, cada edição e associação é gravada em <span class="mono">notes.json</span> no repositório — e sobrevive ao F5 em qualquer aparelho.</p>
+    <div class="card">
+      <input class="busca" type="password" id="gh-token" placeholder="token do GitHub (fine-grained, contents: read/write)">
+      <div class="edit-actions" style="margin-top:.6rem">
+        <button class="btn" id="gh-save">guardar token</button>
+        <button class="btn" id="gh-sync">sincronizar agora</button>
+      </div>
+      <span class="sync-status" id="sync-status">sem token — edições ficam só neste navegador</span>
     </div>
-    <span class="sync-status" id="sync-status">sem token — edições ficam só neste navegador</span>
   </div>
 </section>
 
@@ -320,7 +373,17 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
 
 <!-- ==================== LINHA DO TEMPO ==================== -->
 <section class="pane" id="pane-tempo">
-  <h2 class="sec-title">Firdaria da vida inteira</h2>
+  <div class="tl-top"><h2 class="tl-brand">Timeline</h2><span class="tl-hoje">HOJE</span></div>
+  <p class="tl-sub">O que se move agora guia a próxima escolha</p>
+  <div class="card tl-info" id="tl-info"></div>
+  <div class="card" style="padding:1rem .6rem .8rem" id="tl-orbital"></div>
+  <div class="tl-grid" id="tl-cards"></div>
+  <div id="tl-sintese"></div>
+  <div class="card" id="tl-casas"></div>
+  <div class="card" id="tl-conv"></div>
+  <div class="card tl-disc">Convergência interna entre técnicas: ordena o que olhar primeiro — não é probabilidade de evento.</div>
+
+  <h2 class="sec-title">Linha da vida — firdaria inteira</h2>
   <p class="sec-sub">Mapa noturno: a sequência abre com a Lua. Toque num período para ver as subfirdarias.</p>
   <div class="fird-band" id="fird-band"></div>
   <div class="hoje-legenda" id="fird-legenda"></div>
@@ -355,13 +418,24 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
   <div class="eletiva-panel" id="eletiva-panel">
     <p style="color:var(--neutro);font-size:.88rem">Selecione um assunto ou uma casa no grafo para abrir a leitura eletiva.</p>
   </div>
+
+  <h2 class="sec-title">Meus conceitos</h2>
+  <p class="sec-sub">Associe um conceito às casas que ele habita no seu mapa — amor à 7 ou à 5, cognição ao eixo 3–9, criação ao eixo 5–11. As associações entram no grafo e ficam salvas.</p>
+  <div class="card">
+    <input class="busca" id="assoc-nome" placeholder="conceito (ex.: amor, cognição, criação)">
+    <div class="tagrow" id="assoc-casas" style="margin-top:.7rem"></div>
+    <div class="edit-actions" style="margin-top:.6rem"><button class="btn" id="assoc-add">associar ao grafo</button></div>
+    <div id="assoc-lista" style="margin-top:.8rem"></div>
+  </div>
 </section>
 
 <!-- ==================== GUIA ==================== -->
 <section class="pane" id="pane-guia">
   <h2 class="sec-title">O teatro do céu</h2>
   <p class="sec-sub">Um mapa se lê como uma peça que estreia no instante do nascimento. Antes da trama, conheça o elenco e o palco.</p>
+  <p class="sec-sub" style="margin-top:.3rem">Toque num item para abrir a carta com a explicação detalhada.</p>
   <div class="grid-cards" id="guia-cards"></div>
+  <div class="carta-veu" id="carta-veu"><div class="carta" id="carta-corpo"></div></div>
   <h2 class="sec-title">A análise, passo a passo</h2>
   <ol class="passos">
     <li><b>Quem dirige agora?</b> Identifique o regente do período pela camada de tempo vigente: firdaria, subfirdaria, profecção e revolução solar.<span class="mini">→ abas Início e Tempo</span></li>
@@ -382,7 +456,7 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
   <button class="tab" data-pane="guia"><span class="ico">☿</span><span>Guia</span></button>
 </nav>
 
-<footer>lions daily · casas Placidus · astrologia tradicional (sete planetas) · efemérides internas ≈ 0,1° · seita noturna</footer>
+<footer>lions daily · casas Placidus · astrologia tradicional (sete planetas) · seita noturna · <button id="ajustes-link" class="linklike">ajustes</button></footer>
 
 <script>
 /* ============================================================
@@ -661,6 +735,64 @@ function planetaryNow(now){
  const hr=CHALD[(CHALD.indexOf(dayR)+idx)%7];
  return {dayR,hr,elapsed:Math.round((t-start)/60000),remain:Math.round((start+len-t)/60000)};}
 
+/* data em que o Sol em trânsito alcança uma longitude à frente */
+function sunCross(targetLon,from){
+ let t=(from||new Date()).getTime();
+ for(let i=0;i<60;i++){
+  const lon=EPH.all(new Date(t))["Sol"];
+  const d=norm(targetLon-lon);
+  if(d<0.005||d>359.99)break;
+  t+=Math.min(d,30)/0.9856*86400000*0.98;}
+ return new Date(t);}
+function fmtDataCurta(d){return `${d.getUTCDate()} de ${["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"][d.getUTCMonth()]}`;}
+
+/* natureza essencial de cada senhor + o que cada casa evoca */
+const NATURE={
+ "Júpiter":"protegido, na medida em que Júpiter é o grande protetor",
+ "Vênus":"suavizado, na medida em que Vênus é a benéfica menor — favor, gosto e conciliação",
+ "Saturno":"exigente, na medida em que Saturno é o senhor das provações — pede estrutura, tempo e paciência",
+ "Marte":"cortante, na medida em que Marte é o maléfico menor — pede coragem e cuidado com a pressa",
+ "Sol":"exposto à luz, na medida em que o Sol é o rei — dá honra, visibilidade e autoridade",
+ "Mercúrio":"negociável, na medida em que Mercúrio é o mensageiro — toma a cor de quem o toca",
+ "Lua":"ondulante, na medida em que a Lua é a senhora das marés — tudo vem em ciclos"};
+const CASA_EVOCA={1:"corpo, identidade e novos começos",2:"dinheiro, sustento e recursos próprios",
+ 3:"estudos, palavra, irmãos e deslocamentos",4:"casa, família, raízes e fundações",
+ 5:"criatividade, força e poder de ação, produção e prazer",6:"saúde, rotina, serviço e ajustes do cotidiano",
+ 7:"casamento, parcerias, contratos e o outro",8:"crises, medos, perdas, mudanças súbitas e heranças",
+ 9:"longas viagens, fé, estudo superior e lei",10:"carreira, reputação e autoridade",
+ 11:"amigos, alianças, projetos e esperanças",12:"recolhimento, bastidores e inimigos ocultos"};
+function interpLord(prefixo,lord){
+ const casas=[...(REGE[lord]||[])].sort((a,b)=>{const m=h=>[6,8,12].includes(h)?0:1;return m(a)-m(b)||a-b;});
+ if(!casas.length)return `${prefixo} sob ${lord} — ${NATURE[lord]}.`;
+ const t=casas.map(h=>CASA_EVOCA[h]);
+ const tema=t.length>1?`${t[0]}, mas também de ${t.slice(1).join(" e de ")}`:t[0];
+ return `${prefixo} de ${tema} — ${NATURE[lord]}.`;}
+
+/* ---------- componente orbital (camadas concêntricas) ---------- */
+function orbitalSVG(nodes,centerLines){
+ const size=340,C=size/2,RC=56,rings=[88,114,140,163];
+ let s=`<svg viewBox="0 0 ${size} ${size}" style="width:100%;height:auto;display:block" role="img" aria-label="Camadas do tempo em órbitas concêntricas">`;
+ rings.forEach((r,i)=>{s+=`<circle cx="${C}" cy="${C}" r="${r}" fill="none" stroke="rgba(255,138,61,${.12+i*.02})" stroke-width="1"/>`;
+  for(let k=0;k<24;k++){const a=(k/24)*Math.PI*2;
+   s+=`<circle cx="${C+r*Math.cos(a)}" cy="${C+r*Math.sin(a)}" r=".7" fill="rgba(255,178,122,.22)"/>`;}});
+ s+=`<circle cx="${C}" cy="${C}" r="${RC+7}" fill="none" stroke="rgba(255,92,0,.3)" stroke-width="7" opacity=".45"/>`;
+ s+=`<circle cx="${C}" cy="${C}" r="${RC}" fill="#241812" stroke="rgba(255,138,61,.7)" stroke-width="1.4"/>`;
+ centerLines.forEach((ln,i)=>{
+  s+=`<text x="${C}" y="${C+(i-(centerLines.length-1)/2)*16}" text-anchor="middle" dominant-baseline="central" fill="${i===0?"#FF8A3D":"#FFEDE0"}" font-size="${i===0?9.5:12.5}" font-family="Spline Sans Mono,monospace"${i===0?' letter-spacing="3"':''}>${ln}</text>`;});
+ for(const n of nodes){
+  const r=rings[n.ring],a=(n.angle-90)*Math.PI/180;
+  const x=C+r*Math.cos(a),y=C+r*Math.sin(a);
+  s+=`<circle cx="${x}" cy="${y}" r="17" fill="#241812" stroke="${n.color}" stroke-width="1.5"/>`;
+  s+=`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" fill="${n.color}" font-size="15">${n.glyph}</text>`;}
+ s+=`</svg>`;return s;}
+function camadaNodes(fd,p,sr){
+ return [
+  {glyph:GLYPH[fd.major.lord],color:PLANET_COLOR[fd.major.lord],ring:3,angle:0},
+  fd.sub?{glyph:GLYPH[fd.sub.lord],color:PLANET_COLOR[fd.sub.lord],ring:2,angle:270}:null,
+  {glyph:String(p.house),color:"#FF8A3D",ring:1,angle:90},
+  sr?{glyph:SIGN_GLYPH[signOf(sr.asc)],color:ELEM_COLOR[signOf(sr.asc)],ring:0,angle:180}:null
+ ].filter(Boolean);}
+
 function dignity(p,lon){const s=SIGNS[signOf(lon)];const tags=[];
  if(DOMS[p]&&DOMS[p].includes(s))tags.push(["domicílio","dig"]);
  if(EXALT[p]===s)tags.push(["exaltação","dig"]);
@@ -704,6 +836,10 @@ function saveNotes(){clearTimeout(saveT);saveT=setTimeout(async()=>{
  try{if(hasLS())localStorage.setItem(LS_KEY,JSON.stringify(NOTES));}catch(e){}
  pushNotes();},600);}
 function initSync(){
+ const lk=$("#ajustes-link");
+ if(lk)lk.addEventListener("click",()=>{const sec=$("#sync-sec");
+  const show=sec.style.display==="none";sec.style.display=show?"block":"none";
+  if(show)sec.scrollIntoView({behavior:"smooth",block:"center"});});
  const inp=$("#gh-token");if(!inp)return;
  if(ghToken()){inp.value=ghToken();syncStatus("token guardado — edições vão para o GitHub","ok");}
  $("#gh-save").addEventListener("click",()=>{
@@ -908,24 +1044,36 @@ function renderInicio(){
  $("#sol-agora").innerHTML=`${gl("☉")} O Sol está a <b>${fmtLon(t["Sol"])}</b> — sua casa ${sunHouse}`;
  const f=faseDe(now);
  $("#fase-lua").innerHTML=`${moonSVG(f.el,18)}<span>${f.nome} · ${f.ilum}% iluminada</span>`;
- /* dia e hora planetária */
+ /* o nativo: regente do ASC (Sol) — signo, casa, termo e relógio */
  const ph=planetaryNow(now);
- const dh=$("#dia-hora");
- if(dh)dh.innerHTML=`<span>Dia: ${gl(GLYPH[ph.dayR].replace(VS,""))} <b>${ph.dayR}</b></span>
-   <span>Hora: ${gl(GLYPH[ph.hr].replace(VS,""))} <b>${ph.hr}</b></span>
-   <span class="mm">−${ph.elapsed}/+${ph.remain} min</span>`;
- /* o nativo: regente do ASC (Sol) — signo, casa e termo */
  const nat=$("#nativo-card");
  if(nat){
   const sl=t["Sol"],tm=termOf(sl),hN=houseOf(sl);
   const casasTm=REGE[tm.lord]||[];
   const temas=casasTm.map(h=>`<div class="rege-item"><span class="hn">casa ${h}</span><span>${CASA_ASSUNTO[h]}</span></div>`).join("");
   const temasCurto=casasTm.map(h=>CASA_CURTO[h]).join(", e de ");
+  /* relógio do Sol: fim do termo, do signo e da casa */
+  const fimTermo=sunCross(tm.sg*30+tm.to,now);
+  const lista=TERMS[tm.sg];const ti=lista.findIndex(x=>x[1]===tm.to);
+  const proxTermo=ti<4?lista[ti+1][0]:TERMS[(tm.sg+1)%12][0][0];
+  const fimSigno=sunCross(((tm.sg+1)%12)*30,now);
+  const proxSigno=SIGNS[(tm.sg+1)%12];
+  const fimCasa=sunCross(CUSPS[hN%12],now);
+  const proxCasa=hN%12+1;
   nat.innerHTML=`<div class="card destaque" style="--accent:#FF8A3D">
+   <div class="dia-hora" style="padding:0 0 .7rem"><span>Dia: ${gl(GLYPH[ph.dayR].replace(VS,""))} <b>${ph.dayR}</b></span>
+    <span>Hora: ${gl(GLYPH[ph.hr].replace(VS,""))} <b>${ph.hr}</b></span>
+    <span class="mm">−${ph.elapsed}/+${ph.remain} min</span></div>
    <span class="tone lente">O nativo agora</span>
    <h3><span class="glifo">${gl("☉")}</span><span>Sol — regente do Ascendente</span></h3>
    <div class="pos">${fmtLon(sl)} · sua casa ${hN} · termo de ${tm.lord} (${tm.from}°–${tm.to}° de ${SIGNS[tm.sg]})</div>
    <p class="desc">O Sol rege o Ascendente em Leão: ele é <b>o nativo</b> no céu de agora. Caminhando pelos <b>termos de ${tm.lord}</b>, ele evoca os assuntos das casas que ${tm.lord} rege no mapa — agora, ${temasCurto}.</p>
+   <div class="bloco"><span class="rot">Relógio do Sol · até quando</span>
+    <div class="rege-lista">
+     <div class="rege-item"><span class="hn">termo</span><span>no termo de ${tm.lord} até <b>${fmtDataCurta(fimTermo)}</b> → depois, termo de <b>${proxTermo}</b></span></div>
+     <div class="rege-item"><span class="hn">signo</span><span>em ${SIGNS[tm.sg]} até <b>${fmtDataCurta(fimSigno)}</b> → entra em <b>${proxSigno}</b></span></div>
+     <div class="rege-item"><span class="hn">casa</span><span>na casa ${hN} até <b>${fmtDataCurta(fimCasa)}</b> → entra na <b>casa ${proxCasa}</b></span></div>
+    </div></div>
    <div class="bloco"><span class="rot">${tm.lord} rege · temas evocados no período</span>
     <div class="rege-lista">${temas}</div>
     <p style="margin-top:.6rem;font-size:.8rem;color:var(--neutro)">Quando o Sol trocar de termo, muda o senhor — e mudam os assuntos que o período convoca.</p></div>
@@ -939,25 +1087,33 @@ function renderInicio(){
   `<span class="chip">profecção <b>casa ${p.house} · ${p.sign}</b> · senhor do ano <b>${p.lord}</b></span>`,
   sr?`<span class="chip">revolução solar <b>${sr.year}/${sr.year+1}</b> · ASC <b>${fmtLon(sr.asc)}</b></span>`:""
  ].join("");
+ /* camadas concêntricas */
+ const orbEl=$("#camadas-orbital");
+ if(orbEl){
+  const dataStr=now.toLocaleDateString("pt-BR"),idadeStr=Math.floor(ageAt(now))+" anos";
+  orbEl.innerHTML=`<div class="card" style="padding:1rem .6rem .9rem">${orbitalSVG(camadaNodes(fd,p,sr),["AGORA",dataStr,idadeStr])}
+   <div class="orb-leg"><b style="color:${PLANET_COLOR[fd.major.lord]}">● firdaria</b>${fd.sub?`<b style="color:${PLANET_COLOR[fd.sub.lord]}">● subfirdaria</b>`:""}<b style="color:#FF8A3D">● profecção</b>${sr?`<b style="color:${ELEM_COLOR[signOf(sr.asc)]}">● revolução</b>`:""}</div></div>`;
+ }
  const cards=[];
  cards.push(cardHTML({key:"camada-fird-"+fd.major.lord,title:"Firdaria de "+fd.major.lord,glyph:GLYPH[fd.major.lord],
    accent:PLANET_COLOR[fd.major.lord],
    pos:`${fd.major.start} → ${fd.major.end} · idades ${fd.major.start_age}–${fd.major.end_age}`,
-   def:T_FIRD[fd.major.lord]||"",destaque:true,tags:[["período maior","gold"]]}));
+   def:interpLord("Anos",fd.major.lord),destaque:true,tags:[["período maior","gold"]]}));
  if(fd.sub)cards.push(cardHTML({key:"camada-sub-"+fd.major.lord+"-"+fd.sub.lord,title:"Subfirdaria de "+fd.sub.lord,
    glyph:GLYPH[fd.sub.lord],accent:PLANET_COLOR[fd.sub.lord],
-   pos:`${fd.sub.start} → ${fd.sub.end}`,def:(T_FIRD[fd.sub.lord]||"")+" Tom secundário que tempera o período maior.",
+   pos:`${fd.sub.start} → ${fd.sub.end}`,
+   def:interpLord("Tempo",fd.sub.lord)+" Tom secundário que tempera o período maior.",
    destaque:true,tags:[["subperíodo","gold"]]}));
  cards.push(cardHTML({key:"camada-prof-"+p.age,title:`Profecção: casa ${p.house}`,glyph:SIGN_GLYPH[SIGNS.indexOf(p.sign)],
    accent:"#FF8A3D",pos:`${p.sign} · senhor do ano: ${p.lord} · idade ${p.age}`,
-   def:`O ano ativa a casa ${p.house}: ${CASA_ASSUNTO[p.house]}. Observe ${p.lord} — no natal, na revolução e em trânsito.`,
+   def:`Ano de ${CASA_EVOCA[p.house]} — regido por ${p.lord}, ${NATURE[p.lord]}.`,
    destaque:true,tags:[["ano profectado","gold"]]}));
- if(sr)cards.push(cardHTML({key:"camada-rs-"+sr.year,title:`Revolução solar ${sr.year}`,glyph:"☉",accent:"#FF5C00",
+ if(sr){const hRS=houseOf(sr.asc),rRS=RULERS[SIGNS[signOf(sr.asc)]];
+  cards.push(cardHTML({key:"camada-rs-"+sr.year,title:`Revolução solar ${sr.year}`,glyph:"☉",accent:"#FF5C00",
    pos:`${sr.utc} · ASC ${fmtLon(sr.asc)}`,
-   def:`O Ascendente da revolução em ${SIGNS[signOf(sr.asc)]} cai na sua casa ${houseOf(sr.asc)} natal — o palco do ano.`,
-   tags:[["ano solar","gold"]]}));
+   def:`Ano que tende a se manifestar por ${CASA_EVOCA[hRS]} (casa ${hRS} natal). O Ascendente da revolução em ${SIGNS[signOf(sr.asc)]} entrega o ano a ${rRS} — ${NATURE[rRS]}.`,
+   tags:[["ano solar","gold"]]}));}
  $("#inicio-camadas").innerHTML=cards.join("");
- drawMandala();
 }
 function cardHTML({key,title,glyph,pos,def,tags=[],destaque=false,accent,extra=""}){
  return `<div class="card${destaque?" destaque":""}"${accent?` style="--accent:${accent}"`:""}>
@@ -1051,9 +1207,65 @@ function renderNatal(){
     tags:[[`orbe ${grausMin(e.orb)}`,"gold"],[e.alvo,""]]})).join("");
 }
 
+/* ============ TIMELINE ============ */
+function renderTimeline(){
+ const now=new Date(),fd=firdariaAt(now),p=profectionAt(now),sr=solarReturnAt(now);
+ const idade=Math.floor(ageAt(now));
+ $("#tl-info").innerHTML=`<div><span>Data</span><b>${now.toLocaleDateString("pt-BR")}</b></div>
+  <div><span>Idade</span><b>${idade} anos</b></div>
+  <div><span>Retorno</span><b>Solar ${sr?sr.year:"—"}</b></div>`;
+ $("#tl-orbital").innerHTML=orbitalSVG(camadaNodes(fd,p,sr),["AGORA",now.toLocaleDateString("pt-BR"),idade+" anos"])
+  +`<div class="orb-leg"><b style="color:${PLANET_COLOR[fd.major.lord]}">● firdária</b>${fd.sub?`<b style="color:${PLANET_COLOR[fd.sub.lord]}">● subfirdária</b>`:""}<b style="color:#FF8A3D">● profecção</b>${sr?`<b style="color:${ELEM_COLOR[signOf(sr.asc)]}">● revolução</b>`:""}</div>`;
+ const mini=(label,glyph,title,linhas,accent)=>`<div class="card" style="--accent:${accent}">
+   <span class="tone lente">${label}</span>
+   <h3><span class="glifo">${glyph}</span><span>${title}</span></h3>
+   <p class="desc" style="margin-top:.45rem">${linhas}</p></div>`;
+ const primeiraFrase=t=>t.split(" — ")[0]+".";
+ const hRS=sr?houseOf(sr.asc):null,rRS=sr?RULERS[SIGNS[signOf(sr.asc)]]:null;
+ $("#tl-cards").innerHTML=[
+  mini("Firdária",GLYPH[fd.major.lord],fd.major.lord,
+    `${fd.major.start.slice(0,4)} – ${fd.major.end.slice(0,4)}<br>${primeiraFrase(interpLord("Anos",fd.major.lord))}`,PLANET_COLOR[fd.major.lord]),
+  fd.sub?mini("Subfirdária",GLYPH[fd.sub.lord],fd.sub.lord,
+    `até ${fd.sub.end.split("-").reverse().join("/")}<br>${primeiraFrase(interpLord("Traz",fd.sub.lord))}`,PLANET_COLOR[fd.sub.lord]):"",
+  mini("Profecção",String(p.house),`Casa ${p.house} · ${p.sign}`,
+    `${1994+p.age} – ${1995+p.age}<br>O ano trata de ${CASA_CURTO[p.house]}, sob ${p.lord}.`,"#FF8A3D"),
+  sr?mini("Revolução solar",SIGN_GLYPH[signOf(sr.asc)],SIGNS[signOf(sr.asc)],
+    `${sr.utc.slice(0,10).split("-").reverse().join("/")} – +1 ano<br>O período tende a se manifestar por ${CASA_CURTO[hRS]}.`,ELEM_COLOR[signOf(sr.asc)]):""
+ ].join("");
+ /* síntese do momento */
+ const dg=dignity(p.lord,DATA.natal.planets[p.lord].lon);
+ const cond=dg.some(x=>x[1]==="dig")?`${p.lord} entrega com força própria`
+   :dg.some(x=>x[1]==="deb")?`${p.lord} entrega com custo — apoie-o`
+   :`${p.lord} entrega conforme os apoios`;
+ $("#tl-sintese").innerHTML=`<div class="card destaque" style="--accent:#FF8A3D">
+   <span class="tone lente">Síntese do momento</span>
+   <h3><span class="glifo">✦</span><span>${cap(CASA_CURTO[p.house])} · agenda de ${p.lord}</span></h3>
+   <div class="pos" style="margin-top:.5rem">COMO TENDE A APARECER — ${hRS?CASA_CURTO[hRS]+" (casa "+hRS+" natal)":"—"}</div>
+   <div class="pos">CONDIÇÃO DO PERÍODO — ${cond}</div></div>`;
+ /* casas ativadas */
+ const ativas=[];const push=(h,destq)=>{if(h&&!ativas.some(x=>x[0]===h))ativas.push([h,destq]);};
+ push(p.house,true);if(hRS)push(hRS,false);
+ (REGE[p.lord]||[]).forEach(h=>push(h,false));
+ (REGE[fd.major.lord]||[]).forEach(h=>push(h,false));
+ if(fd.sub)(REGE[fd.sub.lord]||[]).forEach(h=>push(h,false));
+ $("#tl-casas").innerHTML=`<span class="tone lente">Casas ativadas</span>
+  <div class="tagrow" style="margin-top:.5rem">${ativas.slice(0,6).map(([h,d])=>`<span class="tag${d?" gold":""}">${h}ª ${CASA_CURTO[h]}</span>`).join("")}</div>`;
+ /* convergências */
+ const W={};const addW=(pl,w)=>{if(pl)W[pl]=(W[pl]||0)+w;};
+ addW(fd.major.lord,3);if(fd.sub)addW(fd.sub.lord,2);addW(p.lord,3);
+ if(rRS)addW(rRS,2);addW(termOf(EPH.all(now)["Sol"]).lord,1);addW(planetaryNow(now).dayR,.5);
+ const rank=Object.entries(W).sort((a,b)=>b[1]-a[1]).slice(0,4);
+ const max=rank[0][1];
+ $("#tl-conv").innerHTML=`<span class="tone lente">Convergências principais</span>
+  <div style="margin-top:.5rem">${rank.map(([pl,w])=>`<div class="tbar"><span class="tb-rot">${GLYPH[pl]} ${pl}</span>
+   <span class="tb-trilho"><span class="tb-fill" style="width:${(w/max*100).toFixed(0)}%;background:${PLANET_COLOR[pl]}"></span></span>
+   <span class="tb-val">${(w/max*100).toFixed(0)}%</span></div>`).join("")}</div>`;
+}
+
 /* ============ LINHA DO TEMPO ============ */
 let selFird=null,selYear=null;
 function renderTempo(){
+ renderTimeline();
  const nowAge=ageAt(new Date());
  const band=$("#fird-band");const LIM=105;
  band.innerHTML=DATA.firdaria.map((f,i)=>{
@@ -1144,22 +1356,83 @@ function renderTransitos(dt){
 }
 
 /* ============ GUIA ============ */
+const CARTAS={
+ planetas:{t:"Os planetas — os atores",sub:"quem age",
+  intro:"Os sete planetas tradicionais são o elenco fixo da peça. Cada um é uma força com temperamento, apetites e modos próprios — e o mesmo ator atua diferente conforme o figurino (signo) e o cenário (casa).",
+  itens:[["☉","Sol","O rei. Vitalidade, identidade e propósito; onde está, a vida quer brilhar e ser vista. Quente e seco, colérico."],
+   ["☽","Lua","A rainha das marés. Corpo, hábitos, memória e emoção; mostra do que você precisa para se sentir seguro. Fria e úmida, fleumática."],
+   ["☿","Mercúrio","O mensageiro. Mente, palavra, trocas e comércio; neutro — toma a cor de quem o toca. Frio e seco."],
+   ["♀","Vênus","A benéfica menor. Prazer, vínculo, beleza e conciliação; o que você ama e como atrai. Fria e úmida."],
+   ["♂","Marte","O maléfico menor. Corte, coragem, disputa e desejo; onde está, a vida pede luta. Quente e seco."],
+   ["♃","Júpiter","O grande protetor. Expansão, fé, generosidade e sabedoria; abre portas e protege. Quente e úmido, sanguíneo."],
+   ["♄","Saturno","O senhor das provações. Limite, estrutura, tempo e colheita tardia; pesa, mas consolida. Frio e seco, melancólico."]]},
+ signos:{t:"Os signos — os figurinos",sub:"como agem",
+  intro:"Os doze signos são os trajes que mudam o estilo do ator. Dividem-se por elemento (fogo, terra, ar, água) e por modo (cardinal: inicia; fixo: sustenta; mutável: adapta).",
+  itens:[["♈","Áries","Fogo cardinal, de Marte. Início puro: direto, impaciente, pioneiro."],
+   ["♉","Touro","Terra fixa, de Vênus. Sustenta e acumula: sensorial, teimoso, fértil."],
+   ["♊","Gêmeos","Ar mutável, de Mercúrio. Duplica e conecta: curioso, verbal, ágil."],
+   ["♋","Câncer","Água cardinal, da Lua. Protege e nutre: sensível, doméstico, de memória longa."],
+   ["♌","Leão","Fogo fixo, do Sol. Irradia e reina: generoso, orgulhoso, dramático."],
+   ["♍","Virgem","Terra mutável, de Mercúrio. Refina e corrige: analítico, útil, exigente."],
+   ["♎","Libra","Ar cardinal, de Vênus. Pesa e harmoniza: social, estético, conciliador."],
+   ["♏","Escorpião","Água fixa, de Marte. Concentra e transforma: intenso, secreto, estrategista."],
+   ["♐","Sagitário","Fogo mutável, de Júpiter. Expande e aponta: confiante, andarilho, doutrinal."],
+   ["♑","Capricórnio","Terra cardinal, de Saturno. Escala e estrutura: ambicioso, sóbrio, durável."],
+   ["♒","Aquário","Ar fixo, de Saturno. Fixa a ideia: coletivo, frio, reformador."],
+   ["♓","Peixes","Água mutável, de Júpiter. Dissolve e acolhe: compassivo, poroso, imaginativo."]]},
+ casas:{t:"As casas — os cenários",sub:"onde agem",
+  intro:"As doze casas dividem o palco em setores da vida — aqui medidas por cúspides reais (Placidus). O planeta age no cenário em que está; o regente da cúspide é o dono do cenário.",
+  itens:[["1","Casa 1","Corpo, aparência, temperamento e o modo de começar. O Ascendente é a porta da vida."],
+   ["2","Casa 2","Dinheiro, posses, sustento e recursos próprios."],
+   ["3","Casa 3","Irmãos, vizinhança, estudos curtos, palavra e deslocamentos."],
+   ["4","Casa 4","Lar, família, raízes, imóveis e o fim das coisas."],
+   ["5","Casa 5","Filhos, prazer, criatividade, romance e o poder de ação."],
+   ["6","Casa 6","Saúde, doença, rotina, serviço e animais."],
+   ["7","Casa 7","Casamento, parcerias, contratos e inimigos declarados."],
+   ["8","Casa 8","Morte, heranças, dinheiro alheio, crises e transformação."],
+   ["9","Casa 9","Viagens longas, estrangeiro, fé, filosofia, lei e ensino superior."],
+   ["10","Casa 10","Carreira, reputação, vocação e autoridade — o Meio-do-Céu."],
+   ["11","Casa 11","Amigos, grupos, aliados, projetos e as bênçãos do céu."],
+   ["12","Casa 12","Isolamento, bastidores, hospitais, retiro e inimigos ocultos."]]},
+ aspectos:{t:"Os aspectos — os diálogos",sub:"como se relacionam",
+  intro:"Os aspectos são os ângulos entre planetas: o modo como os atores contracenam. Suaves fluem; tensos dramatizam — e é a tensão que move a trama.",
+  itens:[["☌","Conjunção (0°)","Os atores dividem a mesma marca de palco: fusão de significados, para o bem ou para o mal."],
+   ["⚹","Sextil (60°)","Diálogo cordial com esforço leve: oportunidade que precisa de um gesto."],
+   ["□","Quadratura (90°)","Conflito dramático: fricção que exige ação e produz história."],
+   ["△","Trígono (120°)","Cumplicidade: fluxo fácil, talento que corre sozinho."],
+   ["☍","Oposição (180°)","Frente a frente: polaridade, negociação entre dois extremos."]]},
+ estrelas:{t:"As estrelas fixas — os coros",sub:"o que intensifica",
+  intro:"Fora da roda dos planetas, as estrelas fixas não regem casas nem fazem aspectos: em conjunção apertada (≈1°), colorem o ponto tocado com uma imagem mítica antiga. São o coro grego ao fundo da cena.",
+  itens:[["✧","Como ler","Só conjunções apertadas contam. A estrela dá a imagem; o planeta, o assunto. Magnitude alta = voz mais forte."],
+   ["✧","No seu mapa","Oito coros cantam: Porrima e Vindemiatrix em Vênus, Dubhe no Ascendente, Algol no Meio-do-Céu, Menkalinan em Marte, Al Jabhah em Mercúrio, Khambalia em Júpiter e Zuben Eschamali no Nodo Norte — veja a sub-aba Estrelas fixas no Natal."]]},
+ regencia:{t:"A regência — o diretor",sub:"quem dirige a temporada",
+  intro:"Nem todo ator pesa o mesmo o tempo todo. As técnicas de tempo elegem, período a período, um planeta como regente — o diretor da temporada. Toda a peça passa a ser lida a partir dele.",
+  itens:[["♄","Firdaria","Divide a vida em períodos de anos por planeta (mapa noturno começa na Lua). O senhor maior dá o tom da era; o submenor, o capítulo."],
+   ["1","Profecção","A cada aniversário o Ascendente avança uma casa: o ano ativa aquele cenário, e o regente da casa é o senhor do ano."],
+   ["☉","Revolução solar","A carta do instante em que o Sol volta ao grau natal: o mapa do ano, lido sobre o natal."],
+   ["✦","Termos","Dentro de cada signo, faixas de graus pertencem a um planeta. O Sol em trânsito, andando pelos termos, evoca os assuntos das casas que o senhor do termo rege."]]}
+};
 function renderGuia(){
- const g=[
-  ["Quem age","Os planetas — os atores","☉","#FF8A3D","Os sete planetas tradicionais são o elenco. Cada um tem temperamento próprio: o Sol é o protagonista que dá vida e propósito; a Lua, a alma sensível que reage a tudo; Marte, o guerreiro impulsivo; Vênus, o par amoroso; Saturno, o velho severo que impõe limites. São o <b>quem</b> da peça."],
-  ["Como agem","Os signos — os figurinos","♈","#E24A2B","Os doze signos são os trajes que cada ator veste. Um mesmo planeta muda de interpretação conforme o figurino: Marte em Áries entra em cena com fúria direta; Marte em Touro, com teimosia lenta. O signo dá o tom da atuação — o <b>como</b>."],
-  ["Onde agem","As casas — os cenários","⌂","#E8C6AC","As doze casas dividem o palco em setores da vida: a 1ª é o corpo; a 7ª, as parcerias; a 10ª, a carreira. Aqui elas são medidas por cúspides reais (Placidus), e não por signos inteiros. Respondem <b>onde</b> a cena se passa."],
-  ["Como se relacionam","Os aspectos — os diálogos","☌","#5FA88B","Os aspectos são os ângulos entre os planetas: o modo como os atores contracenam. A conjunção os põe lado a lado; trígono e sextil criam diálogo fluido; quadratura e oposição acendem o conflito que move a trama."],
-  ["O que intensifica","As estrelas fixas — os coros","✧","#FFD08A","Estrelas fixas não regem casas nem fazem aspectos: em conjunção apertada, elas colorem o ponto que tocam com uma imagem mítica antiga. São o coro ao fundo, que dá à cena um peso que a geometria sozinha não explica."],
-  ["Quem dirige","A regência — o diretor da temporada","♛","#FF5C00","Nem todo ator pesa o mesmo o tempo todo. Firdaria, profecção e revolução solar elegem, período a período, um planeta como <b>regente</b>: o protagonista em cartaz. É ele quem decide qual história ganha o centro do palco — e toda a peça passa a ser lida a partir dele."]
- ];
- $("#guia-cards").innerHTML=g.map(([rot,tit,glf,cor,txt])=>`
-  <div class="card" style="--accent:${cor}">
-    <span class="tone info">${rot}</span>
-    <h3><span class="glifo">${gl(glf)}</span><span>${tit}</span></h3>
-    <p class="desc" style="margin-top:.6rem">${txt}</p>
-  </div>`).join("");
+ const ordem=[["planetas","☉","#FF8A3D"],["signos","♈","#F2603F"],["casas","⌂","#E8C6AC"],
+  ["aspectos","☌","#5FA88B"],["estrelas","✧","#E8D44D"],["regencia","♛","#FF5C00"]];
+ $("#guia-cards").innerHTML=ordem.map(([k,glf,cor])=>{const c=CARTAS[k];
+  return `<button class="card guia-item" data-carta="${k}" style="--accent:${cor};text-align:left;width:100%;border:none">
+    <span class="tone info">${c.sub}</span>
+    <h3><span class="glifo">${gl(glf)}</span><span>${c.t}</span></h3>
+    <p class="desc" style="margin-top:.55rem">${c.intro.split(". ")[0]}. <b style="color:var(--neon-claro)">Abrir carta →</b></p>
+  </button>`;}).join("");
+ $$(".guia-item").forEach(el=>el.addEventListener("click",()=>abrirCarta(el.dataset.carta)));
+ $("#carta-veu").addEventListener("click",e=>{if(e.target.id==="carta-veu")fecharCarta();});
 }
+function abrirCarta(k){
+ const c=CARTAS[k];if(!c)return;
+ $("#carta-corpo").innerHTML=`<span class="sub">${c.sub}</span><h3>${c.t}</h3>
+  <p>${c.intro}</p>
+  ${c.itens.map(([g,tt,tx])=>`<div class="item"><span class="g">${gl(g)}</span><span class="t"><b>${tt}</b><span>${tx}</span></span></div>`).join("")}
+  <button class="fechar" onclick="fecharCarta()">fechar carta</button>`;
+ $("#carta-veu").classList.add("on");document.body.style.overflow="hidden";
+}
+window.fecharCarta=()=>{$("#carta-veu").classList.remove("on");document.body.style.overflow="";};
 
 /* ============ TEMPERAMENTO (doutrina humoral galênico-culpeperiana) ============ */
 /* qualidades como vetor [quente, frio, seco, úmido] */
@@ -1462,13 +1735,13 @@ function drawGraph(){
  for(const n of sorted){const p=P[n.id];
   const hot=n.id===G.sel||( anyMatch&&match(n));
   const dim=anyMatch&&!match(n)&&n.id!==G.sel;
-  const r=(n.hub?7:3.6)*p.persp*devicePixelRatio;
+  const r=(n.hub?7:n.custom?5.2:3.6)*p.persp*devicePixelRatio;
   ctx.beginPath();ctx.arc(p.sx,p.sy,r,0,7);
-  ctx.fillStyle=hot?"#FFB27A":n.hub?"#FF5C00":dim?"rgba(176,138,114,.22)":"rgba(232,198,172,.85)";
+  ctx.fillStyle=n.custom?"#FFD08A":hot?"#FFB27A":n.hub?"#FF5C00":dim?"rgba(176,138,114,.22)":"rgba(232,198,172,.85)";
   ctx.fill();
-  if(n.hub||hot||G.zoom>1.25){
+  if(n.hub||n.custom||hot||G.zoom>1.25){
    ctx.font=`${(n.hub?11:9.5)*devicePixelRatio*Math.min(p.persp,1.15)}px "Spline Sans Mono",monospace`;
-   ctx.fillStyle=hot?"#FFB27A":dim?"rgba(176,138,114,.3)":n.hub?"#FF5C00":"rgba(255,237,224,.78)";
+   ctx.fillStyle=n.custom?"#FFD08A":hot?"#FFB27A":dim?"rgba(176,138,114,.3)":n.hub?"#FF5C00":"rgba(255,237,224,.78)";
    ctx.textAlign="center";
    ctx.fillText(n.label,p.sx,p.sy-r-4*devicePixelRatio);}}
  G._proj=P;
@@ -1522,6 +1795,50 @@ function renderEletivaPanel(n){
   ${n.hub?`<div class="tagrow">${TOPICS[h].map(tp=>`<span class="tag">${tp}</span>`).join("")}</div>`:""}`;
 }
 
+/* ============ CONCEITOS DO USUÁRIO NO GRAFO ============ */
+function getAssoc(){try{return JSON.parse(noteKey("eletiva-assoc")||"{}");}catch(e){return {};}}
+function setAssoc(a){NOTES["eletiva-assoc"]=JSON.stringify(a);saveNotes();}
+function addCustomNodes(){
+ const A=getAssoc();
+ for(const [name,houses] of Object.entries(A)){
+  if(!houses||!houses.length)continue;
+  let vx=0,vy=0;houses.forEach(h=>{const a=(h-1)/12*Math.PI*2;vx+=Math.cos(a);vy+=Math.sin(a);});
+  const mag=Math.hypot(vx,vy)||1;
+  let hash=0;for(const ch of name)hash=(hash*31+ch.charCodeAt(0))%997;
+  const r=houses.length>1?120:250;
+  G.nodes.push({id:"c:"+name,label:name,house:houses[0],hub:false,custom:true,
+    x:vx/mag*r,y:vy/mag*r,z:(hash%140)-70});
+  houses.forEach(h=>G.edges.push(["casa"+h,"c:"+name]));
+ }}
+const _buildGraph=buildGraph;
+buildGraph=function(){_buildGraph();addCustomNodes();};
+let assocSel=new Set();
+function renderAssocUI(){
+ const box=$("#assoc-casas");if(!box)return;
+ box.innerHTML=Array.from({length:12},(_,i)=>{const h=i+1;
+  return `<button class="assoc-chip${assocSel.has(h)?" on":""}" data-h="${h}">casa ${h}</button>`;}).join("");
+ box.querySelectorAll(".assoc-chip").forEach(el=>el.addEventListener("click",()=>{
+  const h=+el.dataset.h;assocSel.has(h)?assocSel.delete(h):assocSel.add(h);renderAssocUI();}));
+ const A=getAssoc();
+ $("#assoc-lista").innerHTML=Object.entries(A).map(([name,houses])=>
+  `<div class="assoc-row"><span>${esc(name)}</span><span class="cs">${houses.map(h=>"casa "+h).join(" · ")}</span>
+   <button data-del="${esc(name)}" aria-label="remover">×</button></div>`).join("")
+  ||'<p class="hint">nenhum conceito associado ainda</p>';
+ $("#assoc-lista").querySelectorAll("[data-del]").forEach(el=>el.addEventListener("click",()=>{
+  const A2=getAssoc();delete A2[el.dataset.del];setAssoc(A2);buildGraph();renderAssocUI();drawGraph();}));
+}
+function initAssoc(){
+ if(!$("#assoc-add"))return;
+ renderAssocUI();
+ $("#assoc-add").addEventListener("click",()=>{
+  const name=$("#assoc-nome").value.trim().toLowerCase();
+  if(!name||!assocSel.size)return;
+  const A=getAssoc();A[name]=[...assocSel].sort((x,y)=>x-y);setAssoc(A);
+  $("#assoc-nome").value="";assocSel=new Set();
+  buildGraph();renderAssocUI();drawGraph();});
+}
+
+
 /* ============ NAV & BOOT ============ */
 $$(".tab").forEach(b=>b.addEventListener("click",()=>{
  $$(".tab").forEach(x=>x.classList.remove("on"));
@@ -1547,7 +1864,7 @@ function setTransNow(){const n=new Date();const pad=x=>String(x).padStart(2,"0")
  $$(".tab .ico").forEach(el=>{el.textContent=gl(el.textContent);});
  await loadNotes();
  initSync();renderInicio();initForecast();renderNatal();renderTemperamento();renderTempo();setTransNow();renderTransitos();renderGuia();
- buildGraph();initGraphEvents();graphLoop();
+ buildGraph();initAssoc();initGraphEvents();graphLoop();
  setInterval(()=>{if(!document.querySelector("#pane-inicio .edit-area.on"))renderInicio();},60000);
 })();
 
