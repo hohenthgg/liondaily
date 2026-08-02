@@ -8,7 +8,8 @@
 <meta name="theme-color" content="#17100C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%23FF5C00'%3E%E2%98%89%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Spectral:wght@300;400;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Spectral:wght@300;400;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Spectral:wght@300;400;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
   /* ---- paleta derivada do laranja neon #FF5C00 ---- */
@@ -33,7 +34,7 @@ body{background:var(--barro-fundo);color:var(--luz);font-family:var(--f-body);fo
   min-height:100vh;padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 1rem);
   background-image:radial-gradient(ellipse 120% 55% at 50% -10%,#2E1B12 0%,transparent 62%),
                    radial-gradient(ellipse 80% 40% at 50% 108%,#26150E 0%,transparent 70%);
-  background-attachment:fixed}
+}
 ::selection{background:var(--neon);color:#fff}
 a{color:var(--neon-claro)}
 button{font-family:inherit;cursor:pointer;color:inherit}
@@ -123,9 +124,6 @@ section.pane.on{display:block;animation:fade .3s ease}
 .tl-grid .card p.desc{font-size:.8rem}
 .tl-grid .tone{font-size:.5rem;padding:.22rem .5rem;margin-bottom:.45rem}
 .tl-disc{font-family:var(--f-mono);font-size:.66rem;color:var(--neutro);padding:.9rem 1rem}
-.orb-leg{display:flex;justify-content:center;flex-wrap:wrap;gap:.4rem .9rem;margin-top:.5rem;
-  font-family:var(--f-mono);font-size:.56rem;color:var(--neutro);letter-spacing:.04em}
-.orb-leg b{font-weight:400}
 .linklike{background:none;border:none;color:var(--neutro2);font-family:var(--f-mono);font-size:.56rem;
   letter-spacing:.04em;text-decoration:underline;padding:0}
 
@@ -173,8 +171,6 @@ section.pane.on{display:block;animation:fade .3s ease}
 .fase{display:inline-flex;align-items:center;gap:.5rem;margin-top:.75rem;font-family:var(--f-mono);font-size:.68rem;
   color:var(--luz2);background:var(--barro);border-radius:20px;padding:.4rem .85rem;box-shadow:var(--clay-in)}
 .sintese{color:var(--luz2);font-size:.92rem;margin-top:.9rem;text-align:left}
-.mandala-wrap{margin:0 -.35rem;padding:.4rem 0 0}
-.mandala-wrap svg{width:100%;height:auto;display:block}
 .ctx-strip{display:flex;flex-direction:column;gap:.45rem;margin-top:1rem}
 .chip{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.02em;padding:.5rem .8rem;border-radius:14px;
   color:var(--neutro);background:var(--barro);box-shadow:var(--clay-in);text-align:left}
@@ -197,38 +193,13 @@ section.pane.on{display:block;animation:fade .3s ease}
 .fc-arrow{width:40px;height:40px;flex:0 0 auto;border-radius:14px;background:var(--barro2);border:none;color:var(--neon-claro);
   font-size:1.2rem;line-height:1;box-shadow:var(--clay-sm);transition:box-shadow .12s,transform .1s}
 .fc-arrow:active{box-shadow:var(--clay-in);transform:scale(.96)}
-.fc-months{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}
-.fc-cell{position:relative;display:flex;flex-direction:column;align-items:center;gap:.28rem;padding:.8rem .3rem;
-  border-radius:var(--r-sm);background:var(--barro2);border:none;box-shadow:var(--clay-sm);transition:box-shadow .15s}
-.fc-cell .ci{font-size:1.25rem;color:var(--neutro);line-height:1;font-family:var(--f-body)}
-.fc-cell .cl{font-family:var(--f-body);font-size:.82rem;color:var(--luz)}
-.fc-cell .cs{font-family:var(--f-mono);font-size:.5rem;color:var(--neutro2);letter-spacing:.02em}
-.fc-cell.sel{box-shadow:var(--clay-neon)}
-.fc-cell.sel .ci,.fc-cell.sel .cl{color:var(--neon-claro)} .fc-cell.sel .cs{color:var(--neon)}
-.fc-cell.today::after,.fc-day.today::after{content:"hoje";position:absolute;top:.32rem;right:.4rem;
-  font-family:var(--f-mono);font-size:.45rem;color:var(--neon);letter-spacing:.05em}
-.fc-week{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem}
-.fc-day{position:relative;display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:.55rem .1rem;
-  border-radius:14px;background:var(--barro2);border:none;box-shadow:var(--clay-sm);transition:box-shadow .15s}
-.fc-day .dw{font-family:var(--f-mono);font-size:.48rem;color:var(--neutro2);text-transform:uppercase}
-.fc-day .dn{font-family:var(--f-disp);font-size:.98rem;color:var(--luz);line-height:1}
-.fc-day .dm{line-height:0;margin-top:.1rem}
-.fc-day.sel{box-shadow:var(--clay-neon)} .fc-day.sel .dn{color:var(--neon-claro)}
-.fc-day.wk{box-shadow:var(--clay-in)}
 .tone{font-family:var(--f-mono);font-size:.53rem;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .65rem;
   border-radius:11px;display:inline-block;margin-bottom:.6rem;background:var(--barro);box-shadow:var(--clay-in)}
 .tone.bom{color:var(--verde)} .tone.ruim{color:var(--vermelho)} .tone.info{color:var(--luz2)} .tone.lente{color:var(--neon-claro)}
 
 /* ---------- linha do tempo ---------- */
-.fird-band{display:flex;height:56px;border-radius:var(--r-sm);overflow:hidden;box-shadow:var(--clay);margin:.9rem 0 .4rem}
-.fird-seg{position:relative;display:flex;align-items:center;justify-content:center;font-family:var(--f-body);
-  font-size:.8rem;color:#25150c;border:none;min-width:0;overflow:hidden;transition:filter .15s}
-.fird-seg.now{box-shadow:inset 0 0 0 2px var(--luz)}
-.hoje-legenda{font-family:var(--f-mono);font-size:.62rem;color:var(--neutro)}
-.sub-band{display:flex;height:34px;border-radius:14px;overflow:hidden;box-shadow:var(--clay-sm);margin-top:.7rem}
 .years-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:.4rem;margin-top:.9rem}
 .yr{background:var(--barro2);border:none;border-radius:14px;padding:.5rem .3rem;text-align:center;box-shadow:var(--clay-sm)}
-.yr.sel{box-shadow:var(--clay-neon)}
 .yr .y{font-family:var(--f-mono);font-size:.7rem;color:var(--luz)}
 .yr .a{font-family:var(--f-mono);font-size:.52rem;color:var(--neutro2)}
 .yr .h{font-size:.62rem;color:var(--neon-claro);font-family:var(--f-mono)}
@@ -374,7 +345,6 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
 .passos li b{color:var(--neon-claro);font-weight:600}
 .passos li .mini{display:block;font-family:var(--f-mono);font-size:.6rem;color:var(--neutro);margin-top:.28rem}
 @media(min-width:600px){
-  .fc-months{gap:.7rem}
   main{padding-bottom:1rem}
 }
 </style>
@@ -1020,94 +990,6 @@ function estrelaContatos(){
   out.push({...st,alvo,orb,alvoLon:lon});}
  return out.sort((a,b)=>a.orb-b.orb);}
 
-/* ============ MANDALA (roda do mapa) ============ */
-function drawMandala(){
- const svg=$("#mandala");if(!svg)return;
- const C=300,R_out=292,R_sign=252,R_house=214,R_pl=196,R_in=150;
- const asc=DATA.natal.houses.asc,mc=DATA.natal.houses.mc;
- const N=DATA.natal.planets;
- /* ASC à esquerda; longitude cresce no sentido anti-horário */
- const th=lon=>(180+(lon-asc))*Math.PI/180;
- const P=(r,lon)=>{const a=th(lon);return [C+r*Math.cos(a),C-r*Math.sin(a)];};
- const arcPath=(r,l1,l2)=>{const [x1,y1]=P(r,l1),[x2,y2]=P(r,l2);
-   const big=norm(l2-l1)>180?1:0;return `M${x1} ${y1} A${r} ${r} 0 ${big} 0 ${x2} ${y2}`;};
- let s="";
- s+=`<defs><radialGradient id="mfundo" cx="50%" cy="45%"><stop offset="0%" stop-color="#241812"/><stop offset="100%" stop-color="#17100C"/></radialGradient></defs>`;
- s+=`<circle cx="${C}" cy="${C}" r="${R_out}" fill="url(#mfundo)"/>`;
- /* anéis */
- for(const r of [R_out,R_sign,R_house,R_in])
-  s+=`<circle cx="${C}" cy="${C}" r="${r}" fill="none" stroke="rgba(176,138,114,.45)" stroke-width="1"/>`;
- /* setores dos signos + glifos */
- for(let i=0;i<12;i++){
-  const l0=i*30;
-  const [x1,y1]=P(R_sign,l0),[x2,y2]=P(R_out,l0);
-  s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(176,138,114,.45)" stroke-width="1"/>`;
-  const [gx,gy]=P((R_out+R_sign)/2,l0+15);
-  s+=`<text x="${gx}" y="${gy}" fill="${ELEM_COLOR[i]}" font-size="21" text-anchor="middle" dominant-baseline="central">${SIGN_GLYPH[i]}</text>`;}
- /* ticks de grau */
- for(let d=0;d<360;d+=1){const len=d%10===0?9:(d%5===0?6:3);
-  const [x1,y1]=P(R_sign,d),[x2,y2]=P(R_sign-len,d);
-  s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(176,138,114,${d%10===0?.5:.28})" stroke-width="${d%10===0?1:.6}"/>`;}
- /* cúspides das casas + números */
- for(let h=1;h<=12;h++){
-  const c=CUSPS[h-1];
-  const eixo=(h===1||h===4||h===7||h===10);
-  const [x1,y1]=P(R_in,c),[x2,y2]=P(R_sign,c);
-  s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${eixo?"rgba(255,138,61,.75)":"rgba(176,138,114,.4)"}" stroke-width="${eixo?1.6:.9}"/>`;
-  const meio=c+norm(CUSPS[h%12]-c)/2;
-  const [nx,ny]=P((R_house+R_in)/2,meio);
-  s+=`<text x="${nx}" y="${ny}" fill="rgba(176,138,114,.8)" font-size="12" text-anchor="middle" dominant-baseline="central" font-family="Spline Sans Mono,monospace">${h}</text>`;
-  const [dx,dy]=P(R_house-3,c+1.5);
-  s+=`<text x="${dx}" y="${dy}" fill="rgba(176,138,114,.65)" font-size="8.5" text-anchor="start" dominant-baseline="central" font-family="Spline Sans Mono,monospace">${fmtCurto(c)}</text>`;}
- /* eixos ASC / MC / DSC / IC */
- const eixos=[[asc,"ASC"],[norm(asc+180),"DSC"],[mc,"MC"],[norm(mc+180),"IC"]];
- for(const [lon,rot] of eixos){
-  const [lx,ly]=P(R_out-16,lon);
-  s+=`<circle cx="${lx}" cy="${ly}" r="13" fill="#2E1E17" stroke="rgba(255,138,61,.7)" stroke-width="1"/>`;
-  s+=`<text x="${lx}" y="${ly}" fill="#FF8A3D" font-size="8.5" text-anchor="middle" dominant-baseline="central" font-family="Spline Sans Mono,monospace">${rot}</text>`;}
- /* estrelas fixas (nomes no bordo) */
- const stPost=[];
- for(const st of estrelaContatos()){
-  if(st.orb>1.2)continue;
-  let rr=R_out-3;
-  while(stPost.some(q=>Math.abs(norm(q.lon-st.lon+180)-180)<7&&Math.abs(q.r-rr)<11))rr+=12;
-  stPost.push({lon:st.lon,r:rr});
-  const [sx,sy]=P(rr,st.lon);
-  const a=th(st.lon)*180/Math.PI;
-  let rot=-a; let anchor="start"; let dx=5;
-  if(Math.cos(th(st.lon))<0){rot=-a+180;anchor="end";dx=-5;}
-  s+=`<text x="${sx}" y="${sy}" fill="#E8D44D" font-size="8" text-anchor="${anchor}" dominant-baseline="central"
-      font-family="Spline Sans Mono,monospace" transform="rotate(${rot} ${sx} ${sy}) translate(${dx} 0)">${st.nome}</text>`;}
- /* planetas com anti-colisão */
- const postos=[];
- const lista=ORDEM_NATAL.map(p=>({p,lon:N[p].lon,speed:N[p].speed}));
- for(const o of lista){
-  let r=R_pl;
-  while(postos.some(q=>Math.abs(norm(q.lon-o.lon+180)-180)<11&&Math.abs(q.r-r)<20))r-=21;
-  postos.push({lon:o.lon,r});
-  const [x,y]=P(r,o.lon);
-  const cor=PLANET_COLOR[o.p]||"#FFEDE0";
-  s+=`<text x="${x}" y="${y}" fill="${cor}" font-size="19" text-anchor="middle" dominant-baseline="central">${GLYPH[o.p]}</text>`;
-  const dgr=Math.floor(norm(o.lon)%30),mnt=Math.floor(((norm(o.lon)%30)-dgr)*60);
-  const [tx,ty]=P(r-15,o.lon);
-  s+=`<text x="${tx}" y="${ty}" fill="${cor}" font-size="9" text-anchor="middle" dominant-baseline="central" opacity=".9" font-family="Spline Sans Mono,monospace">${dgr}°${o.speed<0?" ℞":""}</text>`;
-  const [ux,uy]=P(r-25,o.lon);
-  s+=`<text x="${ux}" y="${uy}" fill="${cor}" font-size="7.5" text-anchor="middle" dominant-baseline="central" opacity=".65" font-family="Spline Sans Mono,monospace">${String(mnt).padStart(2,"0")}′</text>`;
-  const [m1x,m1y]=P(R_sign,o.lon),[m2x,m2y]=P(R_sign-11,o.lon);
-  s+=`<line x1="${m1x}" y1="${m1y}" x2="${m2x}" y2="${m2y}" stroke="${cor}" stroke-width="1.5"/>`;}
- /* aspectos no miolo */
- for(let i=0;i<CLASSICOS.length;i++)for(let j=i+1;j<CLASSICOS.length;j++){
-  const a=CLASSICOS[i],b=CLASSICOS[j];
-  const asp=aspectsBetween(N[a].lon,N[b].lon);
-  if(!asp)continue;
-  const [x1,y1]=P(R_in,N[a].lon),[x2,y2]=P(R_in,N[b].lon);
-  const duro=(asp.ang===90||asp.ang===180);
-  const cor=duro?"rgba(240,72,48,.8)":asp.ang===0?"rgba(255,208,138,.55)":"rgba(74,123,212,.8)";
-  s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${cor}" stroke-width="1.2"/>`;}
- s+=`<circle cx="${C}" cy="${C}" r="3" fill="#FF5C00"/>`;
- svg.innerHTML=s;
-}
-
 /* ============ FASE DA LUA (SVG, sem emoji) ============ */
 function moonSVG(elong,size){
  const R=size/2-1,cx=size/2,cy=size/2;
@@ -1247,26 +1129,36 @@ function blocoBarbault(p){
  return out;}
 
 let selPlaneta="Sol";
+const ABREV_P=p=>p==="Nodo Norte"?"Nodo N":p==="Nodo Sul"?"Nodo S":p;
+function renderPlanetas(){
+ const N=DATA.natal.planets;
+ $("#natal-planetas").innerHTML=`<div class="pl-grid">${ORDEM_NATAL.map(pp=>
+   `<button class="pl-chip${pp===selPlaneta?" on":""}" data-pl="${pp}" style="--accent:${PLANET_COLOR[pp]}">
+     <span class="g">${GLYPH[pp]}</span><span>${ABREV_P(pp)}</span></button>`).join("")}</div>
+  <div id="pl-card"></div>`;
+ $$("#natal-planetas .pl-chip").forEach(el=>el.addEventListener("click",()=>{
+  selPlaneta=el.dataset.pl;
+  $$("#natal-planetas .pl-chip").forEach(x=>x.classList.toggle("on",x.dataset.pl===selPlaneta));
+  renderPlCard();}));
+ renderPlCard();
+}
+function renderPlCard(){
+ const N=DATA.natal.planets,pp=selPlaneta,o=N[pp];
+ const h=houseOf(o.lon),digs=dignity(pp,o.lon);
+ const rx=o.speed<0?' <span class="rx">℞</span>':"";
+ const base=`${T_PLANETA[pp]} Na casa ${h}: ${CASA_ASSUNTO[h]}.`;
+ const extra=(CLASSICOS.includes(pp)?blocoRegencia(pp)+blocoOlavo(pp,h)+blocoBarbault(pp):blocoRegencia(pp));
+ $("#pl-card").innerHTML=cardHTML({key:"natal-pl-"+pp,title:pp,glyph:GLYPH[pp],accent:PLANET_COLOR[pp],
+  pos:`${fmtLon(o.lon)}${rx} · casa ${h}`,def:base,extra,
+  tags:[...digs,[`casa ${h}`,""],...(REGE[pp]?[[`rege ${REGE[pp].map(x=>"casa "+x).join(" e ")}`,"gold"]]:[])]});
+}
 function renderNatal(){
  const N=DATA.natal.planets,H=DATA.natal.houses;
  const ca=acContatos(2.5);
  const caTxt=ca.length?ca.map(x=>`${x.a} ${x.tipo} ${x.b} (${grausMin(x.orb)})`).join("; "):"nenhum contato dentro de 2°30′";
  $("#natal-resumo").innerHTML=`Nascimento noturno · Ascendente <b style="color:var(--neon-claro)">${fmtLon(H.asc)}</b> · Meio-do-Céu ${fmtLon(H.mc)} · Sol em ${SIGNS[signOf(N["Sol"].lon)]}, Lua em ${SIGNS[signOf(N["Lua"].lon)]}. Casas Placidus.`;
  /* --- planetas: chips lado a lado; card abre ao toque --- */
- const N2=N;
- const abrev=p=>p==="Nodo Norte"?"Nodo N":p==="Nodo Sul"?"Nodo S":p==="Fortuna"?"Fortuna":p;
- $("#natal-planetas").innerHTML=`<div class="pl-grid">${ORDEM_NATAL.map(pp=>
-   `<button class="pl-chip${pp===selPlaneta?" on":""}" data-pl="${pp}" style="--accent:${PLANET_COLOR[pp]}">
-     <span class="g">${GLYPH[pp]}</span><span>${abrev(pp)}</span></button>`).join("")}</div>
-  <div id="pl-card"></div>`;
- $$("#natal-planetas .pl-chip").forEach(el=>el.addEventListener("click",()=>{selPlaneta=el.dataset.pl;renderNatal();}));
- (function(){const pp=selPlaneta,o=N2[pp];const h=houseOf(o.lon);const digs=dignity(pp,o.lon);
-  const rx=o.speed<0?' <span class="rx">℞</span>':"";
-  const base=`${T_PLANETA[pp]} Na casa ${h}: ${CASA_ASSUNTO[h]}.`;
-  const extra=(CLASSICOS.includes(pp)?blocoRegencia(pp)+blocoOlavo(pp,h)+blocoBarbault(pp):blocoRegencia(pp));
-  $("#pl-card").innerHTML=cardHTML({key:"natal-pl-"+pp,title:pp,glyph:GLYPH[pp],accent:PLANET_COLOR[pp],
-   pos:`${fmtLon(o.lon)}${rx} · casa ${h}`,def:base,extra,
-   tags:[...digs,[`casa ${h}`,""],...(REGE[pp]?[[`rege ${REGE[pp].map(x=>"casa "+x).join(" e ")}`,"gold"]]:[])]});})();
+ renderPlanetas();
  /* --- casas --- */
  $("#natal-casas").innerHTML=Array.from({length:12},(_,i)=>{
   const h=i+1;const sg=signOfHouse(h);const ruler=rulerOfHouse(h);
@@ -2053,106 +1945,13 @@ function initSemana(){
  renderSemana();}
 
 
-/* ============ PREVISÕES: AS CAMADAS DO TEMPO NO CALENDÁRIO ============ */
+/* ============ HELPERS DE CALENDÁRIO ============ */
 const WD=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
 const WD3=["dom","seg","ter","qua","qui","sex","sáb"];
 const MO=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
 const MO3=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
-const MONTH_INGRESS=[10,11,0,1,2,3,4,5,6,7,8,9]; /* signo que o Sol adentra em cada mês */
-
 function atNoon(d){return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate(),15,0));} /* 12h em Pouso Alegre */
-function sameDay(a,b){return a.getUTCFullYear()===b.getUTCFullYear()&&a.getUTCMonth()===b.getUTCMonth()&&a.getUTCDate()===b.getUTCDate();}
 function weekStart(d){const x=atNoon(d);x.setUTCDate(x.getUTCDate()-x.getUTCDay());return x;}
-function fmtBr(iso){const [y,m,d]=iso.split("-");return `${+d}/${+m}/${y}`;}
-
-function fcCard(tone,label,glifo,title,body,accent,destaque){
- return `<div class="card${destaque?" destaque":""}" style="--accent:${accent}">
-   <span class="tone ${tone}">${label}</span>
-   <h3><span class="glifo">${glifo}</span><span>${title}</span></h3>
-   <p class="desc" style="margin-top:.6rem">${body}</p></div>`;}
-
-/* cartões das quatro camadas, avaliadas em d0; mudanças detectadas até d1 */
-function layerCards(d0,d1){
- const A={f:firdariaAt(d0),p:profectionAt(d0),sr:solarReturnAt(d0)};
- const B={f:firdariaAt(d1),p:profectionAt(d1),sr:solarReturnAt(d1)};
- const N=DATA.natal.planets,c=[];
- const posDe=p=>N[p]?`${fmtLon(N[p].lon)} (casa ${houseOf(N[p].lon)})`:"—";
- const regeDe=p=>REGE[p]?` Rege as casas ${REGE[p].join(" e ")} — significador de ${REGE[p].map(h=>CASA_CURTO[h]).join(", e de ")}.`:"";
- const f=A.f;
- c.push(fcCard("lente","Firdaria maior",GLYPH[f.major.lord],"Firdaria de "+f.major.lord,
-   `De ${fmtBr(f.major.start)} a ${fmtBr(f.major.end)} (idades ${f.major.start_age}–${f.major.end_age}). ${f.major.lord} natal está a ${posDe(f.major.lord)}.${regeDe(f.major.lord)} ${T_FIRD[f.major.lord]||""}`,
-   PLANET_COLOR[f.major.lord],true));
- if(f.sub)c.push(fcCard("lente","Subfirdaria",GLYPH[f.sub.lord],"Subfirdaria de "+f.sub.lord,
-   `De ${fmtBr(f.sub.start)} a ${fmtBr(f.sub.end)}. ${f.sub.lord} natal está a ${posDe(f.sub.lord)}.${regeDe(f.sub.lord)} Tom secundário que tempera o período maior.`,
-   PLANET_COLOR[f.sub.lord]));
- const p=A.p;
- c.push(fcCard("lente","Profecção anual",SIGN_GLYPH[SIGNS.indexOf(p.sign)],`Profecção: casa ${p.house}`,
-   `Idade ${p.age}, de ${fmtBr(p.start)} ao aniversário seguinte. O ano ativa a casa ${p.house} (${p.sign}): ${CASA_ASSUNTO[p.house]}. O senhor do ano é <b>${p.lord}</b> — ${posDe(p.lord)}.${regeDe(p.lord)}`,
-   "#FF8A3D"));
- if(A.sr)c.push(fcCard("lente","Revolução solar","☉",`Revolução ${A.sr.year}/${A.sr.year+1}`,
-   `Carta de ${A.sr.utc}. O Ascendente da revolução está a ${fmtLon(A.sr.asc)} — cai na sua casa ${houseOf(A.sr.asc)} natal, o palco do ano. Meio-do-Céu da revolução a ${fmtLon(A.sr.mc)}.`,
-   "#FF5C00"));
- /* casos distintos: o período atravessa uma troca de camada */
- const mud=[];
- if(A.f.major.lord!==B.f.major.lord)
-  mud.push(`a <b>firdaria maior</b> passa de ${A.f.major.lord} para <b>${B.f.major.lord}</b> em ${fmtBr(B.f.major.start)}`);
- const subA=A.f.sub?A.f.sub.lord:null,subB=B.f.sub?B.f.sub.lord:null;
- if(subA!==subB&&A.f.major.lord===B.f.major.lord)
-  mud.push(`a <b>subfirdaria</b> passa de ${subA||"—"} para <b>${subB||"—"}</b> em ${fmtBr(B.f.sub?B.f.sub.start:B.f.major.start)}`);
- if(A.p.age!==B.p.age)
-  mud.push(`no aniversário (17/08) a <b>profecção</b> passa à casa ${B.p.house} (${B.p.sign}, senhor <b>${B.p.lord}</b>) e entra em vigor a <b>revolução solar ${B.sr?B.sr.year:""}</b>`);
- if(mud.length)
-  c.push(fcCard("info","Mudança no período","✦","O que vira",cap(mud.join("; "))+".","#E8D44D"));
- return c.join("");}
-
-let FC={mode:"dia",cursor:atNoon(new Date())};
-function fcPeriod(){
- const cur=FC.cursor;
- if(FC.mode==="dia")return [cur,cur];
- if(FC.mode==="semana"){const a=weekStart(cur),z=new Date(a);z.setUTCDate(a.getUTCDate()+6);return [a,z];}
- const a=new Date(Date.UTC(cur.getUTCFullYear(),cur.getUTCMonth(),1,15));
- const z=new Date(Date.UTC(cur.getUTCFullYear(),cur.getUTCMonth()+1,0,15));
- return [a,z];}
-function renderFcCal(){
- const cur=FC.cursor,titleEl=$("#fc-cal-title"),body=$("#fc-cal-body"),realNow=atNoon(new Date());
- if(FC.mode==="mes"){
-  const yr=cur.getUTCFullYear();titleEl.textContent=yr;body.className="fc-months";
-  body.innerHTML=Array.from({length:12},(_,mi)=>{const sel=mi===cur.getUTCMonth();
-   const today=(yr===realNow.getUTCFullYear()&&mi===realNow.getUTCMonth());const sg=MONTH_INGRESS[mi];
-   return `<button class="fc-cell${sel?" sel":""}${today?" today":""}" data-m="${mi}">
-     <span class="ci">${SIGN_GLYPH[sg]}</span><span class="cl">${cap(MO[mi])}</span><span class="cs">☉ ${SIGNS[sg]}</span></button>`;}).join("");
-  $$("#fc-cal-body .fc-cell").forEach(el=>el.addEventListener("click",()=>{FC.cursor=new Date(Date.UTC(yr,+el.dataset.m,15,15,0));renderForecast();}));
- }else{
-  const ws=weekStart(cur);
-  if(FC.mode==="dia")titleEl.textContent=`${cap(WD[cur.getUTCDay()])}, ${cur.getUTCDate()} de ${MO[cur.getUTCMonth()]} de ${cur.getUTCFullYear()}`;
-  else{const we=new Date(ws);we.setUTCDate(ws.getUTCDate()+6);
-   titleEl.textContent=`${ws.getUTCDate()} de ${MO3[ws.getUTCMonth()]} a ${we.getUTCDate()} de ${MO3[we.getUTCMonth()]} de ${we.getUTCFullYear()}`;}
-  body.className="fc-week";
-  body.innerHTML=Array.from({length:7},(_,i)=>{const dd=new Date(ws);dd.setUTCDate(ws.getUTCDate()+i);
-   const ph=faseDe(atNoon(dd));const selClass=FC.mode==="dia"?(sameDay(dd,cur)?" sel":""):" wk";const today=sameDay(dd,realNow);
-   return `<button class="fc-day${selClass}${today?" today":""}" data-ts="${dd.getTime()}">
-     <span class="dw">${WD3[dd.getUTCDay()]}</span><span class="dn">${dd.getUTCDate()}</span>
-     <span class="dm">${moonSVG(ph.el,15)}</span></button>`;}).join("");
-  $$("#fc-cal-body .fc-day").forEach(el=>el.addEventListener("click",()=>{FC.cursor=atNoon(new Date(+el.dataset.ts));renderForecast();}));
- }
-}
-function renderForecast(){
- $$(".seg-btn[data-mode]").forEach(b=>b.classList.toggle("on",b.dataset.mode===FC.mode));
- renderFcCal();
- const [a,z]=fcPeriod();
- $("#fc-cards").innerHTML=layerCards(a,z);
-}
-function fcShift(dir){const c=new Date(FC.cursor.getTime());
- if(FC.mode==="dia")c.setUTCDate(c.getUTCDate()+dir);
- else if(FC.mode==="semana")c.setUTCDate(c.getUTCDate()+7*dir);
- else c.setUTCFullYear(c.getUTCFullYear()+dir);
- FC.cursor=c;renderForecast();}
-function initForecast(){
- $$(".seg-btn[data-mode]").forEach(b=>b.addEventListener("click",()=>{FC.mode=b.dataset.mode;renderForecast();}));
- $("#fc-prev").addEventListener("click",()=>fcShift(-1));
- $("#fc-next").addEventListener("click",()=>fcShift(1));
- renderForecast();
-}
 
 
 const TOPICS={
@@ -2320,10 +2119,21 @@ function initAssoc(){
 
 
 /* ============ NAV & BOOT ============ */
+/* renderização preguiçosa: cada aba monta na primeira visita */
+const PANE_READY={inicio:1};
+function ensurePane(pane){
+ if(PANE_READY[pane])return;PANE_READY[pane]=1;
+ if(pane==="natal"){renderNatal();renderTemperamento();renderSaude();renderEixos();}
+ else if(pane==="tempo")renderTempo();
+ else if(pane==="transitos"){setTransNow();renderTransitos();initSemana();}
+ else if(pane==="eletiva"){buildGraph();initAssoc();initGraphEvents();graphLoop();}
+ else if(pane==="guia")renderGuia();
+}
 $$(".tab").forEach(b=>b.addEventListener("click",()=>{
  $$(".tab").forEach(x=>x.classList.remove("on"));
  $$(".pane").forEach(x=>x.classList.remove("on"));
  b.classList.add("on");$("#pane-"+b.dataset.pane).classList.add("on");
+ ensurePane(b.dataset.pane);
  if(b.dataset.pane==="eletiva")drawGraph();
  window.scrollTo({top:0});
 }));
@@ -2343,11 +2153,10 @@ function setTransNow(){const n=new Date();const pad=x=>String(x).padStart(2,"0")
 (async function boot(){
  $$(".tab .ico").forEach(el=>{el.textContent=gl(el.textContent);});
  await loadNotes();
- initSync();renderInicio();renderNatal();renderTemperamento();renderSaude();renderEixos();initSemana();
+ initSync();renderInicio();
  $("#tl-prev").addEventListener("click",()=>{const d=new Date(TL.cursor);d.setUTCDate(d.getUTCDate()-1);TL.cursor=d;renderTimeline();});
  $("#tl-next").addEventListener("click",()=>{const d=new Date(TL.cursor);d.setUTCDate(d.getUTCDate()+1);TL.cursor=d;renderTimeline();});
- document.querySelector(".tl-hoje").addEventListener("click",()=>{TL.cursor=new Date();renderTimeline();});renderTempo();setTransNow();renderTransitos();renderGuia();
- buildGraph();initAssoc();initGraphEvents();graphLoop();
+ document.querySelector(".tl-hoje").addEventListener("click",()=>{TL.cursor=new Date();renderTimeline();});
  setInterval(()=>{if(!document.querySelector("#pane-inicio .edit-area.on"))renderInicio();},60000);
 })();
 
