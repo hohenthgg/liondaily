@@ -148,6 +148,12 @@ section.pane.on{display:block;animation:fade .3s ease}
 .carta .item .g{font-size:1.25rem;width:2rem;flex:0 0 auto;text-align:center;color:var(--neon-palha)}
 .carta .item .t b{display:block;font-family:var(--f-disp);font-size:.95rem;color:var(--luz)}
 .carta .item .t span{font-size:.82rem;color:var(--luz2);opacity:.85}
+.carta .item .t .lab{display:block;font-style:normal;font-family:var(--f-mono);font-size:.52rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--neon);margin:.5rem 0 .15rem}
+.carta .item .t .lab2{color:var(--verde)}
+.carta .ebw{display:block;position:relative;padding-right:3.4rem}
+.carta .ebw .edit-btn{top:0;right:0}
+.carta .ebw p.desc{font-size:.84rem;white-space:normal}
 .carta .fechar{position:sticky;bottom:0;display:block;margin:1rem auto 0;background:var(--barro2);
   border:none;border-radius:16px;padding:.65rem 1.6rem;font-family:var(--f-mono);font-size:.7rem;
   color:var(--neon-claro);box-shadow:var(--clay-sm)}
@@ -254,19 +260,20 @@ table.mini td:last-child{text-align:right;color:var(--neon-palha)}
 
 /* ---------- semana planetária ---------- */
 .sw-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -.3rem;padding:0 .3rem}
-.sw-t{border-collapse:separate;border-spacing:4px;min-width:640px;width:100%}
+.sw-t{border-collapse:separate;border-spacing:4px;min-width:430px;width:100%}
 .sw-t th{font-family:var(--f-mono);font-size:.6rem;color:var(--neutro);padding:.3rem .2rem;text-align:center}
 .sw-t th b{display:block;font-family:var(--f-disp);font-size:.95rem;color:var(--luz)}
 .sw-t th span{font-size:.52rem;text-transform:uppercase;letter-spacing:.08em}
 .sw-t th.sw-dom b{color:var(--neon-claro)}
-.sw-t td{background:var(--barro2);border-radius:11px;box-shadow:var(--clay-sm);padding:.45rem .3rem;
-  text-align:center;font-size:.62rem;color:var(--neutro);min-width:74px}
+.sw-t td{background:var(--barro2);border-radius:11px;box-shadow:var(--clay-sm);padding:.4rem .25rem;
+  text-align:center;font-size:.6rem;color:var(--neutro);min-width:46px}
+.sw-t td .sgg{font-size:1.05rem;font-family:var(--f-body);display:block;line-height:1.15}
 .sw-t td b{display:block;font-size:.72rem;color:var(--luz);font-family:var(--f-disp)}
 .sw-t td span{display:block;font-family:var(--f-mono);font-size:.54rem}
 .sw-t td .tm{color:var(--neon-palha)}
 .sw-t td.sw-nova{box-shadow:var(--clay-neon)}
-.sw-t td.sw-pl,.sw-trilho .sw-pl{background:none;box-shadow:none;text-align:left;font-family:var(--f-mono);
-  font-size:.62rem;color:var(--luz2);white-space:nowrap;min-width:0}
+.sw-t td.sw-pl,.sw-trilho .sw-pl{background:none;box-shadow:none;text-align:center;font-family:var(--f-mono);
+  font-size:.62rem;color:var(--luz2);white-space:nowrap;min-width:0;width:1.7rem}
 .sw-t .sw-pl .g,.sw-trilho .sw-pl .g{font-size:.95rem;margin-right:.3rem;font-family:var(--f-body)}
 .sw-t.v2 td{min-width:60px}
 .sw-t.v2 .sg{font-size:1.2rem;font-family:var(--f-body)}
@@ -912,21 +919,31 @@ function initSync(){
  $("#gh-sync").addEventListener("click",()=>pushNotes());
 }
 function noteKey(k){return NOTES[k];}
+/* URLs de imagem coladas no texto viram <img>; demais URLs viram links */
+function richHTML(t){
+ return esc(t)
+  .replace(/(https?:\/\/[^\s<>"']+\.(?:png|jpe?g|webp|gif|svg)(?:\?[^\s<>"']*)?)/gi,
+   '<img src="$1" alt="" loading="lazy" style="max-width:100%;border-radius:14px;display:block;margin:.5rem 0;box-shadow:var(--clay-sm)">')
+  .replace(/(^|[\s])(https?:\/\/[^\s<>"']+)(?![^<]*>)/g,'$1<a href="$2" target="_blank" rel="noopener">$2</a>');}
 function editableBlock(key,defaultText){
  const id="ed"+(editSeq++);
  const custom=noteKey(key);
  const text=custom!==undefined?custom:defaultText;
  return `<button class="edit-btn" onclick="toggleEdit('${id}','${key}')">editar</button>
-  <p class="desc" id="${id}-txt">${esc(text)}</p>
+  <p class="desc" id="${id}-txt" data-raw="${esc(text)}">${richHTML(text)}</p>
   <div class="edit-area" id="${id}-area">
     <textarea id="${id}-ta"></textarea>
+    <p class="hint">cole a URL de uma imagem (.png/.jpg/.webp) no texto e ela aparece renderizada</p>
     <div class="edit-actions">
       <button class="btn" onclick="saveEdit('${id}','${key}')">salvar</button>
       <button class="btn" onclick="resetEdit('${id}','${key}',${JSON.stringify(defaultText).replace(/"/g,"&quot;")})">restaurar</button>
     </div></div>`;}
-window.toggleEdit=(id,key)=>{const a=$("#"+id+"-area");a.classList.toggle("on");if(a.classList.contains("on"))$("#"+id+"-ta").value=$("#"+id+"-txt").textContent;};
-window.saveEdit=(id,key)=>{const v=$("#"+id+"-ta").value.trim();NOTES[key]=v;saveNotes();$("#"+id+"-txt").textContent=v;$("#"+id+"-area").classList.remove("on");};
-window.resetEdit=(id,key,def)=>{delete NOTES[key];saveNotes();$("#"+id+"-txt").textContent=def;$("#"+id+"-area").classList.remove("on");};
+window.toggleEdit=(id,key)=>{const a=$("#"+id+"-area");a.classList.toggle("on");
+ if(a.classList.contains("on"))$("#"+id+"-ta").value=$("#"+id+"-txt").dataset.raw;};
+window.saveEdit=(id,key)=>{const v=$("#"+id+"-ta").value.trim();NOTES[key]=v;saveNotes();
+ const el=$("#"+id+"-txt");el.dataset.raw=v;el.innerHTML=richHTML(v);$("#"+id+"-area").classList.remove("on");};
+window.resetEdit=(id,key,def)=>{delete NOTES[key];saveNotes();
+ const el=$("#"+id+"-txt");el.dataset.raw=def;el.innerHTML=richHTML(def);$("#"+id+"-area").classList.remove("on");};
 
 /* ============ CAMADAS DO TEMPO ============ */
 function firdariaAt(date){const age=ageAt(date);
@@ -1329,44 +1346,38 @@ function renderTransitos(dt){
 }
 
 /* ============ GUIA ============ */
+/* Planetas e casas: leitura OBJETIVA (Lilly, Dorotheus, Abu Ma'shar — significações concretas)
+   e SUBJETIVA (moderna: faculdades da psique — Olavo, Hamaker-Zondag, Greene, Sasportas).
+   Signos: narrativa solar nas estações, com menções do Manual Prático (Barbault). */
 const CARTAS={
- planetas:{t:"Os planetas — os atores",sub:"quem age",
-  intro:"Os sete planetas tradicionais são o elenco fixo da peça. Cada um é uma força com temperamento, apetites e modos próprios — e o mesmo ator atua diferente conforme o figurino (signo) e o cenário (casa).",
-  itens:[["☉","Sol","O rei. Vitalidade, identidade e propósito; onde está, a vida quer brilhar e ser vista. Quente e seco, colérico."],
-   ["☽","Lua","A rainha das marés. Corpo, hábitos, memória e emoção; mostra do que você precisa para se sentir seguro. Fria e úmida, fleumática."],
-   ["☿","Mercúrio","O mensageiro. Mente, palavra, trocas e comércio; neutro — toma a cor de quem o toca. Frio e seco."],
-   ["♀","Vênus","A benéfica menor. Prazer, vínculo, beleza e conciliação; o que você ama e como atrai. Fria e úmida."],
-   ["♂","Marte","O maléfico menor. Corte, coragem, disputa e desejo; onde está, a vida pede luta. Quente e seco."],
-   ["♃","Júpiter","O grande protetor. Expansão, fé, generosidade e sabedoria; abre portas e protege. Quente e úmido, sanguíneo."],
-   ["♄","Saturno","O senhor das provações. Limite, estrutura, tempo e colheita tardia; pesa, mas consolida. Frio e seco, melancólico."]]},
- signos:{t:"Os signos — os figurinos",sub:"como agem",
-  intro:"Os doze signos são os trajes que mudam o estilo do ator. Dividem-se por elemento (fogo, terra, ar, água) e por modo (cardinal: inicia; fixo: sustenta; mutável: adapta).",
-  itens:[["♈","Áries","Fogo cardinal, de Marte. Início puro: direto, impaciente, pioneiro."],
-   ["♉","Touro","Terra fixa, de Vênus. Sustenta e acumula: sensorial, teimoso, fértil."],
-   ["♊","Gêmeos","Ar mutável, de Mercúrio. Duplica e conecta: curioso, verbal, ágil."],
-   ["♋","Câncer","Água cardinal, da Lua. Protege e nutre: sensível, doméstico, de memória longa."],
-   ["♌","Leão","Fogo fixo, do Sol. Irradia e reina: generoso, orgulhoso, dramático."],
-   ["♍","Virgem","Terra mutável, de Mercúrio. Refina e corrige: analítico, útil, exigente."],
-   ["♎","Libra","Ar cardinal, de Vênus. Pesa e harmoniza: social, estético, conciliador."],
-   ["♏","Escorpião","Água fixa, de Marte. Concentra e transforma: intenso, secreto, estrategista."],
-   ["♐","Sagitário","Fogo mutável, de Júpiter. Expande e aponta: confiante, andarilho, doutrinal."],
-   ["♑","Capricórnio","Terra cardinal, de Saturno. Escala e estrutura: ambicioso, sóbrio, durável."],
-   ["♒","Aquário","Ar fixo, de Saturno. Fixa a ideia: coletivo, frio, reformador."],
-   ["♓","Peixes","Água mutável, de Júpiter. Dissolve e acolhe: compassivo, poroso, imaginativo."]]},
- casas:{t:"As casas — os cenários",sub:"onde agem",
-  intro:"As doze casas dividem o palco em setores da vida — aqui medidas por cúspides reais (Placidus). O planeta age no cenário em que está; o regente da cúspide é o dono do cenário.",
-  itens:[["1","Casa 1","Corpo, aparência, temperamento e o modo de começar. O Ascendente é a porta da vida."],
-   ["2","Casa 2","Dinheiro, posses, sustento e recursos próprios."],
-   ["3","Casa 3","Irmãos, vizinhança, estudos curtos, palavra e deslocamentos."],
-   ["4","Casa 4","Lar, família, raízes, imóveis e o fim das coisas."],
-   ["5","Casa 5","Filhos, prazer, criatividade, romance e o poder de ação."],
-   ["6","Casa 6","Saúde, doença, rotina, serviço e animais."],
-   ["7","Casa 7","Casamento, parcerias, contratos e inimigos declarados."],
-   ["8","Casa 8","Morte, heranças, dinheiro alheio, crises e transformação."],
-   ["9","Casa 9","Viagens longas, estrangeiro, fé, filosofia, lei e ensino superior."],
-   ["10","Casa 10","Carreira, reputação, vocação e autoridade — o Meio-do-Céu."],
-   ["11","Casa 11","Amigos, grupos, aliados, projetos e as bênçãos do céu."],
-   ["12","Casa 12","Isolamento, bastidores, hospitais, retiro e inimigos ocultos."]]},
+ planetas:{t:"Os planetas — os atores",sub:"quem age",dupla:true,
+  intro:"Cada planeta pode ser lido em dois registros: o objetivo da tradição — pessoas, ofícios e coisas do mundo que ele significa — e o subjetivo moderno, em que o planeta é imanentizado como uma faculdade da alma.",
+  itens:[
+   ["☉","Sol","Reis, príncipes e toda autoridade; honras, dignidades e ofícios de comando; o ouro; a vitalidade e o coração; no mapa diurno, o pai. Onde está, mostra de onde vem a honra do nativo.","O centro da consciência: a identidade que integra as demais funções, o senso de propósito e a vontade de ser alguém — o herói da própria narrativa, aquilo em torno do qual a psique se organiza."],
+   ["☽","Lua","O povo e as multidões, a mãe, as rainhas; viagens, águas, navegações; o corpo e seus fluxos; tudo o que muda depressa. Rege as concepções, os partos e a vida comum.","O inconsciente pessoal: hábito, memória e necessidade de segurança; o modo de reagir antes de pensar; a criança interna e o que o corpo pede para se sentir em casa."],
+   ["☿","Mercúrio","Escribas, mercadores, mensageiros e advogados; contratos, contas, cartas e caminhos; os jovens; quando aflito, ladrões e trapaças. Toma a natureza de quem o configura.","A função cognitiva: linguagem, análise e mediação; a razão discursiva que nomeia a experiência e negocia entre os mundos — como a mente conecta e traduz."],
+   ["♀","Vênus","As mulheres, o casamento e os prazeres; artes, música, adornos, perfumes; a paz e os acordos; joias e coisas belas. Benéfica menor: concilia o que Marte corta.","A função de relação e de valoração: eros, gosto e capacidade de amar; o que atrai e o que se acha belo — o critério afetivo com que a psique diz sim."],
+   ["♂","Marte","Soldados, cirurgiões e ferreiros; o ferro e o fogo; feridas, febres, disputas e guerras; quando bem posto, a coragem que vence. Maléfico menor: corta para separar.","A agressividade constitutiva: assertividade, desejo e defesa do território do eu; a faculdade de dizer não, competir e romper — sem ela, a identidade não se afirma."],
+   ["♃","Júpiter","Juízes, clérigos, nobres e conselheiros; as leis, a religião e a riqueza; honras públicas e favores; a fertilidade e os filhos. Benéfico maior: onde toca, amplia e protege.","A função de sentido: fé, expansão da consciência e busca de significado; a confiança de que a vida tem direção — o otimismo estrutural que abre futuro."],
+   ["♄","Saturno","Velhos, camponeses, monges e coveiros; terras, minas, edifícios antigos; prisões, dívidas longas e heranças; a morte e o que dura. Maléfico maior: pesa, atrasa e consolida.","O princípio de estrutura e limite: o tempo interno, o superego, o medo que disciplina; a faculdade de renunciar, esperar e amadurecer — o que dá forma por subtração."]]},
+ signos:{t:"Os signos — a narrativa solar",sub:"como agem",ciclo:true,
+  intro:"Os doze signos contam a história do Sol ao longo do ano: cada um é um capítulo da luz nas estações — e o figurino que o ator veste carrega o clima desse capítulo. As menções são do Manual Prático de Astrologia, de Barbault.",
+  itens:[]},
+ casas:{t:"As casas — os cenários",sub:"onde agem",dupla:true,
+  intro:"Objetivamente (Lilly), as casas são os lugares do mundo: pessoas, bens e acontecimentos. Subjetivamente, são estruturas da psique que organizam a experiência — mudam a forma como percebemos cada província da vida.",
+  itens:[
+   ["1","Casa 1 · Ascendente","A vida e o corpo do nativo: compleição, estatura, aparência e temperamento; o início de tudo o que se pergunta.","A autoimagem e o comportamento: a lente inaugural pela qual o mundo entra — o personagem que se veste antes de qualquer cena."],
+   ["2","Casa 2","Os bens móveis: dinheiro, ganho e perda, o que se possui e se carrega; os ajudantes da fortuna.","O sistema axiológico: a forma de perceber o meio material — o que conta como substância, o que tem valor e quanto vale cada coisa."],
+   ["3","Casa 3","Irmãos, vizinhos e parentes próximos; cartas, mensagens e as viagens curtas; os caminhos conhecidos.","A mente concreta e o mundo imediato: como se nomeia, conecta e circula informação no território familiar."],
+   ["4","Casa 4","O pai; terras, casas, lavouras e tudo o que está sob a terra; as fundações e o fim de todas as coisas.","A base psíquica: memória familiar, chão interno e sentimento de origem — de onde se parte e para onde tudo recolhe."],
+   ["5","Casa 5","Filhos e gravidezes; prazeres, banquetes, jogos e teatros; embaixadores e presentes.","A expressão criativa do eu: o poder de gerar, brincar e se mostrar — a consciência do próprio poder de ação."],
+   ["6","Casa 6","Doenças e suas causas; criados e subordinados; o gado miúdo; tios e tias paternos.","A autorregulação: rotina, serviço e a relação psique-corpo — como o cotidiano ajusta (ou adoece) o organismo."],
+   ["7","Casa 7","O casamento e o cônjuge; sócios e contratos; os inimigos declarados; processos e duelos.","O outro como espelho: onde a psique projeta o que não reconhece em si — todo encontro é também um retrato."],
+   ["8","Casa 8","A morte, sua qualidade e natureza; os bens do cônjuge e dos outros; heranças, dívidas e o medo.","A experiência de perda e fusão: as crises que dissolvem a estrutura do eu para reconstruí-la — o que só se ganha entregando algo."],
+   ["9","Casa 9","Viagens longas e o estrangeiro; a religião, o clero e os sonhos; a lei e o saber superior.","A função de cosmovisão: o mapa mental do mundo, a busca do sentido maior — a moldura filosófica que dá norte à experiência."],
+   ["10","Casa 10","Reis, honras e ofícios; a dignidade e a profissão; a mãe, em Lilly; juízes e o comando.","A persona pública e a vocação: a imagem entregue ao coletivo e a ambição que estrutura o projeto de vida."],
+   ["11","Casa 11","Amigos e amizades; as esperanças e a confiança; o favor dos reis e seus conselheiros.","O pertencimento: o futuro imaginado em conjunto — grupos, alianças e a esperança como função psíquica."],
+   ["12","Casa 12","Inimigos ocultos, feiticeiros e delatores; prisões, exílios e aflições; o gado graúdo.","O inconsciente e os bastidores: a autossabotagem, o que age sem rosto — e o retiro que restaura quando aceito."]]},
  aspectos:{t:"Os aspectos — os diálogos",sub:"como se relacionam",
   intro:"Os aspectos são os ângulos entre planetas: o modo como os atores contracenam. Suaves fluem; tensos dramatizam — e é a tensão que move a trama.",
   itens:[["☌","Conjunção (0°)","Os atores dividem a mesma marca de palco: fusão de significados, para o bem ou para o mal."],
@@ -1385,7 +1396,28 @@ const CARTAS={
    ["☉","Revolução solar","A carta do instante em que o Sol volta ao grau natal: o mapa do ano, lido sobre o natal."],
    ["✦","Termos","Dentro de cada signo, faixas de graus pertencem a um planeta. O Sol em trânsito, andando pelos termos, evoca os assuntos das casas que o senhor do termo rege."]]}
 };
+/* estações do ciclo solar por signo (preenchidas com as menções do Barbault no build) */
+const SIGNO_CICLO=["Simboliza o fogo original que se manifesta à entrada da primavera, o jorrar das forças brutas da vida: desabrochar dos botões, saída dos rebentos da terra, cio dos animais; começo, renovação, impulso.", "Simboliza na natureza a condensação do ímpeto do Carneiro, a materialização das forças criadoras, sendo esta segunda parte da primavera a da vegetação maciça, das verdes pastagens e dos primeiros frutos.", "Simboliza na natureza, após a eclosão do Carneiro e a encarnação do Touro, a conquista aérea da vegetação pela ramagem e a folhagem — a plenitude da função clorofiliana.", "Simboliza na natureza o primeiro estágio do verão: a formação das sementes e o triunfo das forças geratrizes maternas; as águas-mães, com a seiva inflando os tecidos da natureza em plena fecundidade.", "Simboliza na natureza a culminação vegetal, a plenitude do fruto, toda a magnificência da maturidade sob o mais brilhante sol do ano, em analogia com o apogeu dos meios-dias de verão.", "Simboliza na natureza o termo de um longo processo: a semente dá aqui a espiga madura, pronta a ser ceifada; é a ceifa e o armazenamento, quando tudo seca, se seleciona e se delimita.", "Simboliza na natureza o equilíbrio dos dias e das noites, com a ascensão do mundo noturno e o declínio da luz e do calor; os últimos frutos soltam-se das árvores — crepúsculo outonal de repouso e paz.", "Simboliza na natureza o fim da vegetação, a queda e a decomposição das folhas: a destruição das formas exteriores em favor de um processo de fermentação e desagregação.", "Desde a provação do Escorpião a vegetação já não existe: a energia opera uma projeção do que o Escorpião acumulou, destinando-o a um fim ascendente.", "Simboliza na natureza o despojamento, o silêncio, a concentração do inverno em sua severa grandeza; o estágio da semente enterrada no solo — uma meia-noite celeste no solstício.", "Simboliza na natureza a primeira assimilação da semente novamente semeada, que se integra no meio terrestre; mundo das afinidades eletivas, cujo resultado é a fraternidade universal.", "Simboliza na natureza o estado transitório entre o inverno que acaba e a primavera que se prepara, mundo do impreciso: as cheias invernais, dilúvio purificador, e a imensidão oceânica das águas."];
+function montarSignos(){
+ const EST=["o Sol irrompe: início da primavera, o broto que fura a terra",
+  "plena primavera: a seiva estabiliza, a terra floresce e retém",
+  "fim da primavera: a luz se ramifica, tudo se comunica e circula",
+  "solstício de verão: a luz culmina e reflui para dentro, para as águas e o lar",
+  "pleno verão: o esplendor da luz madura, o fruto no auge do calor",
+  "fim do verão: a colheita — separar o grão da palha, medir e guardar",
+  "equinócio de outono: dia e noite se pesam, a luz busca o equilíbrio",
+  "outono profundo: a folha cai e fermenta, a vida se concentra na semente",
+  "fim do outono: o fogo recolhe-se em chama interior que aponta ao longe",
+  "solstício de inverno: a noite culmina, a terra nua sustenta o cume",
+  "pleno inverno: o ar cristalino, o mundo pensado antes de renascer",
+  "fim do inverno: o degelo — as águas dissolvem as formas e preparam o novo"];
+ CARTAS.signos.itens=SIGNS.map((nome,i)=>{
+  const barb=SIGNO_CICLO[i]?` No Manual Prático, Barbault: “${SIGNO_CICLO[i]}”`:"";
+  const meta=`${["Fogo","Terra","Ar","Água"][i%4]} ${["cardinal","fixo","mutável"][i%3]}, regido por ${RULERS[nome]}.`;
+  return [SIGN_GLYPH[i].replace(VS,""),nome,`${cap(EST[i])}. ${meta}${barb}`];});
+}
 function renderGuia(){
+ montarSignos();
  const ordem=[["planetas","☉","#FF8A3D"],["signos","♈","#F2603F"],["casas","⌂","#E8C6AC"],
   ["aspectos","☌","#5FA88B"],["estrelas","✧","#E8D44D"],["regencia","♛","#FF5C00"]];
  $("#guia-cards").innerHTML=ordem.map(([k,glf,cor])=>{const c=CARTAS[k];
@@ -1403,9 +1435,16 @@ function abrirCartaHTML(html){
 }
 function abrirCarta(k){
  const c=CARTAS[k];if(!c)return;
+ const corpo=c.itens.map(([g,tt,a,bx],i)=>{
+  const kb="guia-"+k+"-"+i;
+  if(c.dupla)return `<div class="item"><span class="g">${gl(g)}</span><span class="t"><b>${tt}</b>
+    <i class="lab">tradição</i><span class="ebw">${editableBlock(kb+"-obj",a)}</span>
+    <i class="lab lab2">psique</i><span class="ebw">${editableBlock(kb+"-subj",bx)}</span></span></div>`;
+  const lab=c.ciclo?`<i class="lab">ciclo solar</i>`:"";
+  return `<div class="item"><span class="g">${gl(g)}</span><span class="t"><b>${tt}</b>
+    ${lab}<span class="ebw">${editableBlock(kb,a)}</span></span></div>`;}).join("");
  abrirCartaHTML(`<span class="sub">${c.sub}</span><h3>${c.t}</h3>
-  <p>${c.intro}</p>
-  ${c.itens.map(([g,tt,tx])=>`<div class="item"><span class="g">${gl(g)}</span><span class="t"><b>${tt}</b><span>${tx}</span></span></div>`).join("")}
+  <p>${c.intro}</p>${corpo}
   <button class="fechar" onclick="fecharCarta()">fechar carta</button>`);
 }
 window.fecharCarta=()=>{$("#carta-veu").classList.remove("on");document.body.style.overflow="";};
@@ -1926,21 +1965,21 @@ function swHead(days){
 /* v1 · planilha — a estrutura do excel/escala, em clay */
 function swV1(W){
  return `<table class="sw-t v1">${swHead(W.days)}
-  ${CLASSICOS.map(p=>`<tr><td class="sw-pl"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span>${p}</td>
+  ${CLASSICOS.map(p=>`<tr><td class="sw-pl" title="${p}"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span></td>
    ${W.rows[p].map((c,i)=>`<td class="${swMud(W.rows[p],i,"sg")||swMud(W.rows[p],i,"tm")||swMud(W.rows[p],i,"h")?"sw-nova":""}">
-     <b>${SIGNS[c.sg].slice(0,3)}</b><span>casa ${c.h}</span><span class="tm">termo ${GLYPH[c.tm]}</span></td>`).join("")}</tr>`).join("")}</table>`;}
+     <b class="sgg" style="color:${ELEM_COLOR[c.sg]}">${SIGN_GLYPH[c.sg]}</b><span>c${c.h}</span><span class="tm">${GLYPH[c.tm]}</span></td>`).join("")}</tr>`).join("")}</table>`;}
 /* v2 · térmico — células tingidas pelo elemento do signo */
 function swV2(W){
  const tint=s=>({0:"rgba(242,96,63,.16)",1:"rgba(88,179,104,.14)",2:"rgba(242,179,61,.13)",3:"rgba(79,155,232,.14)"}[s%4]);
  return `<table class="sw-t v2">${swHead(W.days)}
-  ${CLASSICOS.map(p=>`<tr><td class="sw-pl"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span>${p}</td>
+  ${CLASSICOS.map(p=>`<tr><td class="sw-pl" title="${p}"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span></td>
    ${W.rows[p].map(c=>`<td style="background:${tint(c.sg)}">
      <span class="sg" style="color:${ELEM_COLOR[c.sg]}">${SIGN_GLYPH[c.sg]}</span>
      <span class="mini">${c.h} · ${GLYPH[c.tm]}</span></td>`).join("")}</tr>`).join("")}</table>`;}
 /* v3 · trilhos — pills compactas; mudança ganha contorno neon */
 function swV3(W){
  return `<div class="sw-trilhos">${CLASSICOS.map(p=>`
-  <div class="sw-trilho"><span class="sw-pl"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span>${p}</span>
+  <div class="sw-trilho"><span class="sw-pl" title="${p}"><span class="g" style="color:${PLANET_COLOR[p]}">${GLYPH[p]}</span></span>
    <div class="sw-pills">${W.rows[p].map((c,i)=>{
     const mud=swMud(W.rows[p],i,"sg")||swMud(W.rows[p],i,"tm")||swMud(W.rows[p],i,"h");
     return `<span class="sw-pill${mud?" nova":""}" title="${SIGNS[c.sg]} · casa ${c.h} · termo de ${c.tm}">
