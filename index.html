@@ -69,7 +69,7 @@ section.pane.on{display:block;animation:fade .3s ease}
 .card{background:var(--barro2);border-radius:var(--r);padding:1.15rem 1.2rem;box-shadow:var(--clay);
   margin-bottom:1rem;position:relative}
 .card.destaque{box-shadow:var(--clay-neon);background:linear-gradient(160deg,#33200f,#2A1A12)}
-.card h3{font-family:var(--f-disp);font-weight:600;font-size:1.06rem;display:flex;align-items:center;gap:.6rem;line-height:1.3}
+.card h3{font-family:var(--f-disp);font-weight:600;font-size:1.06rem;display:flex;align-items:center;gap:.6rem;line-height:1.3;padding-right:7.2rem}
 .card h3 .glifo{font-size:1.5rem;color:var(--accent,var(--neon-claro));font-family:var(--f-body);line-height:1;
   width:2.15rem;height:2.15rem;flex:0 0 auto;display:flex;align-items:center;justify-content:center;
   background:var(--barro);border-radius:50%;box-shadow:var(--clay-in)}
@@ -85,9 +85,20 @@ section.pane.on{display:block;animation:fade .3s ease}
   background:var(--barro);box-shadow:var(--clay-in);letter-spacing:.03em}
 .tag.dig{color:var(--verde)} .tag.deb{color:var(--vermelho)} .tag.gold{color:var(--neon-claro)}
 
+/* ---------- seleção e cópia ---------- */
+.card,.carta,.bloco,.item,p.desc,.sec-sub,table.mini,.asp-linha,.rege-item,.pos,.tag{
+  -webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+.eb-tools{position:absolute;top:.85rem;right:.9rem;display:flex;gap:.3rem;z-index:2}
+.copy-btn{background:var(--barro2);border:none;border-radius:11px;color:var(--neutro);
+  font-size:.58rem;padding:.3rem .55rem;font-family:var(--f-mono);box-shadow:var(--clay-sm);white-space:nowrap}
+.copy-btn:active{box-shadow:var(--clay-in)}
+.copy-btn.ok{color:var(--verde)}
+.card-foot{margin-top:.85rem;padding-top:.7rem;border-top:1px solid rgba(176,138,114,.14);text-align:right}
+.copiar-secao{text-align:right;margin:-.4rem 0 .8rem}
+
 /* bloco de regências / olavo dentro do card */
 .bloco{margin-top:.85rem;padding:.8rem .9rem;background:var(--barro);border-radius:var(--r-sm);box-shadow:var(--clay-in);position:relative}
-.bloco .edit-btn{top:.55rem;right:.6rem}
+.bloco .eb-tools{top:.55rem;right:.6rem}
 .bloco p.desc{font-size:.88rem}
 .bloco .rot{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--neon);display:block;margin-bottom:.4rem}
 .bloco p{font-size:.88rem;color:var(--luz);opacity:.92}
@@ -151,8 +162,8 @@ section.pane.on{display:block;animation:fade .3s ease}
 .carta .item .t .lab{display:block;font-style:normal;font-family:var(--f-mono);font-size:.52rem;
   letter-spacing:.16em;text-transform:uppercase;color:var(--neon);margin:.5rem 0 .15rem}
 .carta .item .t .lab2{color:var(--verde)}
-.carta .ebw{display:block;position:relative;padding-right:3.4rem}
-.carta .ebw .edit-btn{top:0;right:0}
+.carta .ebw{display:block;position:relative;padding-right:7rem}
+.carta .ebw .eb-tools{top:0;right:0}
 .carta .ebw p.desc{font-size:.84rem;white-space:normal}
 .carta .fechar{position:sticky;bottom:0;display:block;margin:1rem auto 0;background:var(--barro2);
   border:none;border-radius:16px;padding:.65rem 1.6rem;font-family:var(--f-mono);font-size:.7rem;
@@ -331,7 +342,7 @@ details.bloco>*:not(summary){margin-top:.55rem}
 .trans-toolbar{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;margin:.9rem 0}
 .trans-toolbar label{font-family:var(--f-mono);font-size:.62rem;color:var(--neutro);width:100%}
 .hint{font-family:var(--f-mono);font-size:.58rem;color:var(--neutro2);letter-spacing:.04em;margin-top:.5rem}
-.edit-btn{position:absolute;top:.85rem;right:.9rem;background:var(--barro2);border:none;border-radius:11px;
+.edit-btn{background:var(--barro2);border:none;border-radius:11px;
   color:var(--neutro);font-size:.58rem;padding:.3rem .55rem;font-family:var(--f-mono);box-shadow:var(--clay-sm)}
 .edit-area{display:none;margin-top:.6rem}
 .edit-area.on{display:block}
@@ -411,6 +422,7 @@ footer{padding:1.2rem 1.3rem;font-family:var(--f-mono);font-size:.56rem;color:va
     <button class="seg-btn" data-sub="eixos">48 eixos</button>
     <button class="seg-btn" data-sub="lotes">Lotes</button>
   </div>
+  <div class="copiar-secao"><button class="copy-btn" onclick="copiarSecao(this)">copiar tudo desta aba</button></div>
   <div id="natal-planetas" class="sub on"></div>
   <div id="natal-casas" class="sub" style="display:none"></div>
   <div id="natal-aspectos" class="sub" style="display:none"></div>
@@ -732,6 +744,7 @@ function fmtCurto(lon){const d=norm(lon)%30;const g=Math.floor(d);const m=Math.f
 function grausMin(x){const g=Math.floor(x);const m=Math.round((x-g)*60);return `${g}°${String(m).padStart(2,"0")}′`;}
 function ageAt(date){return (date-BIRTH)/(365.2425*86400000);}
 function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function escAttr(t){return esc(t).replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
 /* ---- CASAS PLACIDUS (o mapa é lido por cúspides reais, não por signos inteiros) ---- */
@@ -929,8 +942,8 @@ function editableBlock(key,defaultText){
  const id="ed"+(editSeq++);
  const custom=noteKey(key);
  const text=custom!==undefined?custom:defaultText;
- return `<button class="edit-btn" onclick="toggleEdit('${id}','${key}')">editar</button>
-  <p class="desc" id="${id}-txt" data-raw="${esc(text)}">${richHTML(text)}</p>
+ return `<span class="eb-tools"><button class="copy-btn" onclick="copiarBloco(this)">copiar</button><button class="edit-btn" onclick="toggleEdit('${id}','${key}')">editar</button></span>
+  <p class="desc" id="${id}-txt" data-raw="${escAttr(text)}">${richHTML(text)}</p>
   <div class="edit-area" id="${id}-area">
     <textarea id="${id}-ta"></textarea>
     <p class="hint">cole a URL de uma imagem (.png/.jpg/.webp) no texto e ela aparece renderizada</p>
@@ -944,6 +957,46 @@ window.saveEdit=(id,key)=>{const v=$("#"+id+"-ta").value.trim();NOTES[key]=v;sav
  const el=$("#"+id+"-txt");el.dataset.raw=v;el.innerHTML=richHTML(v);$("#"+id+"-area").classList.remove("on");};
 window.resetEdit=(id,key,def)=>{delete NOTES[key];saveNotes();
  const el=$("#"+id+"-txt");el.dataset.raw=def;el.innerHTML=richHTML(def);$("#"+id+"-area").classList.remove("on");};
+
+/* ============ CÓPIA DE TEXTO ============ */
+async function copiar(txt,btn){
+ let ok=false;
+ try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(txt);ok=true;}}catch(e){}
+ if(!ok){try{const ta=document.createElement("textarea");ta.value=txt;
+  ta.style.cssText="position:fixed;left:-9999px;top:0";document.body.appendChild(ta);
+  ta.select();ok=document.execCommand("copy");document.body.removeChild(ta);}catch(e){}}
+ if(btn){const t=btn.textContent;btn.textContent=ok?"copiado":"falhou";btn.classList.add("ok");
+  setTimeout(()=>{btn.textContent=t;btn.classList.remove("ok");},1400);}
+ return ok;}
+window.copiarBloco=btn=>{
+ const p=btn.closest(".eb-tools").nextElementSibling;
+ copiar(p&&p.dataset.raw!==undefined?p.dataset.raw:(p?p.innerText:""),btn);};
+/* texto legível de um card inteiro, na ordem do DOM */
+function textoDoCard(el){
+ const out=[],push=t=>{t=(t||"").replace(/\s+$/,"");if(t.trim())out.push(t);};
+ const h3=el.querySelector(":scope > h3");if(h3)push(h3.innerText.replace(/\s+/g," ").trim());
+ const pos=el.querySelector(":scope > .pos");if(pos)push(pos.innerText.replace(/\s+/g," ").trim());
+ el.querySelectorAll(".rot, p.desc, .cit, .rege-item, .tbar, table.mini tr, .asp-linha").forEach(n=>{
+  if(n.matches("p.desc"))push(n.dataset.raw!==undefined?n.dataset.raw:n.innerText);
+  else if(n.matches(".rot"))push("\n— "+n.innerText.trim().toUpperCase()+" —");
+  else push(n.innerText.replace(/\s*\n\s*/g," · ").replace(/\s+/g," ").trim());});
+ const tg=el.querySelector(":scope > .tagrow");
+ if(tg)push("["+tg.innerText.replace(/\s*\n\s*/g,", ").trim()+"]");
+ return out.join("\n");}
+window.copiarCarta=btn=>{const c=btn.closest(".card");if(c)copiar(textoDoCard(c),btn);};
+/* copia toda a sub-aba visível do Natal */
+window.copiarSecao=btn=>{
+ const sub=[...$$("#pane-natal .sub")].find(x=>x.style.display!=="none");
+ if(!sub)return;
+ const partes=[];
+ /* percorre o conteúdo na ordem: cards viram texto estruturado, o resto entra como está */
+ const varrer=el=>{
+  [...el.children].forEach(n=>{
+   if(n.classList.contains("card"))partes.push(textoDoCard(n));
+   else if(n.querySelector&&n.querySelector(".card"))varrer(n);
+   else{const t=n.innerText.replace(/\s*\n\s*/g,"\n").trim();if(t)partes.push(t);}});};
+ varrer(sub);
+ copiar(partes.join("\n\n————————\n\n"),btn);};
 
 /* ============ CAMADAS DO TEMPO ============ */
 function firdariaAt(date){const age=ageAt(date);
@@ -1124,6 +1177,7 @@ function cardHTML({key,title,glyph,pos,def,tags=[],destaque=false,accent,extra="
    ${editableBlock(key,def)}
    ${extra}
    ${tags.length?`<div class="tagrow">${tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join("")}</div>`:""}
+   <div class="card-foot"><button class="copy-btn" onclick="copiarCarta(this)">copiar carta inteira</button></div>
  </div>`;}
 
 /* ============ MAPA NATAL ============ */
