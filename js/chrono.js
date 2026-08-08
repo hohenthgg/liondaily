@@ -445,6 +445,141 @@
   }
 
   /* ============================================================
+     PROMESSAS NATAIS por regência × posição
+     Uma promessa nasce da relação entre o que um planeta ADMINISTRA
+     (as casas que rege) e o CAMPO em que ele executa (a casa que ocupa).
+     Só é registrada com dois ou mais testemunhos natais convergentes —
+     sem isso é coincidência de tabela, não promessa.
+
+     Este é o filtro do módulo preditivo: um contato de direção ou de
+     progressão que não corresponda a nenhuma promessa é registrado como
+     contato, nunca como acontecimento.
+     ============================================================ */
+  var _promessas = null;
+  function promessasNatais() {
+    if (_promessas) return _promessas;
+    var out = [];
+    /* casas onde a vida se concentra: as ocupadas pelos pontos vitais */
+    var vitais = {};
+    ["Sol", "Lua"].forEach(function (p) { vitais[casaDe(MAPA.ceu[p].lon)] = 1; });
+    vitais[casaDe(MAPA.lotes["Fortuna"])] = 1;
+    vitais[casaDe(MAPA.lotes["Espírito"])] = 1;
+    vitais[1] = 1; vitais[10] = 1;
+
+    S.CLASSICOS.forEach(function (p) {
+      var rege = MAPA.rege[p] || [];
+      if (!rege.length) return;
+      var cond = MAPA.condicao[p], ocupa = cond.acidental.casa;
+      var casas = rege.slice();
+      if (casas.indexOf(ocupa) < 0) casas.push(ocupa);
+
+      var testemunhos = [{
+        tipo: "regência × posição",
+        txt: "regente da casa " + rege.join(" e da casa ") + " posto na casa " + ocupa
+      }];
+      var dignificado = cond.essencial.itens.some(function (i) {
+        return i.tipo === "domicílio" || i.tipo === "exaltação";
+      });
+      if (dignificado) testemunhos.push({
+        tipo: "dignidade", txt: p + " em " +
+          cond.essencial.itens.map(function (i) { return i.tipo; }).join(" e ")
+      });
+      if ([1, 4, 7, 10].indexOf(ocupa) >= 0) testemunhos.push({
+        tipo: "angularidade", txt: p + " angular, na casa " + ocupa
+      });
+      var recs = MAPA.recepcoes.filter(function (r) {
+        return (r.a === p || r.b === p) && r.mutua;
+      });
+      if (recs.length) testemunhos.push({
+        tipo: "recepção", txt: "recepção mútua com " +
+          recs.map(function (r) { return r.a === p ? r.b : r.a; }).join(" e ")
+      });
+      var apoios = MAPA.aspectos.filter(function (a) {
+        return (a.a === p || a.b === p) && a.natureza !== "tenso";
+      });
+      apoios.forEach(function (a) {
+        var o = a.a === p ? a.b : a.a, orege = MAPA.rege[o] || [];
+        testemunhos.push({
+          tipo: "aspecto favorável",
+          txt: p + " " + a.glifo + " " + o + (orege.length ? " (regente da casa " + orege.join(" e ") + ")" : "")
+        });
+      });
+      if (casas.some(function (h) { return vitais[h]; })) testemunhos.push({
+        tipo: "ponto vital", txt: "um luminar ou lote principal ocupa o mesmo campo de casas"
+      });
+      if (testemunhos.length < 2) return;
+
+      /* A ordem da classificação importa: a debilidade essencial e a combustão
+         vêm antes da angularidade. Um planeta em exílio numa casa angular age
+         em cena aberta — mas continua sem apoio do lugar, e é isso que decide
+         se a promessa se cumpre por si ou por circunstância. */
+      var tensos = MAPA.aspectos.filter(function (a) {
+        return (a.a === p || a.b === p) && a.natureza === "tenso";
+      });
+      var debil = cond.essencial.debilidades.some(function (d) {
+        return d.tipo === "exílio" || d.tipo === "queda";
+      });
+      var peregrino = cond.essencial.peregrino;
+      var combusto = cond.acidental.itens.some(function (i) { return i.tipo === "combusto"; });
+      var recForte = recs.some(function (r) { return r.forte; });
+      var estado;
+      if (debil || combusto) estado = "condicional";
+      else if (dignificado || (recForte && !peregrino)) estado = "forte";
+      else if (tensos.length && testemunhos.length >= 3) estado = "conflitiva";
+      else estado = "disponível";
+
+      /* a que tema de vida a promessa pertence */
+      var tema = null, melhorTema = 0;
+      (root.Corpus ? root.Corpus.TEMAS : []).forEach(function (t) {
+        var sc = 0;
+        t.casas.forEach(function (h) { if (rege.indexOf(h) >= 0) sc += 2; if (ocupa === h) sc += 1; });
+        (t.apoio || []).forEach(function (h) { if (casas.indexOf(h) >= 0) sc += 0.5; });
+        if (t.significador === p) sc += 1;
+        if (sc > melhorTema) { melhorTema = sc; tema = t; }
+      });
+
+      out.push({
+        id: "prom-" + p, planeta: p, rege: rege, ocupa: ocupa, casas: casas,
+        estado: estado, testemunhos: testemunhos, tema: tema,
+        dignificado: dignificado, debil: debil, combusto: combusto, peregrino: peregrino,
+        titulo: rege.indexOf(ocupa) >= 0
+          ? cap(CASA_CURTO(ocupa)) + " como campo central"
+          : cap(CASA_CURTO(rege[0])) + " por meio de " + CASA_CURTO(ocupa),
+        /* quando o planeta rege a casa que ocupa, dizer que o tema "se
+           desenvolve por meio de si mesmo" seria literal e vazio */
+        enunciado: rege.length === 1 && rege[0] === ocupa
+          ? p + " rege a casa " + ocupa + " e a ocupa: " + CASA_CURTO(ocupa) +
+            " é ao mesmo tempo o que ele administra e onde executa — tema central, " +
+            "que não depende de intermediário para se manifestar."
+          : p + " rege a casa " + rege.join(" e a casa ") +
+            " e ocupa a casa " + ocupa + ": " +
+            rege.filter(function (h) { return h !== ocupa; }).map(CASA_CURTO).join(" e ") +
+            " tendem a se desenvolver por meio de " + CASA_CURTO(ocupa) +
+            (rege.indexOf(ocupa) >= 0 ? ", casa que o próprio planeta também administra" : "") + ".",
+        entrega: estado === "forte"
+          ? "Entrega com apoio próprio: o significador tem de onde tirar o que promete."
+          : estado === "condicional"
+          ? "Entrega dependente: " +
+            (debil ? p + " está em " + cond.essencial.debilidades.map(function (d) { return d.tipo; }).join(" e ")
+                   : p + " está combusto") +
+            " e precisa de recepção ou de circunstância favorável para cumprir o que rege."
+          : estado === "conflitiva"
+          ? "Entrega disputada: há testemunhos fortes e aspecto tenso ao mesmo tempo; o tema anda, mas custa."
+          : "Entrega disponível, sem reforço essencial nem debilidade marcantes" +
+            (peregrino ? " — " + p + " é peregrino, e depende do que lhe for emprestado" : "") + ".",
+        certeza: "derivado"
+      });
+    });
+    var ordem = { forte: 0, "disponível": 1, conflitiva: 2, condicional: 3 };
+    out.sort(function (a, b) { return ordem[a.estado] - ordem[b.estado]; });
+    return (_promessas = out);
+  }
+  function CASA_CURTO(h) {
+    return (root.Corpus && root.Corpus.CASA_CURTO[h]) || ("assuntos da casa " + h);
+  }
+  function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+
+  /* ============================================================
      PRÓXIMA VIRADA · quando a configuração do momento muda
      ============================================================ */
   function proximaVirada(agora) {
@@ -650,7 +785,7 @@
     revolucaoDe: revolucaoDe, revolucaoVigente: revolucaoVigente,
     prioridadeRevolucao: prioridadeRevolucao,
     transitosAoNatal: transitosAoNatal, cadeiaDeSignificacao: cadeiaDeSignificacao,
-    proximaVirada: proximaVirada, briefing: briefing,
+    proximaVirada: proximaVirada, briefing: briefing, promessasNatais: promessasNatais,
     linhaDoTempo: linhaDoTempo, coincidencias: coincidencias,
     localAtual: localAtual, definirLocalAtual: definirLocalAtual
   };

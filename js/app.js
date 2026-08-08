@@ -20,6 +20,15 @@
     if (modo === "hoje") {
       subnav.hidden = true;
       app.innerHTML = '<section class="tela">' + U.telaHoje() + "</section>";
+      /* a camada preditiva entra depois da primeira pintura */
+      setTimeout(function () {
+        var alvo = $("#brief-arco");
+        if (!alvo) return;
+        try { alvo.innerHTML = U.briefArco(); } catch (e) {
+          alvo.innerHTML = '<p class="vazio">Não foi possível medir os arcos.</p>';
+        }
+        ligarBlocos();
+      }, 24);
     } else {
       subnav.hidden = false;
       subin.innerHTML = ABAS.map(function (a) {
@@ -53,6 +62,11 @@
         a2.innerHTML = W.tecnica[W.estado.subTecnica] ? W.tecnica[W.estado.subTecnica]() : "";
         if (W.estado.subTecnica === "eletiva") {
           var e = $("#ele-corpo"); if (e) e.innerHTML = W.eletivaCorpo();
+        }
+        if (W.estado.subTecnica === "preditivas") {
+          /* os arcos levam algumas centenas de ms: deixa o "calculando" aparecer */
+          var pv = $("#pv-corpo");
+          if (pv) setTimeout(function () { pv.innerHTML = W.pvCorpo(); ligarBlocos(); }, 16);
         }
       }
     } else if (aba === "perfil") {
@@ -91,6 +105,20 @@
         $$("#chips-eixos .chip").forEach(function (x) { x.setAttribute("aria-pressed", x === b); });
         $("#eixos-corpo").innerHTML = W.eixosCorpo();
         ligarBlocos();
+      };
+    });
+    /* chips das preditivas */
+    $$("#chips-pv .chip").forEach(function (b) {
+      b.onclick = function () {
+        W.estado.pvVista = b.dataset.pv;
+        pos(); ligar();
+      };
+    });
+    $$("#chips-pvopt .chip").forEach(function (b) {
+      b.onclick = function () {
+        if (b.dataset.opt === "chave") W.estado.pvChave = b.dataset.val;
+        else W.estado.pvSentido = b.dataset.val;
+        pos(); ligar();
       };
     });
     /* chips da eletiva */

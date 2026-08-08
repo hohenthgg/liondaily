@@ -146,6 +146,35 @@
     };
   }
 
+  /* ---------- conversões de quadro, para direções primárias ---------- */
+  /* eclíptica → equatorial. A latitude importa: o promissor de conjunção
+     leva a sua, os pontos de aspecto são tomados sobre a eclíptica. */
+  function equatorial(lonDeg, latDeg, epsDeg) {
+    var l = lonDeg * R, b = (latDeg || 0) * R, e = epsDeg * R;
+    var ra = Math.atan2(Math.sin(l) * Math.cos(e) - Math.tan(b) * Math.sin(e), Math.cos(l)) * D;
+    var dec = Math.asin(Math.sin(b) * Math.cos(e) + Math.cos(b) * Math.sin(e) * Math.sin(l)) * D;
+    return { ra: norm(ra), dec: dec };
+  }
+  /* diferença ascensional sob um polo; null se o ponto for circumpolar ali */
+  function difAscensional(decDeg, poloDeg) {
+    var x = Math.tan(decDeg * R) * Math.tan(poloDeg * R);
+    if (!isFinite(x) || Math.abs(x) >= 1) return null;
+    return Math.asin(x) * D;
+  }
+  function ramcDeMC(mcDeg, epsDeg) {
+    var m = mcDeg * R, e = epsDeg * R;
+    return norm(Math.atan2(Math.sin(m) * Math.cos(e), Math.cos(m)) * D);
+  }
+  function mcDeRAMC(ramcDeg, epsDeg) {
+    var r = ramcDeg * R, e = epsDeg * R;
+    return norm(Math.atan2(Math.sin(r), Math.cos(r) * Math.cos(e)) * D);
+  }
+  function ascDeRAMC(ramcDeg, epsDeg, latDeg) {
+    var r = ramcDeg * R, e = epsDeg * R, phi = latDeg * R;
+    return norm(Math.atan2(Math.cos(r),
+      -(Math.sin(r) * Math.cos(e) + Math.tan(phi) * Math.sin(e))) * D);
+  }
+
   /* Em que casa cai uma longitude, dadas as cúspides */
   function casaDe(l, cusps) {
     l = norm(l);
@@ -387,6 +416,8 @@
     obliquidade: obliquidade, gmst: gmst,
     lon: lon, lat: lat, dist: dist, speed: speed, ceu: ceu, nodoMedio: nodoMedio,
     casas: casas, casaDe: casaDe, posicaoNaCasa: posicaoNaCasa,
+    equatorial: equatorial, difAscensional: difAscensional,
+    ramcDeMC: ramcDeMC, mcDeRAMC: mcDeRAMC, ascDeRAMC: ascDeRAMC,
     bissecao: bissecao, cruzaLongitude: cruzaLongitude,
     perfeicao: perfeicao, perfeicaoAoPonto: perfeicaoAoPonto,
     proximaEstacao: proximaEstacao,

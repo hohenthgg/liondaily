@@ -216,6 +216,12 @@
       }));
     }
 
+    /* --- ARCO EM CURSO --- */
+    /* Direções e progressões custam algumas centenas de milissegundos.
+       Entram depois da primeira pintura, para não atrasar o briefing. */
+    h.push(rot("Arco em curso"));
+    h.push('<div id="brief-arco"><p class="carregando">medindo arcos…</p></div>');
+
     /* --- AGORA: os gatilhos --- */
     h.push(rot("Agora"));
     var gat = cam.gatilhos.slice(0, 7);
@@ -301,6 +307,52 @@
     }));
     return h.join("");
   }
+  /* O que direções e progressões dizem estar em curso agora.
+     Fica entre o cronocrator e o gatilho na hierarquia: dura anos, não dias,
+     e é a camada que responde "por que este assunto, e não outro". */
+  function briefArco() {
+    var V = window.Preditivas;
+    if (!V) return '<p class="vazio">Camada preditiva indisponível.</p>';
+    var agora = new Date();
+    var itens = [];
+    ["direcao", "progressao"].forEach(function (tp) {
+      var sel = V.selecionar({ tipo: tp, agora: agora, comTransito: false, limite: 24 });
+      sel.lista.forEach(function (it) {
+        if (it.estado === "ativo" && it.nivel !== "contextual") itens.push(it);
+      });
+    });
+    itens.sort(function (a, b) {
+      var w = { alta: 0, "média": 1 };
+      return (w[a.nivel] - w[b.nivel]) || (a._dist - b._dist);
+    });
+    if (!itens.length) return '<p class="vazio">Nenhuma direção ou progressão com promessa natal perfaz ' +
+      'dentro da margem de ' + V.MARGEM_MESES + ' meses. Período sem arco definidor: o que se mover agora ' +
+      'vem das camadas mais curtas.</p>';
+
+    return itens.slice(0, 4).map(function (it) {
+      var pr = it.promessa;
+      var casa = it.env.papeis.significador.casa;
+      return '<div class="gatilho forte">' +
+        '<span class="asp">' + (it.tipo === "direcao" ? "∠" : "◑") + VS + "</span>" +
+        '<div class="txt"><div class="t1"><b>' + esc(V.tituloDe(it)) + "</b></div>" +
+        '<div class="t2">' +
+        (it.tipo === "direcao" ? "direção primária" : "progressão secundária") + " · " +
+        (pr ? "cumpre a promessa de " + pr.pr.planeta + " (" + pr.pr.estado + "), que rege " +
+              window.Preditivas.casasTxt(pr.pr.rege) : "sem promessa ligada pelo planeta") +
+        (casa ? " · campo: casa " + casa + ", " + esc(K.CASA_CURTO[casa]) : "") +
+        (it.conf.length ? " · confirmado por " + it.conf.map(function (c) { return c.camada; }).join(" e ") : "") +
+        "</div></div>" +
+        '<span class="quando">perfaz<br>' + fCurta(it.data) + "</span></div>";
+    }).join("") +
+      camada("por que isto está aqui",
+        "<p>Direções e progressões ocupam, na hierarquia, o degrau entre o cronocrator e o gatilho: " +
+        "duram anos, não dias. A firdaria diz <i>quem</i> governa o período; o arco diz <i>qual promessa " +
+        "natal encontra o seu momento de definição</i> dentro dele.</p>" +
+        "<p>Só aparecem aqui os arcos que perfazem dentro de " + V.MARGEM_MESES + " meses da data de hoje " +
+        "e que cumprem uma promessa natal. A lista completa, com o cálculo de cada arco, está em " +
+        "<b>Mapa → Técnica → Preditivas</b>.</p>");
+  }
+
   function cel(r, v, s) {
     return '<div class="brief-cel"><span class="r">' + esc(r) + '</span><span class="v">' + v + "</span>" +
       (s ? '<span class="r" style="margin:.15rem 0 0">' + esc(s) + "</span>" : "") + "</div>";
@@ -633,7 +685,7 @@
     texto: texto, rico: rico, NOTAS: NOTAS, guardarNotas: guardarNotas, carregarNotas: carregarNotas,
     fData: fData, fCurta: fCurta, fHora: fHora, fDataHora: fDataHora, daqui: daqui,
     MESES: MESES, MES3: MES3, DIAS: DIAS, DIA3: DIA3,
-    telaHoje: telaHoje, telaMapa: telaMapa, sync: sync, token: token, TK: TK,
+    telaHoje: telaHoje, telaMapa: telaMapa, briefArco: briefArco, sync: sync, token: token, TK: TK,
     explicaCamada: explicaCamada
   };
 })();

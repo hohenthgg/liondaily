@@ -14,8 +14,8 @@
   var subTecnica = "cronocratores";
   function telaTecnica() {
     var abas = [["cronocratores", "Cronocratores"], ["revolucao", "Revolução"],
-                ["cronologia", "Cronologia"], ["transitos", "Trânsitos"],
-                ["semana", "Semana"], ["eletiva", "Eletiva"]];
+                ["preditivas", "Preditivas"], ["cronologia", "Cronologia"],
+                ["transitos", "Trânsitos"], ["semana", "Semana"], ["eletiva", "Eletiva"]];
     return '<h2>Técnica</h2><p class="sub">As camadas de tempo, cada uma no seu nível. ' +
       "Firdaria e profecção autorizam; a revolução dá o campo do ano; o trânsito dispara.</p>" +
       '<div class="chips" id="chips-tec">' + abas.map(function (a) {
@@ -324,6 +324,300 @@
     h.push('<p class="nota">Célula destacada = o planeta mudou de signo, de casa natal ou de termo naquele dia. ' +
       "Cada célula traz o glifo do signo, a casa natal em trânsito e o glifo do senhor do termo.</p>");
     return h.join("");
+  }
+
+  /* ============================================================
+     PREDITIVAS · direções primárias e progressões secundárias
+
+     A camada que faltava: firdaria e profecção dizem QUEM governa o
+     período; direções e progressões dizem QUANDO uma promessa natal
+     encontra o seu momento de definição. Nada aqui é acontecimento —
+     é o encontro datado entre uma promessa e um arco.
+     ============================================================ */
+  var pvVista = "periodos", pvChave = "naibod", pvSentido = "ambas", pvCache = {};
+
+  function pvSel(tipo) {
+    var V = window.Preditivas;
+    var ck = tipo + "|" + pvChave + "|" + pvSentido;
+    if (pvCache[ck]) return pvCache[ck];
+    return (pvCache[ck] = V.selecionar({
+      tipo: tipo, chave: pvChave, sentido: pvSentido, comTransito: false
+    }));
+  }
+  function tecPreditivas() {
+    var vistas = [["periodos", "Períodos"], ["direcoes", "Direções primárias"],
+                  ["progressoes", "Progressões secundárias"]];
+    return '<p class="nota">Duas técnicas de movimento: a <b>direção primária</b> leva o céu natal ' +
+      "pelo movimento diurno, um grau de ascensão reta por ano de vida; a <b>progressão secundária</b> " +
+      "avança o céu um dia por ano. Nenhuma das duas prevê acontecimento. Ambas datam o encontro entre " +
+      "uma promessa do mapa e um arco de tempo — e um contato que não cumpre promessa fica registrado " +
+      "como contato, não como período.</p>" +
+      '<div class="chips" id="chips-pv">' + vistas.map(function (v) {
+        return '<button class="chip" data-pv="' + v[0] + '" aria-pressed="' + (v[0] === pvVista) + '">' +
+          v[1] + "</button>";
+      }).join("") + "</div>" +
+      (pvVista === "direcoes"
+        ? '<div class="chips" id="chips-pvopt">' +
+          [["chave", "naibod", "Naibod"], ["chave", "ptolomeu", "Ptolomeu"]].map(function (o) {
+            return '<button class="chip" data-opt="chave" data-val="' + o[1] + '" aria-pressed="' +
+              (pvChave === o[1]) + '">' + o[2] + "</button>";
+          }).join("") +
+          [["ambas", "direta e conversa"], ["direta", "só direta"], ["conversa", "só conversa"]].map(function (o) {
+            return '<button class="chip" data-opt="sentido" data-val="' + o[0] + '" aria-pressed="' +
+              (pvSentido === o[0]) + '">' + o[1] + "</button>";
+          }).join("") + "</div>"
+        : "") +
+      '<div id="pv-corpo"><p class="carregando">calculando arcos…</p></div>';
+  }
+
+  var PV_NIVEL = { alta: ["ativo", "alta"], "média": ["barro", "média"], contextual: ["", "contextual"] };
+  function pvEstadoTag(e) {
+    return e === "ativo" ? ["em curso · margem ±6 meses", "ativo"]
+      : e === "proximo" ? ["à frente", "barro"] : ["passado", ""];
+  }
+
+  function pvCorpo() {
+    var V = window.Preditivas;
+    if (pvVista === "periodos") return pvPeriodos();
+    var tipo = pvVista === "direcoes" ? "direcao" : "progressao";
+    var sel = pvSel(tipo);
+    var h = [];
+    h.push(pvMetodoBloco(tipo, sel));
+    h.push(rot(pvVista === "direcoes"
+      ? "Arcos em torno da idade atual" : "Progressões em torno da idade atual"));
+    if (!sel.lista.length) h.push('<p class="vazio">Nenhum contato na janela.</p>');
+    sel.lista.forEach(function (it) { h.push(pvItemBloco(it)); });
+    return h.join("");
+  }
+
+  function pvMetodoBloco(tipo, sel) {
+    var V = window.Preditivas;
+    if (tipo === "direcao") {
+      var k = V.CHAVES[pvChave];
+      return bloco({
+        titulo: "Método: Placidus sob o polo do significador", glifo: "∠", certeza: "tradicional",
+        pos: "chave de " + k.rot + " · " + (pvSentido === "ambas" ? "direta e conversa" : "só " + pvSentido) +
+          " · " + sel.total + " arcos calculados",
+        conclusao: "<p>O significador recebe um polo próprio — <span class='mono'>tan(polo) = tan(φ) · MD/SA</span> — " +
+          "e os dois pontos são reduzidos à ascensão oblíqua sob esse polo. O arco é a diferença entre elas.</p>",
+        porque: "<p><b>Direta e conversa são séries independentes</b>, não o mesmo arco com o sinal trocado. " +
+          "Na direta, o promissor é levado pelo movimento primário até o lugar do significador. Na conversa, " +
+          "o significador recua contra o movimento primário até o lugar do promissor.</p>" +
+          "<p><b>Papéis.</b> O significador é o <i>campo atingido</i>; o promissor é a <i>natureza da ativação</i>. " +
+          "Trocar os dois é o erro mais comum na leitura.</p>" +
+          "<p><b>Chave.</b> " + esc(k.nota) + ". A escolha da chave muda a data, nunca a geometria: " +
+          "o mesmo arco vale " + (1 / V.CHAVES.naibod.v).toFixed(4) + " anos por Naibod e 1 por Ptolomeu.</p>" +
+          '<div class="aviso" style="margin-top:.6rem">Direções a Ascendente e Meio-do-Céu dependem do ' +
+          "horário exato do nascimento: quatro minutos de erro deslocam o ângulo cerca de 1°, ou seja, " +
+          "cerca de um ano de vida. Os contatos a planetas são muito menos sensíveis.</div>",
+        calculo: dados([
+          ["obliquidade natal", '<span class="num">' + V.QUADRO.eps.toFixed(5) + "°</span>"],
+          ["RAMC natal", '<span class="num">' + V.QUADRO.ramc.toFixed(4) + "°</span>"],
+          ["latitude geográfica", '<span class="num">' + V.QUADRO.phi.toFixed(4) + "°</span>"],
+          ["chave", k.rot + " — " + k.v + "° de ascensão reta por ano"],
+          ["significadores", "Ascendente, Meio-do-Céu e os sete clássicos"],
+          ["promissores", "os sete clássicos e os seus pontos de ☌ ⚹ □ △ ☍, dos dois lados"],
+          ["janela apresentada", "10 anos em torno da idade atual"]
+        ])
+      });
+    }
+    return bloco({
+      titulo: "Método: progressão secundária, um dia por ano", glifo: "◑", certeza: "tradicional",
+      pos: sel.total + " eventos na janela calculada",
+      conclusao: "<p>O céu de um dia depois do nascimento vale um ano de vida. Movem-se a Lua, o Sol, " +
+        "Mercúrio, Vênus e Marte; os ângulos avançam pelo arco solar em longitude aplicado ao Meio-do-Céu natal.</p>",
+      porque: "<p>São registrados quatro tipos de evento, cada um resolvido pela raiz real da função, " +
+        "não por aproximação de tabela: <b>ingresso de signo</b>, <b>ingresso de casa</b> pela cúspide, " +
+        "<b>estação</b> (raiz da velocidade) e <b>aspecto exato</b> a ponto natal. " +
+        "Somam-se as <b>lunações progredidas</b> — a Lua Nova e a Lua Cheia do ciclo de cerca de 29 anos e meio.</p>" +
+        "<p>A Lua progredida anda cerca de 13° por ano de vida e é o móvel rápido; o Sol e os ângulos " +
+        "andam cerca de 1° por ano e marcam as viradas longas.</p>",
+      calculo: dados([
+        ["chave", "1 dia após o nascimento = 1 ano de vida"],
+        ["móveis", "Lua, Sol, Mercúrio, Vênus, Marte, Ascendente e MC progredidos"],
+        ["ângulos", "arco solar em longitude somado ao MC natal; o Ascendente vem do novo RAMC"],
+        ["passo de amostragem", "0,08 ano (≈ 29 dias); raiz por interpolação e correção de Newton"],
+        ["janela apresentada", "de 8 anos atrás a 12 anos à frente"]
+      ])
+    });
+  }
+
+  function pvItemBloco(it) {
+    var V = window.Preditivas;
+    var L = V.leitura(it);
+    var niv = PV_NIVEL[it.nivel] || ["", it.nivel];
+    var est = pvEstadoTag(it.estado);
+    var P = it.env.papeis;
+    var prom = it.promessa;
+    var etiquetas = [[niv[1], niv[0]], est,
+      prom ? ["promessa: " + prom.pr.planeta + " " + prom.pr.estado, prom.forte ? "bom" : "barro"]
+           : ["sem promessa correspondente", "mau"]];
+    it.conf.forEach(function (c) { etiquetas.push([c.camada + " · " + c.via, c.via === "planeta" ? "ativo" : ""]); });
+
+    var janela = "";
+    if (it.tipo === "progressao" && it.classe === "casa") {
+      var j = V.janelaNaCasa(it.movel, it.casaNova, it.anos);
+      janela = "<p><b>Permanência.</b> " + esc(MOVEIS_TXT(it.movel)) + " fica na casa " + it.casaNova +
+        " de " + U.fCurta(j.ini) + " a " + U.fCurta(j.fim) + " — " + j.anos.toFixed(1) + " anos.</p>";
+    }
+
+    return bloco({
+      titulo: V.tituloDe(it),
+      glifo: it.tipo === "direcao" ? (T.GLIFO[it.prom.planeta] || "∠")
+        : (T.GLIFO[it.movel.replace("P", "")] || "◑"),
+      ativo: it.estado === "ativo",
+      certeza: prom ? "derivado" : "tradicional",
+      pos: U.fCurta(it.data) + " · " + V.idadeTxt(it.anos) + " · " + U.daqui(it.data),
+      conclusao: "<p>" + esc(L[1][1]) + "</p>" +
+        "<p><b>Campo atingido:</b> " + esc(L[2][1]) + ".</p>" + janela,
+      tags: etiquetas,
+      porque: L.slice(3).map(function (par) {
+        return "<p><b>" + esc(par[0]) + ".</b> " + esc(par[1]) + "</p>";
+      }).join("") +
+        (it.conf.length
+          ? "<p><b>Confirmações na data de perfeição.</b> " +
+            it.conf.map(function (c) { return c.camada + " (" + c.via + "): " + c.txt; }).join("; ") + ".</p>"
+          : '<p class="nota">Nenhuma outra camada de tempo aponta para os mesmos planetas ou casas nesta data. ' +
+            "Contato isolado pesa menos.</p>") +
+        (it.estr.motivos.length
+          ? "<p><b>Razões estruturais.</b> " + cap(it.estr.motivos.join("; ")) + ".</p>" : "") +
+        "<p><b>Por que este nível.</b> " + pvPorqueNivel(it) + "</p>",
+      calculo: pvCalculo(it)
+    });
+  }
+  function MOVEIS_TXT(m) { return window.Preditivas.MOVEIS[m] || m; }
+
+  function pvPorqueNivel(it) {
+    var prom = it.promessa, conf = it.conf;
+    var confPl = conf.filter(function (c) { return c.via === "planeta"; }).length;
+    if (it.nivel === "alta")
+      return "alta porque há promessa natal ligada pelo planeta" +
+        (prom && prom.forte ? " em condição forte" : "") +
+        (confPl ? " e " + (confPl === 1 ? "uma confirmação" : confPl + " confirmações") +
+          " por planeta em outra camada" : "") +
+        (it.estr.alvoVital && it.estr.duro ? ", com conjunção ou oposição a ponto vital" : "") + ".";
+    if (it.nivel === "média")
+      return "média porque " + (prom && prom.porPlaneta
+        ? "há promessa ligada pelo planeta, mas as confirmações não bastam para o nível alto"
+        : "o contato é estrutural (aspecto duro ou ponto vital) com ao menos uma confirmação, sem promessa por planeta") + ".";
+    return "contextual porque não há promessa natal ligada pelo planeta nem confirmação suficiente. " +
+      "Fica registrado como pano de fundo, não como período.";
+  }
+
+  function pvCalculo(it) {
+    var V = window.Preditivas;
+    if (it.tipo === "direcao") {
+      var k = V.CHAVES[it.chaveArco];
+      return dados([
+        ["arco de direção", '<span class="num">' + it.arco.toFixed(4) + "°</span>"],
+        ["chave", k.rot + " (" + k.v + "°/ano)"],
+        ["tempo", '<span class="num">' + it.anos.toFixed(4) + "</span> anos → " + U.fCurta(it.data)],
+        ["sentido", it.sentido],
+        ["significador", it.sig.nome + " · " + T.fmtLonNome(it.sig.lon) +
+          " · AR " + it.sig.ra.toFixed(3) + "° · dec " + it.sig.dec.toFixed(3) + "°"],
+        ["promissor", it.prom.planeta + (it.prom.A ? " · ponto de " + it.prom.aspecto : " · corpo") +
+          " · " + T.fmtLonNome(it.prom.lon) + " · AR " + it.prom.ra.toFixed(3) + "° · dec " + it.prom.dec.toFixed(3) + "°"],
+        ["polo do significador", it.polo == null ? "—" : '<span class="num">' + it.polo.toFixed(4) + "°</span>"],
+        ["ascensão oblíqua do significador", it.oaS == null ? "—" : '<span class="num">' + it.oaS.toFixed(4) + "°</span>"],
+        ["ascensão oblíqua do promissor", it.oaP == null ? "—" : '<span class="num">' + it.oaP.toFixed(4) + "°</span>"],
+        ["distância zodiacal", '<span class="num">' + Math.abs(S.delta(it.sig.lon, it.prom.lon)).toFixed(3) +
+          "°</span> <span class=\"nota\">(não é o arco: a direção é em mundo, não em zodíaco)</span>"]
+      ]);
+    }
+    var am = V.amostra(it.anos);
+    return dados([
+      ["idade da perfeição", '<span class="num">' + it.anos.toFixed(4) + "</span> anos"],
+      ["data equivalente no céu", U.fCurta(V.dataProgredida(it.anos)) +
+        " <span class=\"nota\">(o dia real cujo céu vale este ano)</span>"],
+      ["data na vida", U.fCurta(it.data)],
+      ["móvel", V.MOVEIS[it.movel]],
+      ["longitude do móvel", T.fmtLonNome(am.lon[it.movel])],
+      ["arco solar acumulado", '<span class="num">' + am.arcoSolar.toFixed(4) + "°</span>"],
+      it.cusp != null ? ["cúspide cruzada", T.fmtLonNome(it.cusp)] : null,
+      ["classe", it.classe]
+    ].filter(Boolean));
+  }
+
+  function pvPeriodos() {
+    var V = window.Preditivas;
+    var dir = pvSel("direcao"), prog = pvSel("progressao");
+    var todos = dir.periodos.concat(prog.periodos)
+      .filter(function (P) { return P.nivel !== "contextual"; })
+      .sort(function (a, b) { return a.de - b.de; });
+    var idade = dir.idade;
+    var h = [];
+
+    h.push(bloco({
+      titulo: "Como os períodos são formados", glifo: "⚙", plano: true, certeza: "heuristico",
+      conclusao: "<p>Um contato isolado não é um período. Quando dois ou mais contatos vizinhos no tempo " +
+        "servem à <b>mesma promessa natal</b> ou envolvem o <b>mesmo planeta</b>, deixam de ser eventos " +
+        "soltos e passam a ter começo e fim.</p>",
+      porque: "<p><b>A regra de agrupamento.</b> Janela de 2,5 anos para direções e 1,5 para progressões; " +
+        "os contatos entram no mesmo grupo se compartilham a promessa ou um planeta.</p>" +
+        "<p><b>A força</b> soma o nível de cada contato (alta 3, média 2, contextual 1), mais o número " +
+        "de contatos e mais dois pontos quando um planeta se repete. É contagem, não medida — está aberta " +
+        "aqui para poder ser refeita.</p>" +
+        "<p><b>O que fica de fora.</b> Períodos cujos contatos são todos contextuais: sem promessa e sem " +
+        "confirmação de outra camada, não há o que datar.</p>"
+    }));
+
+    h.push(rot("Promessas natais em jogo"));
+    C.promessasNatais().forEach(function (pr) {
+      var ativos = todos.filter(function (P) {
+        return P.promessa && P.promessa.pr.id === pr.id;
+      }).length;
+      h.push(bloco({
+        titulo: pr.titulo, glifo: T.GLIFO[pr.planeta], certeza: "derivado",
+        pos: pr.planeta + " rege a casa " + pr.rege.join(" e a casa ") + " · ocupa a casa " + pr.ocupa +
+          " · " + pr.estado,
+        conclusao: "<p>" + esc(pr.enunciado) + "</p><p>" + esc(pr.entrega) + "</p>",
+        tags: [[pr.estado, pr.estado === "forte" ? "bom" : pr.estado === "condicional" ? "mau" : "barro"],
+               pr.tema ? ["tema: " + pr.tema.nome, "barro"] : null,
+               ativos ? [ativos + " período(s) na janela", "ativo"] : null],
+        porque: "<p><b>Testemunhos convergentes.</b></p><div class='dados'>" +
+          pr.testemunhos.map(function (t) {
+            return "<div><span class='k'>" + esc(t.tipo) + "</span><span class='v'>" + esc(t.txt) + "</span></div>";
+          }).join("") + "</div>" +
+          "<p class='nota'>Uma promessa só é registrada com dois ou mais testemunhos. Um planeta que " +
+          "apenas rege uma casa e ocupa outra, sem mais nada, é coincidência de tabela — não promessa.</p>"
+      }));
+    });
+
+    h.push(rot("Períodos datados"));
+    if (!todos.length) h.push('<p class="vazio">Nenhum período com promessa e confirmação na janela.</p>');
+    h.push('<div class="crono">' + todos.map(function (P) {
+      var atual = idade >= P.de - 0.5 && idade <= P.ate + 0.5;
+      var passado = P.ate < idade;
+      var tipo = P.grupo[0].tipo === "direcao" ? "direções" : "progressões";
+      return '<div class="crono-ev' + (atual ? " agora" : "") + '" data-nivel="' +
+        (P.nivel === "alta" ? "primário" : "secundário") + '"' +
+        (passado ? ' style="opacity:.5"' : "") + ">" +
+        '<div class="quando">' + U.fCurta(P.dataDe) +
+        (P.de !== P.ate ? " → " + U.fCurta(P.dataAte) : "") +
+        " · " + V.idadeTxt(P.de) + (P.de !== P.ate ? " a " + V.idadeTxt(P.ate) : "") + "</div>" +
+        '<div class="tit">' + gl(T.GLIFO[P.dominante] || "") + " " +
+        esc(pvNomePeriodo(P)) + "</div>" +
+        '<div class="det">' + (P.grupo.length === 1 ? "um contato" : P.grupo.length + " contatos") +
+        " por " + tipo +
+        (P.promessa ? " · promessa de " + P.promessa.pr.planeta + " (" + P.promessa.pr.estado + ")"
+                    : " · sem promessa ligada pelo planeta") +
+        " · nível " + P.nivel + "</div>" +
+        (P.grupo.length > 1
+          ? '<div class="det" style="color:var(--creme-3);font-size:.78rem">' +
+            P.grupo.map(function (g) { return esc(V.tituloDe(g)); }).join(" · ") + "</div>"
+          : "") +
+        "</div>";
+    }).join("") + "</div>");
+    return h.join("");
+  }
+  /* Um contato sozinho não é convergência — chamá-lo assim inflaria o dado.
+     Só há período quando dois ou mais contatos se encontram. */
+  function pvNomePeriodo(P) {
+    if (P.grupo.length < 2) return window.Preditivas.tituloDe(P.grupo[0]);
+    var casas = P.casasTop.length
+      ? P.casasTop.map(function (h) { return K.CASA_CURTO[h]; }).join(", ")
+      : "assuntos gerais";
+    return "Convergência de " + P.dominante + " — " + casas;
   }
 
   /* ---- eletiva: busca de janela com testemunhos (item 10) ---- */
@@ -685,12 +979,17 @@
     eixosCorpo: eixosCorpo, eletivaCorpo: eletivaCorpo, cardTema: cardTema,
     tecnica: {
       cronocratores: tecCronocratores, revolucao: tecRevolucao, cronologia: tecCronologia,
-      transitos: tecTransitos, semana: tecSemana, eletiva: tecEletiva
+      transitos: tecTransitos, semana: tecSemana, eletiva: tecEletiva,
+      preditivas: tecPreditivas
     },
+    pvCorpo: pvCorpo,
     estado: {
       get subTecnica() { return subTecnica; }, set subTecnica(v) { subTecnica = v; },
       get famSel() { return famSel; }, set famSel(v) { famSel = v; },
       get eletivaTema() { return eletivaTema; }, set eletivaTema(v) { eletivaTema = v; },
+      get pvVista() { return pvVista; }, set pvVista(v) { pvVista = v; },
+      get pvChave() { return pvChave; }, set pvChave(v) { pvChave = v; },
+      get pvSentido() { return pvSentido; }, set pvSentido(v) { pvSentido = v; },
       semanaMove: function (n) {
         if (!semanaIni) semanaIni = inicioSemana(new Date());
         var d = new Date(semanaIni); d.setUTCDate(d.getUTCDate() + n * 7); semanaIni = d;

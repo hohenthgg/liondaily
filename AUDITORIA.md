@@ -218,6 +218,74 @@ há categorias. Cada evento tem **instante** e uma de três faixas: **PRIMÁRIO*
 
 ---
 
+## 3.6 Preditivas — direções primárias e progressões secundárias
+
+Camada nova, na aba Técnica. Firdaria e profecção dizem **quem** governa o
+período; direções e progressões dizem **quando** uma promessa natal encontra o
+seu momento de definição dentro dele. Ficam, na hierarquia, entre o cronocrator
+e o gatilho: duram anos, não dias.
+
+Três camadas que não se contaminam. O cálculo não conhece promessa nem texto; a
+classificação casa cada contato com uma promessa e mede confirmações; a leitura
+só lê o que as duas produziram. **Nenhuma interpretação altera um número.**
+
+**Direções primárias** — Placidus sob o polo do significador:
+`tan(polo) = tan(φ) · MD/SA`, com os dois pontos reduzidos à ascensão oblíqua
+sob esse polo. Direta e conversa são séries independentes, não o mesmo arco com
+o sinal trocado. Significadores: Ascendente, Meio-do-Céu e os sete clássicos.
+Promissores: os sete e os seus pontos de ☌ ⚹ □ △ ☍, dos dois lados. Chave de
+Naibod (0°59′08″/ano) ou de Ptolomeu (1°/ano) — a chave muda a data, nunca a
+geometria. Cada arco mostra polo, ascensão oblíqua dos dois pontos e a distância
+zodiacal, com a nota de que **não é o arco**: a direção é em mundo.
+
+Validações geométricas que rodam contra a carta:
+
+- `RAMC ↔ MC` e `RAMC → ASC` fecham na volta com erro < 1e-6
+- `OA(Asc)` sob o polo do lugar = `RAMC + 90°` (identidade exata)
+- MC como significador: arco direto = `AR(promissor) − RAMC` (o polo é zero)
+- direta + conversa = 360° no mesmo par
+- trocar a chave altera só a escala do tempo, não o arco
+
+**Progressões secundárias** — um dia depois do nascimento vale um ano. Movem-se
+Lua, Sol, Mercúrio, Vênus e Marte; os ângulos avançam pelo arco solar em
+longitude somado ao MC natal, e o Ascendente vem do novo RAMC. São registrados
+ingresso de signo, ingresso de casa pela cúspide, estação (raiz da velocidade),
+aspecto exato a ponto natal e as lunações progredidas. Cada evento é resolvido
+pela **raiz real** da função — interpolação com correção de Newton sobre um passo
+de 0,08 ano — e não por leitura de tabela. Ingressos de casa vêm com a janela de
+permanência.
+
+**O filtro que governa tudo: a promessa natal.** Antes das preditivas entrou um
+motor de promessas por **regência × posição**: o que um planeta administra (as
+casas que rege) contra o campo onde executa (a casa que ocupa), registrado só
+com **dois ou mais testemunhos convergentes** — dignidade, angularidade,
+recepção, aspecto favorável a outro regente, ponto vital no mesmo campo. Sem
+dois testemunhos é coincidência de tabela, não promessa. Cada promessa é
+classificada em **forte · disponível · conflitiva · condicional**, e a debilidade
+essencial e a combustão vêm antes da angularidade na ordem da classificação —
+um planeta em exílio numa casa angular age em cena aberta, mas continua sem
+apoio do lugar.
+
+Um contato que não corresponde a nenhuma promessa é apresentado como **contato**,
+nunca como acontecimento. A relevância (alta · média · contextual) segue regra
+escrita e visível, e o bloco explica por que caiu naquele nível.
+
+**Períodos.** Um contato isolado não é período. Quando dois ou mais contatos
+vizinhos no tempo servem à mesma promessa ou envolvem o mesmo planeta, ganham
+começo e fim. Um contato sozinho é mostrado pelo próprio nome — chamá-lo de
+"convergência" inflaria o dado.
+
+A tela HOJE ganhou **Arco em curso**: as direções e progressões que perfazem
+dentro de seis meses e cumprem promessa natal, com a confirmação das outras
+camadas medida **na data de perfeição**, não na de hoje. Entra depois da primeira
+pintura para não atrasar o briefing.
+
+Aviso que a tela carrega: direções a Ascendente e Meio-do-Céu dependem do horário
+exato de nascimento — quatro minutos de erro deslocam o ângulo cerca de 1°, ou
+seja, cerca de um ano de vida.
+
+---
+
 ## 4. O que foi acrescentado
 
 **Cadeia de significação** — vale para qualquer planeta, em oito elos: o que é,
@@ -273,6 +341,7 @@ Arquivo único de 220 KB dividido em módulos com responsabilidade declarada:
 | `js/corpus.js` | só texto: Olavo, Barbault, Abu Ma'shar, guia, temperamento, eixos |
 | `js/chrono.js` | firdaria, profecção, revolução, trânsitos, cadeia, briefing, cronologia |
 | `js/perfil.js` | temperamento, 48 eixos, correspondências de saúde |
+| `js/preditivas.js` | direções primárias, progressões secundárias, promessa × contato |
 | `js/ui.js` | componentes e telas HOJE e MAPA |
 | `js/telas.js` | telas Técnica, Perfil, Promessas, Saúde, Guia |
 | `js/app.js` | navegação, busca, edição, sincronização |
@@ -300,3 +369,16 @@ Vinte verificações rodam contra o aplicativo montado, no navegador:
 - os 48 eixos não expõem porcentagem
 - o temperamento vem em faixa nomeada
 - a revolução tem casas próprias, distintas da sobreposição natal
+
+E doze validações do módulo preditivo:
+
+- promessas natais só existem com dois ou mais testemunhos convergentes
+- `RAMC ↔ MC` e `RAMC → ASC` fecham na volta
+- `OA(Asc)` sob o polo do lugar = `RAMC + 90°`
+- MC como significador: arco direto = `AR(promissor) − RAMC`
+- direta e conversa somam 360° no mesmo par
+- trocar a chave altera a escala do tempo, nunca o arco
+- o Sol progredido anda ≈1°/ano e a Lua ≈13°/ano
+- os ângulos progredidos avançam exatamente pelo arco solar
+- todo contato declara a promessa que cumpre, ou a ausência dela
+- nível "alta" exige promessa ligada pelo planeta
